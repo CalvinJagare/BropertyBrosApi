@@ -4,6 +4,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace BropertyBrosApi2._0
 {
+    //Author: Calvin, Daniel, Emil
     public class Program
     {
         public static void Main(string[] args)
