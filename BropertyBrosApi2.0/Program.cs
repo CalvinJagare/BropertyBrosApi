@@ -19,6 +19,7 @@ namespace BropertyBrosApi2._0
             builder.Services.AddSwaggerGen();
             builder.Services.AddDbContext<ApplicationDbContext>(options =>
                 options.UseSqlServer(builder.Configuration.GetConnectionString("BropertyDb")));
+            builder.Services.AddAutoMapper(typeof(Program));
 
             var app = builder.Build();
 
