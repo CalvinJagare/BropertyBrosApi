@@ -12,7 +12,8 @@ using BropertyBrosApi2._0.DTOs.RealtorFirm;
 
 namespace BropertyBrosApi2._0.Controllers
 {
-    //Author: Alla
+    //Author: Calvin, Daniel
+    //Co-Author: Emil, Arlind, Nayab
     [Route("api/[controller]")]
     [ApiController]
     public class RealtorFirmController : ControllerBase
