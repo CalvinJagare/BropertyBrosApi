@@ -14,7 +14,7 @@ namespace BropertyBrosApi2._0
         public AutomapperProfile()
         {
             CreateMap<CategoryCreateDto, Category>();
-            CreateMap<Category, CategoryReadDto>();
+            CreateMap<Category, CategoryReadDto>();       
 
             CreateMap<CityCreateDto, City>();
             CreateMap<City, CityReadDto>();

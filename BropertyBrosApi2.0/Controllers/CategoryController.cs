@@ -52,15 +52,15 @@ namespace BropertyBrosApi2._0.Controllers
         // PUT: api/Category/5
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPut("{id}")]
-        public async Task<IActionResult> PutCategory(int id, CategoryReadDto categoryReadDto)
+        public async Task<IActionResult> PutCategory(int id, CategoryCreateDto categoryCreateDto)
         {
             var category = await _context.Categories.FindAsync(id);
             if (category == null)
             {
                 return BadRequest();
             }
-
-            category.CategoryName = categoryReadDto.CategoryName;
+           
+            _mapper.Map(categoryCreateDto, category);
 
             await _context.SaveChangesAsync();
 
