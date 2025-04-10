@@ -43,12 +43,6 @@ namespace BropertyBrosApi2._0.Controllers
             {
                 return NotFound();
             }
-
-            //var categoryReadDto = new CategoryReadDto
-            //{
-            //    Id = category.Id,
-            //    CategoryName = category.CategoryName,
-            //};
             
             var categoryReadDto = _mapper.Map<CategoryReadDto>(category);
 
@@ -60,22 +54,14 @@ namespace BropertyBrosApi2._0.Controllers
         [HttpPut("{id}")]
         public async Task<IActionResult> PutCategory(int id, CategoryReadDto categoryReadDto)
         {
-            //updateDto
-            if (id != categoryReadDto.Id)
+            var category = await _context.Categories.FindAsync(id);
+            if (category == null)
             {
                 return BadRequest();
             }
 
-            var category = await _context.Categories.FindAsync(id);
+            category.CategoryName = categoryReadDto.CategoryName;
 
-            if (category == null)
-            {
-                return NotFound();
-            }
-
-            _mapper.Map(categoryReadDto, category);
-
-            _context.Entry(category).State = EntityState.Modified;
             await _context.SaveChangesAsync();
 
             return NoContent();
