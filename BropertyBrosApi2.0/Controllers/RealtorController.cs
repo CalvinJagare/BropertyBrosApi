@@ -9,6 +9,8 @@ using BropertyBrosApi.Data;
 using BropertyBrosApi.Models;
 using AutoMapper;
 using BropertyBrosApi2._0.DTOs.Realtor;
+using BropertyBrosApi2._0.Repositories.RepInterfaces;
+using BropertyBrosApi2._0.Repositories;
 
 namespace BropertyBrosApi2._0.Controllers
 {
@@ -17,12 +19,14 @@ namespace BropertyBrosApi2._0.Controllers
     [ApiController]
     public class RealtorController : ControllerBase
     {
-        private readonly ApplicationDbContext _context;
-        private readonly IMapper _mapper;   
+        private readonly IRealtorRepository realtorRepository;
+        private readonly IRealtorFirmRepository realtorFirmRepository;
+        private readonly IMapper _mapper;
 
-        public RealtorController(ApplicationDbContext context, IMapper mapper)
+        public RealtorController(IRealtorRepository realtorRepository, IRealtorFirmRepository realtorFirmRepository, IMapper mapper)
         {
-            _context = context;
+            this.realtorRepository = realtorRepository;
+            this.realtorFirmRepository = realtorFirmRepository;
             _mapper = mapper;
         }
 
@@ -30,23 +34,38 @@ namespace BropertyBrosApi2._0.Controllers
         [HttpGet]
         public async Task<ActionResult<IEnumerable<Realtor>>> GetRealtors()
         {
-            return await _context.Realtors.ToListAsync();
+            try
+            {
+                var realtors = await realtorRepository.GetAllAsync();
+                return Ok(realtors);
+            }
+            catch
+            {
+                return StatusCode(500, "An error occurred while retrieving realtors.");
+            }
         }
 
         // GET: api/Realtor/5
         [HttpGet("{id}")]
         public async Task<ActionResult<RealtorReadDto>> GetRealtor(int id)
         {
-            var realtor = await _context.Realtors.FindAsync(id);
-
-            if (realtor == null)
+            try
             {
-                return NotFound();
+                var realtor = await realtorRepository.GetByIdAsync(id);
+
+                if (realtor == null)
+                {
+                    return NotFound();
+                }
+
+                var categoryReadDto = _mapper.Map<RealtorReadDto>(realtor);
+
+                return Ok(categoryReadDto);
             }
-
-            var categoryReadDto = _mapper.Map<RealtorReadDto>(realtor);
-
-            return Ok(categoryReadDto);
+            catch
+            {
+                return StatusCode(500, "An error occurred while retrieving the realtor.");
+            }
         }
 
         // PUT: api/Realtor/5
@@ -54,17 +73,24 @@ namespace BropertyBrosApi2._0.Controllers
         [HttpPut("{id}")]
         public async Task<IActionResult> PutRealtor(int id, RealtorCreateDto realtorCreateDto)
         {
-            var realtor = await _context.Realtors.FindAsync(id);
-            if (realtor == null)
+            try
             {
-                return BadRequest();
+                var realtor = await realtorRepository.GetByIdAsync(id);
+                if (realtor == null)
+                {
+                    return BadRequest();
+                }
+
+                _mapper.Map(realtorCreateDto, realtor);
+
+                await realtorRepository.Update(realtor);
+
+                return NoContent();
             }
-
-            _mapper.Map(realtorCreateDto, realtor);
-
-            await _context.SaveChangesAsync();
-
-            return NoContent();
+            catch
+            {
+                return StatusCode(500, "An error occurred while updating the realtor.");
+            }
         }
 
         // POST: api/Realtor
@@ -72,35 +98,45 @@ namespace BropertyBrosApi2._0.Controllers
         [HttpPost]
         public async Task<ActionResult<RealtorReadDto>> PostRealtor(RealtorCreateDto realtorCreateDto)
         {
-            var realtor = _mapper.Map<Realtor>(realtorCreateDto);
+            try
+            {
+                var realtor = _mapper.Map<Realtor>(realtorCreateDto);
+                if (realtor == null)
+                {
+                    return BadRequest();
+                }
+                await realtorRepository.Add(realtor);
 
-            _context.Realtors.Add(realtor);
-            await _context.SaveChangesAsync();
+                var realtorReadDto = _mapper.Map<RealtorReadDto>(realtor);
 
-            var realtorReadDto = _mapper.Map<RealtorReadDto>(realtor);
-
-            return CreatedAtAction("GetRealtor", new { id = realtor.Id }, realtor);
+                return CreatedAtAction("GetRealtor", new { id = realtor.Id }, realtor);
+            }
+            catch
+            {
+                return StatusCode(500, "An error occurred while creating the realtor.");
+            }
         }
 
         // DELETE: api/Realtor/5
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteRealtor(int id)
         {
-            var realtor = await _context.Realtors.FindAsync(id);
-            if (realtor == null)
+            try
             {
-                return NotFound();
+                var realtor = await realtorRepository.GetByIdAsync(id);
+                if (realtor == null)
+                {
+                    return NotFound();
+                }
+                await realtorRepository.Delete(realtor);
+
+                return NoContent();
+            }
+            catch
+            {
+                return StatusCode(500, "An error occurred while deleting the realtor.");
             }
 
-            _context.Realtors.Remove(realtor);
-            await _context.SaveChangesAsync();
-
-            return NoContent();
-        }
-
-        private bool RealtorExists(int id)
-        {
-            return _context.Realtors.Any(e => e.Id == id);
         }
     }
 }

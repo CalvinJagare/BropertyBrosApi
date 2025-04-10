@@ -9,6 +9,7 @@ using BropertyBrosApi.Data;
 using BropertyBrosApi.Models;
 using AutoMapper;
 using BropertyBrosApi2._0.DTOs.RealtorFirm;
+using BropertyBrosApi2._0.Repositories.RepInterfaces;
 
 namespace BropertyBrosApi2._0.Controllers
 {
@@ -17,12 +18,12 @@ namespace BropertyBrosApi2._0.Controllers
     [ApiController]
     public class RealtorFirmController : ControllerBase
     {
-        private readonly ApplicationDbContext _context;
+        private readonly IRealtorFirmRepository realtorFirmRepository;
         private readonly IMapper _mapper;
 
-        public RealtorFirmController(ApplicationDbContext context, IMapper mapper)
+        public RealtorFirmController(IRealtorFirmRepository realtorFirmRepository, IMapper mapper)
         {
-            _context = context;
+            this.realtorFirmRepository = realtorFirmRepository;
             _mapper = mapper;
         }
 
@@ -30,23 +31,38 @@ namespace BropertyBrosApi2._0.Controllers
         [HttpGet]
         public async Task<ActionResult<IEnumerable<RealtorFirm>>> GetRealtorFirms()
         {
-            return await _context.RealtorFirms.ToListAsync();
+            try
+            {
+                var realtorFirms = await realtorFirmRepository.GetAllAsync();
+                return Ok(realtorFirms);
+            }
+            catch
+            {
+                return StatusCode(500, "An error occurred while retrieving realtor firms.");
+            }
         }
 
         // GET: api/RealtorFirm/5
         [HttpGet("{id}")]
         public async Task<ActionResult<RealtorFirmReadDto>> GetRealtorFirm(int id)
         {
-            var realtorFirm = await _context.RealtorFirms.FindAsync(id);
-
-            if (realtorFirm == null)
+            try
             {
-                return NotFound();
+                var realtorFirm = await realtorFirmRepository.GetByIdAsync(id);
+
+                if (realtorFirm == null)
+                {
+                    return NotFound();
+                }
+
+                var realtorFirmReadDto = _mapper.Map<RealtorFirm>(realtorFirm);
+
+                return Ok(realtorFirmReadDto);
             }
-
-            var realtorFirmReadDto = _mapper.Map<RealtorFirm>(realtorFirm);
-
-            return Ok(realtorFirmReadDto);
+            catch
+            {
+                return StatusCode(500, "An error occurred while retrieving the realtor firm.");
+            }
         }
 
         // PUT: api/RealtorFirm/5
@@ -54,17 +70,24 @@ namespace BropertyBrosApi2._0.Controllers
         [HttpPut("{id}")]
         public async Task<IActionResult> PutRealtorFirm(int id, RealtorFirmCreateDto realtorFirmCreateDto)
         {
-            var realtorFirm = await _context.RealtorFirms.FindAsync(id);
-            if (realtorFirm == null)
+            try
             {
-                return BadRequest();
+                var realtorFirm = await realtorFirmRepository.GetByIdAsync(id);
+                if (realtorFirm == null)
+                {
+                    return BadRequest();
+                }
+
+                _mapper.Map(realtorFirmCreateDto, realtorFirm);
+
+                await realtorFirmRepository.Update(realtorFirm);
+
+                return NoContent();
             }
-
-            _mapper.Map(realtorFirmCreateDto, realtorFirm);
-
-            await _context.SaveChangesAsync();
-
-            return NoContent();
+            catch
+            {
+                return StatusCode(500, "An error occurred while updating the realtor firm.");
+            }
         }
 
         // POST: api/RealtorFirm
@@ -72,35 +95,45 @@ namespace BropertyBrosApi2._0.Controllers
         [HttpPost]
         public async Task<ActionResult<RealtorFirmReadDto>> PostRealtorFirm(RealtorFirmCreateDto realtorFirmCreateDto)
         {
-            var realtorFirm = _mapper.Map<RealtorFirm>(realtorFirmCreateDto);
+            try
+            {
+                var realtorFirm = _mapper.Map<RealtorFirm>(realtorFirmCreateDto);
 
-            _context.RealtorFirms.Add(realtorFirm);
-            await _context.SaveChangesAsync();
+                if (realtorFirm == null)
+                {
+                    return BadRequest();
+                }
+                await realtorFirmRepository.Add(realtorFirm);
 
-            var realtorFirmReadDto = _mapper.Map<RealtorFirmReadDto>(realtorFirm);
+                var realtorFirmReadDto = _mapper.Map<RealtorFirmReadDto>(realtorFirm);
 
-            return CreatedAtAction("GetRealtorFirm", new { id = realtorFirm.Id }, realtorFirmReadDto);
+                return CreatedAtAction("GetRealtorFirm", new { id = realtorFirm.Id }, realtorFirmReadDto);
+            }
+            catch
+            {
+                return StatusCode(500, "An error occurred while creating the realtor firm.");
+            }
         }
 
         // DELETE: api/RealtorFirm/5
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteRealtorFirm(int id)
         {
-            var realtorFirm = await _context.RealtorFirms.FindAsync(id);
-            if (realtorFirm == null)
+            try
             {
-                return NotFound();
+                var realtorFirm = await realtorFirmRepository.GetByIdAsync(id);
+                if (realtorFirm == null)
+                {
+                    return NotFound();
+                }
+                await realtorFirmRepository.Delete(realtorFirm);
+
+                return NoContent();
             }
-
-            _context.RealtorFirms.Remove(realtorFirm);
-            await _context.SaveChangesAsync();
-
-            return NoContent();
-        }
-
-        private bool RealtorFirmExists(int id)
-        {
-            return _context.RealtorFirms.Any(e => e.Id == id);
+            catch
+            {
+                return StatusCode(500, "An error occurred while deleting the realtor firm.");
+            }
         }
     }
 }

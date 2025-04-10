@@ -23,6 +23,10 @@ namespace BropertyBrosApi2._0
                 options.UseSqlServer(builder.Configuration.GetConnectionString("BropertyDb")));
             builder.Services.AddAutoMapper(typeof(Program));
             builder.Services.AddScoped<ICategoryRepository, CategoryRepository>();
+            builder.Services.AddScoped<IRealtorRepository, RealtorRepository>();
+            builder.Services.AddScoped<IPropertyRepository, PropertyRepository>();
+            builder.Services.AddScoped<ICityRepository, CityRepository>();
+            builder.Services.AddScoped<IRealtorFirmRepository, RealtorFirmRepository>();
 
             var app = builder.Build();
 
