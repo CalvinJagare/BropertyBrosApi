@@ -60,7 +60,7 @@ namespace BropertyBrosApi2._0.Controllers
                 return BadRequest();
             }
            
-            _mapper.Map(categoryCreateDto, category);
+            _mapper.Map(categoryCreateDto, category); 
 
             await _context.SaveChangesAsync();
 
@@ -70,7 +70,7 @@ namespace BropertyBrosApi2._0.Controllers
         // POST: api/Category
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPost]
-        public async Task<ActionResult<Category>> PostCategory(CategoryCreateDto categoryCreateDto)
+        public async Task<ActionResult<CategoryReadDto>> PostCategory(CategoryCreateDto categoryCreateDto)
         {
             var category = _mapper.Map<Category>(categoryCreateDto);
 
