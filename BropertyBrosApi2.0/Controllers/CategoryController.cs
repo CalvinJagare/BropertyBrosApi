@@ -9,6 +9,7 @@ using BropertyBrosApi.Data;
 using BropertyBrosApi.Models;
 using BropertyBrosApi2._0.DTOs.Category;
 using AutoMapper;
+using BropertyBrosApi2._0.Repositories.RepInterfaces;
 
 namespace BropertyBrosApi2._0.Controllers
 {
@@ -17,12 +18,14 @@ namespace BropertyBrosApi2._0.Controllers
     [ApiController]
     public class CategoryController : ControllerBase
     {
-        private readonly ApplicationDbContext _context;
+
+        private readonly ICategoryRepository categoryRepository;
         private readonly IMapper _mapper;
 
-        public CategoryController(ApplicationDbContext context, IMapper mapper)
+        public CategoryController(ICategoryRepository categoryRepository, IMapper mapper)
         {
-            _context = context;
+
+            this.categoryRepository = categoryRepository;
             _mapper = mapper;
         }
 
@@ -30,23 +33,38 @@ namespace BropertyBrosApi2._0.Controllers
         [HttpGet]
         public async Task<ActionResult<IEnumerable<Category>>> GetCategories()
         {
-            return await _context.Categories.ToListAsync();
+            try
+            {
+                var categories = await categoryRepository.GetAllAsync();
+                return Ok(categories);
+            }
+            catch
+            {
+                return StatusCode(500, "An error occurred while retrieving categories.");
+            }
         }
 
         // GET: api/Category/5
         [HttpGet("{id}")]
         public async Task<ActionResult<CategoryReadDto>> GetCategory(int id)
         {
-            var category = await _context.Categories.FindAsync(id);
-            
-            if (category == null)
+            try
             {
-                return NotFound();
-            }
-            
-            var categoryReadDto = _mapper.Map<CategoryReadDto>(category);
+                var category = await categoryRepository.GetByIdAsync(id);
 
-            return Ok(categoryReadDto);
+                if (category == null)
+                {
+                    return NotFound();
+                }
+
+                var categoryReadDto = _mapper.Map<CategoryReadDto>(category);
+
+                return Ok(categoryReadDto);
+            }
+            catch
+            {
+                return StatusCode(500, "An error occurred while retrieving categories.");
+            }
         }
 
         // PUT: api/Category/5
@@ -54,17 +72,24 @@ namespace BropertyBrosApi2._0.Controllers
         [HttpPut("{id}")]
         public async Task<IActionResult> PutCategory(int id, CategoryCreateDto categoryCreateDto)
         {
-            var category = await _context.Categories.FindAsync(id);
-            if (category == null)
+            try
             {
-                return BadRequest();
+                var category = await categoryRepository.GetByIdAsync(id);
+                if (category == null)
+                {
+                    return BadRequest();
+                }
+
+                _mapper.Map(categoryCreateDto, category);
+
+                await categoryRepository.Update(category);
+
+                return NoContent();
             }
-           
-            _mapper.Map(categoryCreateDto, category);
-
-            await _context.SaveChangesAsync();
-
-            return NoContent();
+            catch
+            {
+                return StatusCode(500, "An error occurred while retrieving categories.");
+            }
         }
 
         // POST: api/Category
@@ -72,35 +97,45 @@ namespace BropertyBrosApi2._0.Controllers
         [HttpPost]
         public async Task<ActionResult<Category>> PostCategory(CategoryCreateDto categoryCreateDto)
         {
-            var category = _mapper.Map<Category>(categoryCreateDto);
+            try
+            {
+                var category = _mapper.Map<Category>(categoryCreateDto);
+                if (category == null)
+                {
+                    return BadRequest();
+                }
+                await categoryRepository.Add(category);
 
-            _context.Categories.Add(category);
-            await _context.SaveChangesAsync();
+                var categoryReadDto = _mapper.Map<CategoryReadDto>(category);
 
-            var categoryReadDto = _mapper.Map<CategoryReadDto>(category);
-
-            return CreatedAtAction("GetCategory", new { id = category.Id }, categoryReadDto);
+                return CreatedAtAction("GetCategory", new { id = category.Id }, categoryReadDto);
+            }
+            catch
+            {
+                return StatusCode(500, "An error occurred while retrieving categories.");
+            }
         }
 
         // DELETE: api/Category/5
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteCategory(int id)
         {
-            var category = await _context.Categories.FindAsync(id);
-            if (category == null)
+            try
             {
-                return NotFound();
+                var category = await categoryRepository.GetByIdAsync(id);
+                if (category == null)
+                {
+                    return NotFound();
+                }
+
+                await categoryRepository.Delete(category);
+
+                return NoContent();
             }
-
-            _context.Categories.Remove(category);
-            await _context.SaveChangesAsync();
-
-            return NoContent();
-        }
-
-        private bool CategoryExists(int id)
-        {
-            return _context.Categories.Any(e => e.Id == id);
+            catch
+            {
+                return StatusCode(500, "An error occurred while retrieving categories.");
+            }
         }
     }
 }

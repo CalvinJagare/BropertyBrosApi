@@ -1,5 +1,7 @@
 
 using BropertyBrosApi.Data;
+using BropertyBrosApi2._0.Repositories;
+using BropertyBrosApi2._0.Repositories.RepInterfaces;
 using Microsoft.EntityFrameworkCore;
 
 namespace BropertyBrosApi2._0
@@ -20,6 +22,7 @@ namespace BropertyBrosApi2._0
             builder.Services.AddDbContext<ApplicationDbContext>(options =>
                 options.UseSqlServer(builder.Configuration.GetConnectionString("BropertyDb")));
             builder.Services.AddAutoMapper(typeof(Program));
+            builder.Services.AddScoped<ICategoryRepository, CategoryRepository>();
 
             var app = builder.Build();
 
