@@ -9,6 +9,8 @@ using BropertyBrosApi.Data;
 using BropertyBrosApi.Models;
 using AutoMapper;
 using BropertyBrosApi2._0.DTOs.Properties;
+using BropertyBrosApi2._0.Repositories.RepInterfaces;
+using BropertyBrosApi2._0.Repositories;
 
 namespace BropertyBrosApi2._0.Controllers
 {
@@ -17,12 +19,12 @@ namespace BropertyBrosApi2._0.Controllers
     [ApiController]
     public class PropertyController : ControllerBase
     {
-        private readonly ApplicationDbContext _context;
+        private readonly IPropertyRepository propertyRepository;
         private readonly IMapper _mapper;
 
-        public PropertyController(ApplicationDbContext context, IMapper mapper)
+        public PropertyController(IPropertyRepository propertyRepository, IMapper mapper)
         {
-            _context = context;
+            this.propertyRepository = propertyRepository;
             _mapper = mapper;
         }
 
@@ -30,23 +32,38 @@ namespace BropertyBrosApi2._0.Controllers
         [HttpGet]
         public async Task<ActionResult<IEnumerable<Property>>> GetProperties()
         {
-            return await _context.Properties.ToListAsync();
+            try
+            {
+                var properties = await propertyRepository.GetAllAsync();
+                return Ok(properties);
+            }
+            catch
+            {
+                return StatusCode(500, "An error occurred while retrieving properties.");
+            }
         }
 
         // GET: api/Property/5
         [HttpGet("{id}")]
         public async Task<ActionResult<PropertyReadDto>> GetProperty(int id)
         {
-            var property = await _context.Properties.FindAsync(id);
-
-            if (property == null)
+            try
             {
-                return NotFound();
+                var property = await propertyRepository.GetByIdAsync(id);
+
+                if (property == null)
+                {
+                    return NotFound();
+                }
+
+                var propertyReadDto = _mapper.Map<PropertyReadDto>(property);
+
+                return Ok(propertyReadDto);
             }
-
-            var propertyReadDto = _mapper.Map<PropertyReadDto>(property);
-
-            return Ok(propertyReadDto);
+            catch
+            {
+                return StatusCode(500, "An error occurred while retrieving properties.");
+            }
         }
 
         // PUT: api/Property/5
@@ -54,17 +71,24 @@ namespace BropertyBrosApi2._0.Controllers
         [HttpPut("{id}")]
         public async Task<IActionResult> PutProperty(int id, PropertyCreateDto propertyCreateDto)
         {
-            var category = await _context.Properties.FindAsync(id);
-            if (category == null)
+            try
             {
-                return BadRequest();
+                var property = await propertyRepository.GetByIdAsync(id);
+                if (property == null)
+                {
+                    return BadRequest();
+                }
+
+                _mapper.Map(propertyCreateDto, property);
+
+                await propertyRepository.Update(property);
+
+                return NoContent();
             }
-
-            _mapper.Map(propertyCreateDto, category);
-
-            await _context.SaveChangesAsync();
-
-            return NoContent();
+            catch
+            {
+                return StatusCode(500, "An error occurred while retrieving properties.");
+            }
         }
 
         // POST: api/Property
@@ -72,35 +96,46 @@ namespace BropertyBrosApi2._0.Controllers
         [HttpPost]
         public async Task<ActionResult<PropertyReadDto>> PostProperty(PropertyCreateDto propertyCreateDto)
         {
-            var property = _mapper.Map<Property>(propertyCreateDto);
+            try
+            {
+                var property = _mapper.Map<Property>(propertyCreateDto);
+                if (property == null)
+                {
+                    return BadRequest();
+                }
 
-            _context.Properties.Add(property);
-            await _context.SaveChangesAsync();
+                await propertyRepository.Add(property);
 
-            var propertyReadDto = _mapper.Map<PropertyReadDto>(property);
+                var propertyReadDto = _mapper.Map<PropertyReadDto>(property);
 
-            return CreatedAtAction("GetProperty", new { id = property.Id }, propertyReadDto);
+                return CreatedAtAction("GetProperty", new { id = property.Id }, propertyReadDto);
+            }
+            catch
+            {
+                return StatusCode(500, "An error occurred while retrieving categories.");
+            }
         }
 
         // DELETE: api/Property/5
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteProperty(int id)
         {
-            var @property = await _context.Properties.FindAsync(id);
-            if (@property == null)
+            try
             {
-                return NotFound();
+                var property = await propertyRepository.GetByIdAsync(id);
+                if (property == null)
+                {
+                    return NotFound();
+                }
+
+                await propertyRepository.Delete(@property);
+
+                return NoContent();
             }
-
-            _context.Properties.Remove(@property);
-            await _context.SaveChangesAsync();
-
-            return NoContent();
-        }
-
-        private bool PropertyExists(int id)
-        {
-            return _context.Properties.Any(e => e.Id == id);
+            catch
+            {
+                return StatusCode(500, "An error occurred while retrieving properties.");
+            }
         }
     }
 }
