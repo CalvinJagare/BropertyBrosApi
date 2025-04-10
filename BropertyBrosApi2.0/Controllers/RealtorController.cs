@@ -7,6 +7,8 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using BropertyBrosApi.Data;
 using BropertyBrosApi.Models;
+using AutoMapper;
+using BropertyBrosApi2._0.DTOs.Realtor;
 
 namespace BropertyBrosApi2._0.Controllers
 {
@@ -16,10 +18,12 @@ namespace BropertyBrosApi2._0.Controllers
     public class RealtorController : ControllerBase
     {
         private readonly ApplicationDbContext _context;
+        private readonly IMapper _mapper;   
 
-        public RealtorController(ApplicationDbContext context)
+        public RealtorController(ApplicationDbContext context, IMapper mapper)
         {
             _context = context;
+            _mapper = mapper;
         }
 
         // GET: api/Realtor
@@ -31,7 +35,7 @@ namespace BropertyBrosApi2._0.Controllers
 
         // GET: api/Realtor/5
         [HttpGet("{id}")]
-        public async Task<ActionResult<Realtor>> GetRealtor(int id)
+        public async Task<ActionResult<RealtorReadDto>> GetRealtor(int id)
         {
             var realtor = await _context.Realtors.FindAsync(id);
 
@@ -40,36 +44,25 @@ namespace BropertyBrosApi2._0.Controllers
                 return NotFound();
             }
 
-            return realtor;
+            var categoryReadDto = _mapper.Map<RealtorReadDto>(realtor);
+
+            return Ok(categoryReadDto);
         }
 
         // PUT: api/Realtor/5
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPut("{id}")]
-        public async Task<IActionResult> PutRealtor(int id, Realtor realtor)
+        public async Task<IActionResult> PutRealtor(int id, RealtorCreateDto realtorCreateDto)
         {
-            if (id != realtor.Id)
+            var realtor = await _context.Realtors.FindAsync(id);
+            if (realtor == null)
             {
                 return BadRequest();
             }
 
-            _context.Entry(realtor).State = EntityState.Modified;
+            _mapper.Map(realtorCreateDto, realtor);
 
-            try
-            {
-                await _context.SaveChangesAsync();
-            }
-            catch (DbUpdateConcurrencyException)
-            {
-                if (!RealtorExists(id))
-                {
-                    return NotFound();
-                }
-                else
-                {
-                    throw;
-                }
-            }
+            await _context.SaveChangesAsync();
 
             return NoContent();
         }
@@ -77,10 +70,14 @@ namespace BropertyBrosApi2._0.Controllers
         // POST: api/Realtor
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPost]
-        public async Task<ActionResult<Realtor>> PostRealtor(Realtor realtor)
+        public async Task<ActionResult<RealtorReadDto>> PostRealtor(RealtorCreateDto realtorCreateDto)
         {
+            var realtor = _mapper.Map<Realtor>(realtorCreateDto);
+
             _context.Realtors.Add(realtor);
             await _context.SaveChangesAsync();
+
+            var realtorReadDto = _mapper.Map<RealtorReadDto>(realtor);
 
             return CreatedAtAction("GetRealtor", new { id = realtor.Id }, realtor);
         }

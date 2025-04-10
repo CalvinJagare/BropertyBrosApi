@@ -7,6 +7,8 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using BropertyBrosApi.Data;
 using BropertyBrosApi.Models;
+using AutoMapper;
+using BropertyBrosApi2._0.DTOs.RealtorFirm;
 
 namespace BropertyBrosApi2._0.Controllers
 {
@@ -16,10 +18,12 @@ namespace BropertyBrosApi2._0.Controllers
     public class RealtorFirmController : ControllerBase
     {
         private readonly ApplicationDbContext _context;
+        private readonly IMapper _mapper;
 
-        public RealtorFirmController(ApplicationDbContext context)
+        public RealtorFirmController(ApplicationDbContext context, IMapper mapper)
         {
             _context = context;
+            _mapper = mapper;
         }
 
         // GET: api/RealtorFirm
@@ -31,7 +35,7 @@ namespace BropertyBrosApi2._0.Controllers
 
         // GET: api/RealtorFirm/5
         [HttpGet("{id}")]
-        public async Task<ActionResult<RealtorFirm>> GetRealtorFirm(int id)
+        public async Task<ActionResult<RealtorFirmReadDto>> GetRealtorFirm(int id)
         {
             var realtorFirm = await _context.RealtorFirms.FindAsync(id);
 
@@ -40,36 +44,25 @@ namespace BropertyBrosApi2._0.Controllers
                 return NotFound();
             }
 
-            return realtorFirm;
+            var realtorFirmReadDto = _mapper.Map<RealtorFirm>(realtorFirm);
+
+            return Ok(realtorFirmReadDto);
         }
 
         // PUT: api/RealtorFirm/5
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPut("{id}")]
-        public async Task<IActionResult> PutRealtorFirm(int id, RealtorFirm realtorFirm)
+        public async Task<IActionResult> PutRealtorFirm(int id, RealtorFirmCreateDto realtorFirmCreateDto)
         {
-            if (id != realtorFirm.Id)
+            var realtorFirm = await _context.RealtorFirms.FindAsync(id);
+            if (realtorFirm == null)
             {
                 return BadRequest();
             }
 
-            _context.Entry(realtorFirm).State = EntityState.Modified;
+            _mapper.Map(realtorFirmCreateDto, realtorFirm);
 
-            try
-            {
-                await _context.SaveChangesAsync();
-            }
-            catch (DbUpdateConcurrencyException)
-            {
-                if (!RealtorFirmExists(id))
-                {
-                    return NotFound();
-                }
-                else
-                {
-                    throw;
-                }
-            }
+            await _context.SaveChangesAsync();
 
             return NoContent();
         }
@@ -77,12 +70,16 @@ namespace BropertyBrosApi2._0.Controllers
         // POST: api/RealtorFirm
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPost]
-        public async Task<ActionResult<RealtorFirm>> PostRealtorFirm(RealtorFirm realtorFirm)
+        public async Task<ActionResult<RealtorFirmReadDto>> PostRealtorFirm(RealtorFirmCreateDto realtorFirmCreateDto)
         {
+            var realtorFirm = _mapper.Map<RealtorFirm>(realtorFirmCreateDto);
+
             _context.RealtorFirms.Add(realtorFirm);
             await _context.SaveChangesAsync();
 
-            return CreatedAtAction("GetRealtorFirm", new { id = realtorFirm.Id }, realtorFirm);
+            var realtorFirmReadDto = _mapper.Map<RealtorFirmReadDto>(realtorFirm);
+
+            return CreatedAtAction("GetRealtorFirm", new { id = realtorFirm.Id }, realtorFirmReadDto);
         }
 
         // DELETE: api/RealtorFirm/5

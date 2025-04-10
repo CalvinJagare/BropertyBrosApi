@@ -7,19 +7,23 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using BropertyBrosApi.Data;
 using BropertyBrosApi.Models;
+using AutoMapper;
+using BropertyBrosApi2._0.DTOs.City;
 
 namespace BropertyBrosApi2._0.Controllers
 {
     //Author: Alla
     [Route("api/[controller]")]
     [ApiController]
-    public class CitiyController : ControllerBase
+    public class CityController : ControllerBase
     {
         private readonly ApplicationDbContext _context;
+        private readonly IMapper _mapper;
 
-        public CitiyController(ApplicationDbContext context)
+        public CityController(ApplicationDbContext context, IMapper mapper)
         {
             _context = context;
+            _mapper = mapper;
         }
 
         // GET: api/Citiy
@@ -31,7 +35,7 @@ namespace BropertyBrosApi2._0.Controllers
 
         // GET: api/Citiy/5
         [HttpGet("{id}")]
-        public async Task<ActionResult<City>> GetCity(int id)
+        public async Task<ActionResult<CityReadDto>> GetCity(int id)
         {
             var city = await _context.Cities.FindAsync(id);
 
@@ -40,36 +44,25 @@ namespace BropertyBrosApi2._0.Controllers
                 return NotFound();
             }
 
-            return city;
+            var cityReadDto = _mapper.Map<CityReadDto>(city);
+
+            return Ok(cityReadDto);
         }
 
         // PUT: api/Citiy/5
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPut("{id}")]
-        public async Task<IActionResult> PutCity(int id, City city)
+        public async Task<IActionResult> PutCity(int id, CityCreateDto cityCreateDto)
         {
-            if (id != city.Id)
+            var category = await _context.Cities.FindAsync(id);
+            if (category == null)
             {
                 return BadRequest();
             }
 
-            _context.Entry(city).State = EntityState.Modified;
+            _mapper.Map(cityCreateDto, category);
 
-            try
-            {
-                await _context.SaveChangesAsync();
-            }
-            catch (DbUpdateConcurrencyException)
-            {
-                if (!CityExists(id))
-                {
-                    return NotFound();
-                }
-                else
-                {
-                    throw;
-                }
-            }
+            await _context.SaveChangesAsync();
 
             return NoContent();
         }
@@ -77,12 +70,16 @@ namespace BropertyBrosApi2._0.Controllers
         // POST: api/Citiy
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPost]
-        public async Task<ActionResult<City>> PostCity(City city)
+        public async Task<ActionResult<CityReadDto>> PostCity(CityCreateDto cityCreateDto)
         {
+            var city = _mapper.Map<City>(cityCreateDto);
+
             _context.Cities.Add(city);
             await _context.SaveChangesAsync();
 
-            return CreatedAtAction("GetCity", new { id = city.Id }, city);
+            var cityReadDto = _mapper.Map<CityReadDto>(city);
+
+            return CreatedAtAction("GetCity", new { id = city.Id }, cityReadDto);
         }
 
         // DELETE: api/Citiy/5
