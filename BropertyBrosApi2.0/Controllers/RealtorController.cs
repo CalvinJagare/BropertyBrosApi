@@ -16,6 +16,7 @@ namespace BropertyBrosApi2._0.Controllers
     public class RealtorController : ControllerBase
     {
         private readonly ApplicationDbContext _context;
+        private readonly IMapper _mapper;
 
         public RealtorController(ApplicationDbContext context)
         {
