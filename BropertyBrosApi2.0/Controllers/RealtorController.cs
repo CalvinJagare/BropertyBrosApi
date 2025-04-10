@@ -10,6 +10,7 @@ using BropertyBrosApi.Models;
 
 namespace BropertyBrosApi2._0.Controllers
 {
+    //Author: Alla
     [Route("api/[controller]")]
     [ApiController]
     public class RealtorController : ControllerBase

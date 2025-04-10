@@ -8,18 +8,22 @@ using Microsoft.EntityFrameworkCore;
 using BropertyBrosApi.Data;
 using BropertyBrosApi.Models;
 using BropertyBrosApi2._0.DTOs.Category;
+using AutoMapper;
 
 namespace BropertyBrosApi2._0.Controllers
 {
+    //Author: Alla
     [Route("api/[controller]")]
     [ApiController]
     public class CategoryController : ControllerBase
     {
         private readonly ApplicationDbContext _context;
+        private readonly IMapper _mapper;
 
-        public CategoryController(ApplicationDbContext context)
+        public CategoryController(ApplicationDbContext context, IMapper mapper)
         {
             _context = context;
+            _mapper = mapper;
         }
 
         // GET: api/Category
@@ -34,48 +38,45 @@ namespace BropertyBrosApi2._0.Controllers
         public async Task<ActionResult<CategoryReadDto>> GetCategory(int id)
         {
             var category = await _context.Categories.FindAsync(id);
-
-            var categoryReadDto = new CategoryReadDto
+            
+            if (category == null)
             {
-                Id = category.Id,
-                CategoryName = category.CategoryName,
-            };
+                return NotFound();
+            }
+
+            //var categoryReadDto = new CategoryReadDto
+            //{
+            //    Id = category.Id,
+            //    CategoryName = category.CategoryName,
+            //};
+            
+            var categoryReadDto = _mapper.Map<CategoryReadDto>(category);
+
+            return Ok(categoryReadDto);
+        }
+
+        // PUT: api/Category/5
+        // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
+        [HttpPut("{id}")]
+        public async Task<IActionResult> PutCategory(int id, CategoryReadDto categoryReadDto)
+        {
+            //updateDto
+            if (id != categoryReadDto.Id)
+            {
+                return BadRequest();
+            }
+
+            var category = await _context.Categories.FindAsync(id);
 
             if (category == null)
             {
                 return NotFound();
             }
 
-            return categoryReadDto;
-        }
-
-        // PUT: api/Category/5
-        // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
-        [HttpPut("{id}")]
-        public async Task<IActionResult> PutCategory(int id, Category category)
-        {
-            if (id != category.Id)
-            {
-                return BadRequest();
-            }
+            _mapper.Map(categoryReadDto, category);
 
             _context.Entry(category).State = EntityState.Modified;
-
-            try
-            {
-                await _context.SaveChangesAsync();
-            }
-            catch (DbUpdateConcurrencyException)
-            {
-                if (!CategoryExists(id))
-                {
-                    return NotFound();
-                }
-                else
-                {
-                    throw;
-                }
-            }
+            await _context.SaveChangesAsync();
 
             return NoContent();
         }
@@ -83,12 +84,16 @@ namespace BropertyBrosApi2._0.Controllers
         // POST: api/Category
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPost]
-        public async Task<ActionResult<Category>> PostCategory(Category category)
+        public async Task<ActionResult<Category>> PostCategory(CategoryCreateDto categoryCreateDto)
         {
+            var category = _mapper.Map<Category>(categoryCreateDto);
+
             _context.Categories.Add(category);
             await _context.SaveChangesAsync();
 
-            return CreatedAtAction("GetCategory", new { id = category.Id }, category);
+            var categoryReadDto = _mapper.Map<CategoryReadDto>(category);
+
+            return CreatedAtAction("GetCategory", new { id = category.Id }, categoryReadDto);
         }
 
         // DELETE: api/Category/5
