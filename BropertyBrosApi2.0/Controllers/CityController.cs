@@ -9,6 +9,8 @@ using BropertyBrosApi.Data;
 using BropertyBrosApi.Models;
 using AutoMapper;
 using BropertyBrosApi2._0.DTOs.City;
+using BropertyBrosApi2._0.Repositories.RepInterfaces;
+using BropertyBrosApi2._0.Repositories;
 
 namespace BropertyBrosApi2._0.Controllers
 {
@@ -17,12 +19,12 @@ namespace BropertyBrosApi2._0.Controllers
     [ApiController]
     public class CityController : ControllerBase
     {
-        private readonly ApplicationDbContext _context;
+        private readonly ICityRepository cityRepository;
         private readonly IMapper _mapper;
 
-        public CityController(ApplicationDbContext context, IMapper mapper)
+        public CityController(ICityRepository cityRepository, IMapper mapper)
         {
-            _context = context;
+            this.cityRepository = cityRepository;
             _mapper = mapper;
         }
 
@@ -30,14 +32,15 @@ namespace BropertyBrosApi2._0.Controllers
         [HttpGet]
         public async Task<ActionResult<IEnumerable<City>>> GetCities()
         {
-            return await _context.Cities.ToListAsync();
+            var cities = await cityRepository.GetAllAsync();
+            return Ok(cities);
         }
 
         // GET: api/Citiy/5
         [HttpGet("{id}")]
         public async Task<ActionResult<CityReadDto>> GetCity(int id)
         {
-            var city = await _context.Cities.FindAsync(id);
+            var city = await cityRepository.GetByIdAsync(id);
 
             if (city == null)
             {
@@ -54,15 +57,15 @@ namespace BropertyBrosApi2._0.Controllers
         [HttpPut("{id}")]
         public async Task<IActionResult> PutCity(int id, CityCreateDto cityCreateDto)
         {
-            var category = await _context.Cities.FindAsync(id);
-            if (category == null)
+            var city = await cityRepository.GetByIdAsync(id);
+            if (city == null)
             {
                 return BadRequest();
             }
 
-            _mapper.Map(cityCreateDto, category);
+            _mapper.Map(cityCreateDto, city);
 
-            await _context.SaveChangesAsync();
+            await cityRepository.Update(city);
 
             return NoContent();
         }
@@ -73,9 +76,11 @@ namespace BropertyBrosApi2._0.Controllers
         public async Task<ActionResult<CityReadDto>> PostCity(CityCreateDto cityCreateDto)
         {
             var city = _mapper.Map<City>(cityCreateDto);
-
-            _context.Cities.Add(city);
-            await _context.SaveChangesAsync();
+            if (city == null)
+            {
+                return BadRequest();
+            }
+            await cityRepository.Add(city);
 
             var cityReadDto = _mapper.Map<CityReadDto>(city);
 
@@ -86,21 +91,15 @@ namespace BropertyBrosApi2._0.Controllers
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteCity(int id)
         {
-            var city = await _context.Cities.FindAsync(id);
+            var city = await cityRepository.GetByIdAsync(id);
             if (city == null)
             {
                 return NotFound();
             }
 
-            _context.Cities.Remove(city);
-            await _context.SaveChangesAsync();
+            await cityRepository.Delete(city);
 
             return NoContent();
-        }
-
-        private bool CityExists(int id)
-        {
-            return _context.Cities.Any(e => e.Id == id);
         }
     }
 }

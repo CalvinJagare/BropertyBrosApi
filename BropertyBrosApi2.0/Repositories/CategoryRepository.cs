@@ -5,9 +5,10 @@ using Microsoft.EntityFrameworkCore;
 
 namespace BropertyBrosApi2._0.Repositories
 {
+    //Author: Daniel
     public class CategoryRepository : ICategoryRepository
     {
-        //Author: Daniel
+
         private readonly ApplicationDbContext applicationDbContext;
 
         public CategoryRepository(ApplicationDbContext applicationDbContext)
@@ -26,6 +27,11 @@ namespace BropertyBrosApi2._0.Repositories
             applicationDbContext.Remove(category);
             await applicationDbContext.SaveChangesAsync();
         }
+        public async Task Update(Category category)
+        {
+            applicationDbContext.Update(category);
+            await applicationDbContext.SaveChangesAsync();
+        }
 
         public async Task<IEnumerable<Category>> GetAllAsync()
         {
@@ -35,12 +41,6 @@ namespace BropertyBrosApi2._0.Repositories
         public async Task<Category> GetByIdAsync(int id)
         {
             return await applicationDbContext.Categories.FirstOrDefaultAsync(c => c.Id == id);
-        }
-
-        public async Task Update(Category category)
-        {
-            applicationDbContext.Update(category);
-            await applicationDbContext.SaveChangesAsync();
         }
     }
 }
