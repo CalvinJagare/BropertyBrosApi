@@ -32,24 +32,39 @@ namespace BropertyBrosApi2._0.Controllers
         [HttpGet]
         public async Task<ActionResult<IEnumerable<City>>> GetCities()
         {
-            var cities = await cityRepository.GetAllAsync();
-            return Ok(cities);
+            try
+            {
+                var cities = await cityRepository.GetAllAsync();
+                return Ok(cities);
+            }
+            catch
+            {
+                return StatusCode(500, "An error occurred while retrieving cities.");
+            }
         }
+
 
         // GET: api/Citiy/5
         [HttpGet("{id}")]
         public async Task<ActionResult<CityReadDto>> GetCity(int id)
         {
-            var city = await cityRepository.GetByIdAsync(id);
-
-            if (city == null)
+            try
             {
-                return NotFound();
+                var city = await cityRepository.GetByIdAsync(id);
+
+                if (city == null)
+                {
+                    return NotFound();
+                }
+
+                var cityReadDto = _mapper.Map<CityReadDto>(city);
+
+                return Ok(cityReadDto);
             }
-
-            var cityReadDto = _mapper.Map<CityReadDto>(city);
-
-            return Ok(cityReadDto);
+            catch
+            {
+                return StatusCode(500, "An error occurred while retrieving the city.");
+            }
         }
 
         // PUT: api/Citiy/5
@@ -57,17 +72,24 @@ namespace BropertyBrosApi2._0.Controllers
         [HttpPut("{id}")]
         public async Task<IActionResult> PutCity(int id, CityCreateDto cityCreateDto)
         {
-            var city = await cityRepository.GetByIdAsync(id);
-            if (city == null)
+            try
             {
-                return BadRequest();
+                var city = await cityRepository.GetByIdAsync(id);
+                if (city == null)
+                {
+                    return BadRequest();
+                }
+
+                _mapper.Map(cityCreateDto, city);
+
+                await cityRepository.Update(city);
+
+                return NoContent();
             }
-
-            _mapper.Map(cityCreateDto, city);
-
-            await cityRepository.Update(city);
-
-            return NoContent();
+            catch
+            {
+                return StatusCode(500, "An error occurred while updating the city.");
+            }
         }
 
         // POST: api/Citiy
@@ -75,31 +97,45 @@ namespace BropertyBrosApi2._0.Controllers
         [HttpPost]
         public async Task<ActionResult<CityReadDto>> PostCity(CityCreateDto cityCreateDto)
         {
-            var city = _mapper.Map<City>(cityCreateDto);
-            if (city == null)
+            try
             {
-                return BadRequest();
+                var city = _mapper.Map<City>(cityCreateDto);
+                if (city == null)
+                {
+                    return BadRequest();
+                }
+                await cityRepository.Add(city);
+
+                var cityReadDto = _mapper.Map<CityReadDto>(city);
+
+                return CreatedAtAction("GetCity", new { id = city.Id }, cityReadDto);
             }
-            await cityRepository.Add(city);
-
-            var cityReadDto = _mapper.Map<CityReadDto>(city);
-
-            return CreatedAtAction("GetCity", new { id = city.Id }, cityReadDto);
+            catch
+            {
+                return StatusCode(500, "An error occurred while creating the city.");
+            }
         }
 
         // DELETE: api/Citiy/5
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteCity(int id)
         {
-            var city = await cityRepository.GetByIdAsync(id);
-            if (city == null)
+            try
             {
-                return NotFound();
+                var city = await cityRepository.GetByIdAsync(id);
+                if (city == null)
+                {
+                    return NotFound();
+                }
+
+                await cityRepository.Delete(city);
+
+                return NoContent();
             }
-
-            await cityRepository.Delete(city);
-
-            return NoContent();
+            catch
+            {
+                return StatusCode(500, "An error occurred while deleting the city.");
+            }
         }
     }
 }

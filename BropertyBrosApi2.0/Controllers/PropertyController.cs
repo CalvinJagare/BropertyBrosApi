@@ -112,7 +112,7 @@ namespace BropertyBrosApi2._0.Controllers
             }
             catch
             {
-                return StatusCode(500, "An error occurred while retrieving categories.");
+                return StatusCode(500, "An error occurred while retrieving properties.");
             }
         }
 
