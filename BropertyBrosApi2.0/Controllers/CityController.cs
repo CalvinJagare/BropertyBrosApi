@@ -15,12 +15,12 @@ namespace BropertyBrosApi2._0.Controllers
     //Author: Alla
     [Route("api/[controller]")]
     [ApiController]
-    public class CitiyController : ControllerBase
+    public class CityController : ControllerBase
     {
         private readonly ApplicationDbContext _context;
         private readonly IMapper _mapper;
 
-        public CitiyController(ApplicationDbContext context, IMapper mapper)
+        public CityController(ApplicationDbContext context, IMapper mapper)
         {
             _context = context;
             _mapper = mapper;
