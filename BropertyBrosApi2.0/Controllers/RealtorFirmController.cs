@@ -13,7 +13,8 @@ using BropertyBrosApi2._0.Repositories.RepInterfaces;
 
 namespace BropertyBrosApi2._0.Controllers
 {
-    //Author: Alla
+    //Author: Calvin, Daniel
+    //Co-Author: Emil, Arlind, Nayab
     [Route("api/[controller]")]
     [ApiController]
     public class RealtorFirmController : ControllerBase
