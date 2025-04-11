@@ -28,7 +28,20 @@ namespace BropertyBrosApi2._0
             builder.Services.AddScoped<ICityRepository, CityRepository>();
             builder.Services.AddScoped<IRealtorFirmRepository, RealtorFirmRepository>();
 
+            builder.Services.AddCors(options =>
+            {
+                options.AddPolicy("AllowAllOrigins",
+                    builder =>
+                    {
+                        builder.AllowAnyOrigin()
+                               .AllowAnyMethod()
+                               .AllowAnyHeader();
+                    });
+            });           
+
             var app = builder.Build();
+
+            app.UseCors("AllowAllOrigins");
 
             // Configure the HTTP request pipeline.
             if (app.Environment.IsDevelopment())

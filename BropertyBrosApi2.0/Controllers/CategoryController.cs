@@ -31,12 +31,14 @@ namespace BropertyBrosApi2._0.Controllers
 
         // GET: api/Category
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<Category>>> GetCategories()
+        public async Task<ActionResult<IEnumerable<CategoryReadDto>>> GetCategories()
         {
             try
             {
                 var categories = await categoryRepository.GetAllAsync();
-                return Ok(categories);
+                var categoryReadDtos = _mapper.Map<IEnumerable<CategoryReadDto>>(categories);
+
+                return Ok(categoryReadDtos);
             }
             catch
             {
