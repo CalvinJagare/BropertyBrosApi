@@ -21,13 +21,11 @@ namespace BropertyBrosApi2._0.Controllers
     public class RealtorController : ControllerBase
     {
         private readonly IRealtorRepository realtorRepository;
-        private readonly IRealtorFirmRepository realtorFirmRepository;
         private readonly IMapper _mapper;
 
-        public RealtorController(IRealtorRepository realtorRepository, IRealtorFirmRepository realtorFirmRepository, IMapper mapper)
+        public RealtorController(IRealtorRepository realtorRepository, IMapper mapper)
         {
             this.realtorRepository = realtorRepository;
-            this.realtorFirmRepository = realtorFirmRepository;
             _mapper = mapper;
         }
 
