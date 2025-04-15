@@ -46,5 +46,12 @@ namespace BropertyBrosApi2._0.Repositories
                 .Include(p => p.Realtor)
                 .FirstOrDefaultAsync(p => p.Id == id);
         }
+
+        public async Task<IEnumerable<Property>> GetAllByRealtorAsync(int realtorId)
+        {
+            return await applicationDbContext.Properties
+                .Where(x => x.RealtorId == realtorId)
+                .ToListAsync();
+        }
     }
 }
