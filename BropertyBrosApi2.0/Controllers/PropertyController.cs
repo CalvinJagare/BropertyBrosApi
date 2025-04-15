@@ -138,5 +138,22 @@ namespace BropertyBrosApi2._0.Controllers
                 return StatusCode(500, "An error occurred while retrieving properties.");
             }
         }
+
+        [HttpGet]
+        [Route("GetPropertiesByRealtor/{realtorId}")]
+        public async Task<ActionResult<IEnumerable<PropertyReadDto>>> GetPropertiesByRealtor(int realtorId)
+        {
+            try
+            {
+                var properties = await propertyRepository.GetAllByRealtorAsync(realtorId);
+                var propertyReadDtos = new List<PropertyReadDto>();
+                _mapper.Map(properties, propertyReadDtos);
+                return Ok(propertyReadDtos);
+            }
+            catch(Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
     }
 }

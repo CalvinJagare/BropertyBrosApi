@@ -14,7 +14,7 @@
         public string? Description { get; set; }
         public int NumberOfRooms { get; set; }
         public int BuildYear { get; set; }
-        public string? ImageUrls { get; set; }
+        public List<string> ImageUrls { get; set; } = null!;
         public DateTime CreatedAt { get; set; } = DateTime.UtcNow;
         public virtual Realtor? Realtor { get; set; }
         public int RealtorId { get; set; }

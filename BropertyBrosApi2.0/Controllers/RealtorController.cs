@@ -21,13 +21,11 @@ namespace BropertyBrosApi2._0.Controllers
     public class RealtorController : ControllerBase
     {
         private readonly IRealtorRepository realtorRepository;
-        private readonly IRealtorFirmRepository realtorFirmRepository;
         private readonly IMapper _mapper;
 
-        public RealtorController(IRealtorRepository realtorRepository, IRealtorFirmRepository realtorFirmRepository, IMapper mapper)
+        public RealtorController(IRealtorRepository realtorRepository, IMapper mapper)
         {
             this.realtorRepository = realtorRepository;
-            this.realtorFirmRepository = realtorFirmRepository;
             _mapper = mapper;
         }
 
@@ -72,7 +70,7 @@ namespace BropertyBrosApi2._0.Controllers
         // PUT: api/Realtor/5
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPut("{id}")]
-        public async Task<IActionResult> PutRealtor(int id, RealtorCreateDto realtorCreateDto)
+        public async Task<ActionResult> PutRealtor(int id, RealtorCreateDto realtorCreateDto)
         {
             try
             {
@@ -86,7 +84,7 @@ namespace BropertyBrosApi2._0.Controllers
 
                 await realtorRepository.Update(realtor);
 
-                return NoContent();
+                return Ok(realtorCreateDto);
             }
             catch
             {
