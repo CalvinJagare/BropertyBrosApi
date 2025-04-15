@@ -146,7 +146,9 @@ namespace BropertyBrosApi2._0.Controllers
             try
             {
                 var properties = await propertyRepository.GetAllByRealtorAsync(realtorId);
-                return Ok(properties);
+                var propertyReadDtos = new List<PropertyReadDto>();
+                _mapper.Map(properties, propertyReadDtos);
+                return Ok(propertyReadDtos);
             }
             catch(Exception ex)
             {
