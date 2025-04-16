@@ -157,5 +157,22 @@ namespace BropertyBrosApi2._0.Controllers
                 return BadRequest(ex.Message);
             }
         }
+
+        [HttpPost]
+        [Route("GetPropertiesBySearch/")]
+        public async Task<ActionResult<IEnumerable<PropertyReadDto>>> GetPropertiesBySearch([FromBody]PropertySearchDto propertySearchDto)
+        {
+            var properties = await propertyRepository.GetBySearchAsync(propertySearchDto);
+
+            if (properties == null)
+            {
+                return NotFound();
+            }
+
+            var propertyReadDtos = new List<PropertyReadDto>();
+            _mapper.Map(properties, propertyReadDtos);
+
+            return Ok(propertyReadDtos);
+        }
     }
 }
