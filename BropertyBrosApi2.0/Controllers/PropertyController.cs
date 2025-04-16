@@ -139,6 +139,8 @@ namespace BropertyBrosApi2._0.Controllers
             }
         }
 
+
+        // Author: Emil
         [HttpGet]
         [Route("GetPropertiesByRealtor/{realtorId}")]
         public async Task<ActionResult<IEnumerable<PropertyReadDto>>> GetPropertiesByRealtor(int realtorId)
