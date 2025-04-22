@@ -4,6 +4,7 @@ using BropertyBrosApi.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace BropertyBrosApi2._0.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20250422082551_morepictures")]
+    partial class morepictures
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -313,10 +316,10 @@ namespace BropertyBrosApi2._0.Migrations
                         {
                             Id = 1,
                             Email = "markus@bropertybros.se",
-                            FirstName = "Marcus",
+                            FirstName = "Markus",
                             LastName = "Friberg",
                             PhoneNumber = "0705712647",
-                            ProfileUrl = "https://media.licdn.com/dms/image/v2/D4D03AQEYZfjOaaV_QA/profile-displayphoto-shrink_800_800/profile-displayphoto-shrink_800_800/0/1719018397094?e=1750896000&v=beta&t=7Tc6mYQarQ62J6tfvYWlA5wLSLsxO-x5_eIlfPkYWIw",
+                            ProfileUrl = "https://example.com/profiles/markus.png",
                             RealtorFirmId = 1
                         },
                         new
@@ -326,7 +329,7 @@ namespace BropertyBrosApi2._0.Migrations
                             FirstName = "Sanna",
                             LastName = "Mäklarsson",
                             PhoneNumber = "0731234567",
-                            ProfileUrl = "https://images.ctfassets.net/h6goo9gw1hh6/2sNZtFAWOdP1lmQ33VwRN3/24e953b920a9cd0ff2e1d587742a2472/1-intro-photo-final.jpg?w=1200&h=992&fl=progressive&q=70&fm=jpg",
+                            ProfileUrl = "https://example.com/profiles/sanna.png",
                             RealtorFirmId = 1
                         },
                         new
@@ -336,7 +339,7 @@ namespace BropertyBrosApi2._0.Migrations
                             FirstName = "Erik",
                             LastName = "Fast",
                             PhoneNumber = "0704455667",
-                            ProfileUrl = "https://newprofilepic.photo-cdn.net//assets/images/article/profile.jpg?90af0c8",
+                            ProfileUrl = "https://example.com/profiles/erik.png",
                             RealtorFirmId = 2
                         },
                         new
@@ -346,7 +349,7 @@ namespace BropertyBrosApi2._0.Migrations
                             FirstName = "Anna",
                             LastName = "Sund",
                             PhoneNumber = "0761122334",
-                            ProfileUrl = "https://media.istockphoto.com/id/1682296067/photo/happy-studio-portrait-or-professional-man-real-estate-agent-or-asian-businessman-smile-for.jpg?s=612x612&w=0&k=20&c=9zbG2-9fl741fbTWw5fNgcEEe4ll-JegrGlQQ6m54rg=",
+                            ProfileUrl = "https://example.com/profiles/anna.png",
                             RealtorFirmId = 3
                         },
                         new
@@ -392,7 +395,7 @@ namespace BropertyBrosApi2._0.Migrations
                             CompanyName = "Broperty Bros",
                             Description = "En modern mäklarfirma med fokus på teknik och AI.",
                             LogoUrl = "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR2ZjXY0_53ngWuJweTB5_n6Ogvo3_FsHh3lw&s",
-                            WebsiteUrl = "https://www.bostaden.umea.se"
+                            WebsiteUrl = "https://bropertybros.se"
                         },
                         new
                         {
@@ -400,7 +403,7 @@ namespace BropertyBrosApi2._0.Migrations
                             CompanyName = "Mäklarkompaniet",
                             Description = "Traditionellt kunnande, moderna lösningar.",
                             LogoUrl = "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQfuELyshYBonAgRjJs86D0W7xPATcqIx48nw&s",
-                            WebsiteUrl = "https://www.hudikhem.se"
+                            WebsiteUrl = "https://maklarkompaniet.se"
                         },
                         new
                         {
@@ -408,7 +411,7 @@ namespace BropertyBrosApi2._0.Migrations
                             CompanyName = "Fastighetsmästarna",
                             Description = "Specialister på bostäder i hela Sverige.",
                             LogoUrl = "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSnxZygU3x6zsKO3937icA5wDGg0UbijK1CxA&s",
-                            WebsiteUrl = "https://heimstaden.com/se/"
+                            WebsiteUrl = "https://fastighetsmastarna.se"
                         });
                 });
 
