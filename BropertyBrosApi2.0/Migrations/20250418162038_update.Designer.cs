@@ -4,6 +4,7 @@ using BropertyBrosApi.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace BropertyBrosApi2._0.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20250418162038_update")]
+    partial class update
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -208,7 +211,7 @@ namespace BropertyBrosApi2._0.Migrations
                             CityId = 1,
                             CreatedAt = new DateTime(2024, 1, 1, 12, 0, 0, 0, DateTimeKind.Utc),
                             Description = "Fin bostadsrätt i centrala Stockholm.",
-                            ImageUrls = "[\"https://coralhomes.com.au/wp-content/uploads/Grange-258Q-Harmony-Lodge-Facade-2-1190x680.jpg\"]",
+                            ImageUrls = "[\"https://example.com/images/property1.jpg,https://example.com/images/property2.jpg\"]",
                             LandAreaKvm = 0,
                             LivingAreaKvm = 85,
                             MonthlyFee = 3500,
@@ -227,7 +230,7 @@ namespace BropertyBrosApi2._0.Migrations
                             CityId = 2,
                             CreatedAt = new DateTime(2024, 1, 1, 12, 0, 0, 0, DateTimeKind.Utc),
                             Description = "Stor villa med trädgård och garage.",
-                            ImageUrls = "[\"https://www.thehousedesigners.com/images/plans/01/JBZ/bulk/4382/2428-dusk-render.webp\"]",
+                            ImageUrls = "[\"https://example.com/images/property3.jpg,https://example.com/images/property4.jpg\"]",
                             LandAreaKvm = 500,
                             LivingAreaKvm = 140,
                             MonthlyFee = 0,
@@ -246,7 +249,7 @@ namespace BropertyBrosApi2._0.Migrations
                             CityId = 3,
                             CreatedAt = new DateTime(2024, 1, 1, 12, 0, 0, 0, DateTimeKind.Utc),
                             Description = "Ljus och modern lägenhet nära havet.",
-                            ImageUrls = "[\"https://images.unsplash.com/photo-1564013799919-ab600027ffc6?q=80\\u0026w=1170\\u0026auto=format\\u0026fit=crop\\u0026ixlib=rb-4.0.3\\u0026ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D\"]",
+                            ImageUrls = "[\"https://example.com/images/property5.jpg,https://example.com/images/property6.jpg\"]",
                             LandAreaKvm = 0,
                             LivingAreaKvm = 70,
                             MonthlyFee = 2000,
@@ -265,7 +268,7 @@ namespace BropertyBrosApi2._0.Migrations
                             CityId = 5,
                             CreatedAt = new DateTime(2024, 1, 1, 12, 0, 0, 0, DateTimeKind.Utc),
                             Description = "Mysig stuga i skogsmiljö.",
-                            ImageUrls = "[\"https://static.schumacherhomes.com/umbraco/media/wvflutbh/image4.jpg?format=webp\",\"https://static.schumacherhomes.com/umbraco/media/ytthzjth/image3.jpg?format=webp\",\"https://static.schumacherhomes.com/umbraco/media/4r4pxnt5/image11.jpg?format=webp\"]",
+                            ImageUrls = "[\"https://example.com/images/property7.jpg\",\"https://example.com/images/property8.jpg\"]",
                             LandAreaKvm = 1000,
                             LivingAreaKvm = 45,
                             MonthlyFee = 0,
