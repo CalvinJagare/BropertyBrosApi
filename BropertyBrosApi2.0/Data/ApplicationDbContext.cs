@@ -52,7 +52,7 @@ namespace BropertyBrosApi.Data
                     CompanyName = "Broperty Bros",
                     Description = "En modern mäklarfirma med fokus på teknik och AI.",
                     LogoUrl = "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR2ZjXY0_53ngWuJweTB5_n6Ogvo3_FsHh3lw&s",
-                    WebsiteUrl = "https://bropertybros.se"
+                    WebsiteUrl = "https://www.bostaden.umea.se"
                 },
                 new RealtorFirm
                 {
@@ -60,7 +60,7 @@ namespace BropertyBrosApi.Data
                     CompanyName = "Mäklarkompaniet",
                     Description = "Traditionellt kunnande, moderna lösningar.",
                     LogoUrl = "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQfuELyshYBonAgRjJs86D0W7xPATcqIx48nw&s",
-                    WebsiteUrl = "https://maklarkompaniet.se"
+                    WebsiteUrl = "https://www.hudikhem.se"
                 },
                 new RealtorFirm
                 {
@@ -68,7 +68,7 @@ namespace BropertyBrosApi.Data
                     CompanyName = "Fastighetsmästarna",
                     Description = "Specialister på bostäder i hela Sverige.",
                     LogoUrl = "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSnxZygU3x6zsKO3937icA5wDGg0UbijK1CxA&s",
-                    WebsiteUrl = "https://fastighetsmastarna.se"
+                    WebsiteUrl = "https://heimstaden.com/se/"
                 }
             );
 
