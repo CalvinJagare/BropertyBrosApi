@@ -9,6 +9,7 @@ using BropertyBrosApi2._0.DTOs.RealtorFirm;
 namespace BropertyBrosApi2._0
 {
     //Author: Calvin, Daniel, Emil
+    //Co-Author: Arlind
     public class AutomapperProfile : Profile
     {
         public AutomapperProfile()

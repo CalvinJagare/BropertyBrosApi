@@ -1,6 +1,10 @@
-﻿namespace BropertyBrosApi2._0.DTOs.Realtor
+﻿using BropertyBrosApi2._0.DTOs.Properties;
+
+namespace BropertyBrosApi2._0.DTOs.Realtor
 {
     //Author: Calvin, Daniel, Emil
+    //Co-Author: Arlind
+
     public class RealtorReadDto
     {
         public int Id { get; set; }
@@ -13,5 +17,6 @@
         public virtual string? CompanyName { get; set; } = string.Empty;
         public virtual string? LogoUrl { get; set; } = string.Empty;
         public virtual string? WebsiteUrl { get; set; } = string.Empty;
+
     }
 }
