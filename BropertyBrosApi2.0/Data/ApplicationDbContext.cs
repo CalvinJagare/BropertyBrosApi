@@ -1,10 +1,12 @@
 ﻿using BropertyBrosApi.Models;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 
 namespace BropertyBrosApi.Data
 {
     //Author: Calvin, Daniel, Emil
-    public class ApplicationDbContext : DbContext
+    public class ApplicationDbContext : IdentityDbContext
     {
         public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options) : base(options)
         {
@@ -72,60 +74,6 @@ namespace BropertyBrosApi.Data
                 }
             );
 
-            // Realtors
-            modelBuilder.Entity<Realtor>().HasData(
-                new Realtor
-                {
-                    Id = 1,
-                    FirstName = "Marcus",
-                    LastName = "Friberg",
-                    PhoneNumber = "0705712647",
-                    Email = "markus@bropertybros.se",
-                    ProfileUrl = "https://media.licdn.com/dms/image/v2/D4D03AQEYZfjOaaV_QA/profile-displayphoto-shrink_800_800/profile-displayphoto-shrink_800_800/0/1719018397094?e=1750896000&v=beta&t=7Tc6mYQarQ62J6tfvYWlA5wLSLsxO-x5_eIlfPkYWIw",
-                    RealtorFirmId = 1
-                },
-                new Realtor
-                {
-                    Id = 2,
-                    FirstName = "Sanna",
-                    LastName = "Mäklarsson",
-                    PhoneNumber = "0731234567",
-                    Email = "sanna@bropertybros.se",
-                    ProfileUrl = "https://images.ctfassets.net/h6goo9gw1hh6/2sNZtFAWOdP1lmQ33VwRN3/24e953b920a9cd0ff2e1d587742a2472/1-intro-photo-final.jpg?w=1200&h=992&fl=progressive&q=70&fm=jpg",
-                    RealtorFirmId = 1
-                },
-                new Realtor
-                {
-                    Id = 3,
-                    FirstName = "Erik",
-                    LastName = "Fast",
-                    PhoneNumber = "0704455667",
-                    Email = "erik@maklarkompaniet.se",
-                    ProfileUrl = "https://newprofilepic.photo-cdn.net//assets/images/article/profile.jpg?90af0c8",
-                    RealtorFirmId = 2
-                },
-                new Realtor
-                {
-                    Id = 4,
-                    FirstName = "Anna",
-                    LastName = "Sund",
-                    PhoneNumber = "0761122334",
-                    Email = "anna@fastighetsmastarna.se",
-                    ProfileUrl = "https://media.istockphoto.com/id/1682296067/photo/happy-studio-portrait-or-professional-man-real-estate-agent-or-asian-businessman-smile-for.jpg?s=612x612&w=0&k=20&c=9zbG2-9fl741fbTWw5fNgcEEe4ll-JegrGlQQ6m54rg=",
-                    RealtorFirmId = 3
-                },
-                new Realtor
-                {
-                    Id = 5,
-                    FirstName = "Johan",
-                    LastName = "Bostad",
-                    PhoneNumber = "0723344556",
-                    Email = "johan@maklarkompaniet.se",
-                    ProfileUrl = "https://example.com/profiles/johan.png",
-                    RealtorFirmId = 2
-                }
-            );
-
             // Properties
             modelBuilder.Entity<Property>().HasData(
                 new Property
@@ -143,7 +91,7 @@ namespace BropertyBrosApi.Data
                     BuildYear = 2010,
                     ImageUrls = new List<string>() {"https://coralhomes.com.au/wp-content/uploads/Grange-258Q-Harmony-Lodge-Facade-2-1190x680.jpg"},
                     CreatedAt = new DateTime(2024, 01, 01, 12, 00, 00, DateTimeKind.Utc),
-                    RealtorId = 1,
+                    RealtorId = "88a18e09-e97f-4200-9608-50e448161243",
                     CityId = 1,
                     CategoryId = 4
                 },
@@ -162,7 +110,7 @@ namespace BropertyBrosApi.Data
                     BuildYear = 1995,
                     ImageUrls = new List<string>() { "https://www.thehousedesigners.com/images/plans/01/JBZ/bulk/4382/2428-dusk-render.webp" },
                     CreatedAt = new DateTime(2024, 01, 01, 12, 00, 00, DateTimeKind.Utc),
-                    RealtorId = 2,
+                    RealtorId = "0f7b5c05-cc2a-4ccf-b1a7-a5e4a73d69c7",
                     CityId = 2,
                     CategoryId = 2
                 },
@@ -181,7 +129,7 @@ namespace BropertyBrosApi.Data
                     BuildYear = 2018,
                     ImageUrls = new List<string>() { "https://images.unsplash.com/photo-1564013799919-ab600027ffc6?q=80\u0026w=1170\u0026auto=format\u0026fit=crop\u0026ixlib=rb-4.0.3\u0026ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D" },
                     CreatedAt = new DateTime(2024, 01, 01, 12, 00, 00, DateTimeKind.Utc),
-                    RealtorId = 3,
+                    RealtorId = "0f7b5c05-cc2a-4ccf-b1a7-a5e4a73d69c7",
                     CityId = 3,
                     CategoryId = 1
                 },
@@ -200,11 +148,51 @@ namespace BropertyBrosApi.Data
                     BuildYear = 1980,
                     ImageUrls = new List<string>() { "https://static.schumacherhomes.com/umbraco/media/wvflutbh/image4.jpg?format=webp", "https://static.schumacherhomes.com/umbraco/media/ytthzjth/image3.jpg?format=webp", "https://static.schumacherhomes.com/umbraco/media/4r4pxnt5/image11.jpg?format=webp" },
                     CreatedAt = new DateTime(2024, 01, 01, 12, 00, 00, DateTimeKind.Utc),
-                    RealtorId = 4,
+                    RealtorId = "35afdd1a-95e1-472a-975c-b775b53f8f5d",
                     CityId = 5,
                     CategoryId = 7
                 }
             );
+
+            // Realtors
+            var hasher = new PasswordHasher<Realtor>();
+            modelBuilder.Entity<Realtor>().HasData(
+                new Realtor
+                {
+                    Id = "88a18e09-e97f-4200-9608-50e448161243",
+                    FirstName = "Marcus",
+                    LastName = "Friberg",
+                    PhoneNumber = "0705712647",
+                    Email = "markus@bropertybros.se",
+                    ProfileUrl = "https://media.licdn.com/dms/image/v2/D4D03AQEYZfjOaaV_QA/profile-displayphoto-shrink_800_800/profile-displayphoto-shrink_800_800/0/1719018397094?e=1750896000&v=beta&t=7Tc6mYQarQ62J6tfvYWlA5wLSLsxO-x5_eIlfPkYWIw",
+                    RealtorFirmId = 1,
+                    PasswordHash = hasher.HashPassword(null, "Abcd!234")
+                },
+                new Realtor
+                {
+                    Id = "0f7b5c05-cc2a-4ccf-b1a7-a5e4a73d69c7",
+                    FirstName = "Sanna",
+                    LastName = "Mäklarsson",
+                    PhoneNumber = "0731234567",
+                    Email = "sanna@bropertybros.se",
+                    ProfileUrl = "https://images.ctfassets.net/h6goo9gw1hh6/2sNZtFAWOdP1lmQ33VwRN3/24e953b920a9cd0ff2e1d587742a2472/1-intro-photo-final.jpg?w=1200&h=992&fl=progressive&q=70&fm=jpg",
+                    RealtorFirmId = 1,
+                    PasswordHash = hasher.HashPassword(null, "Abcd!234")
+                },
+                new Realtor
+                {
+                    Id = "35afdd1a-95e1-472a-975c-b775b53f8f5d",
+                    FirstName = "Erik",
+                    LastName = "Fast",
+                    PhoneNumber = "0704455667",
+                    Email = "erik@maklarkompaniet.se",
+                    ProfileUrl = "https://newprofilepic.photo-cdn.net//assets/images/article/profile.jpg?90af0c8",
+                    RealtorFirmId = 2,
+                    PasswordHash = hasher.HashPassword(null, "Abcd!234")
+                }
+            );
+
+            modelBuilder.Entity<>
         }
     }        
 }

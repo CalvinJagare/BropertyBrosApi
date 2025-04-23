@@ -1,17 +1,23 @@
-﻿namespace BropertyBrosApi.Models
+﻿using Microsoft.AspNetCore.Identity;
+using System.ComponentModel.DataAnnotations;
+
+namespace BropertyBrosApi.Models
 {
     //Author: Calvin, Daniel, Emil
-    public class Realtor
+    public class Realtor : IdentityUser
     {
-        public int Id { get; set; }
-        public string? FirstName { get; set; }
-        public string? LastName { get; set; }
-        public string? PhoneNumber { get; set; }
-        public string? Email { get; set; }
-        public string? ProfileUrl { get; set; }
-        public virtual List<Property> Properties { get; set; } = new List<Property>();
+        public int RealtorFirmId { get; set; }
 
-        public virtual RealtorFirm? RealtorFirm { get; set; }
-        public int RealtorFirmId { get; set; } 
+        [Required]
+        public string FirstName { get; set; } = null!;
+
+        [Required]
+        public string LastName { get; set; } = null!;
+
+        [Required]
+        public string ProfileUrl { get; set; } = null!;
+
+        public virtual List<Property>? Properties { get; set; } = null;
+        public virtual RealtorFirm RealtorFirm { get; set; } = null!;
     }
 }

@@ -38,7 +38,7 @@ namespace BropertyBrosApi2._0.Repositories
             return await applicationDbContext.Realtors.ToListAsync();
         }
 
-        public async Task<Realtor> GetByIdAsync(int id)
+        public async Task<Realtor> GetByIdAsync(string id)
         {
             return await applicationDbContext.Realtors
                 .Include(r => r.RealtorFirm)

@@ -4,6 +4,10 @@
     public class Property
     {
         public int Id { get; set; }
+        public string RealtorId { get; set; } = null!;
+        public int CityId { get; set; }
+        public int CategoryId { get; set; }
+
         public string? Address { get; set; }
         public int Price { get; set; }
         public int MonthlyFee { get; set; }
@@ -16,11 +20,9 @@
         public int BuildYear { get; set; }
         public List<string> ImageUrls { get; set; } = null!;
         public DateTime CreatedAt { get; set; } = DateTime.UtcNow;
-        public virtual Realtor? Realtor { get; set; }
-        public int RealtorId { get; set; }
-        public virtual City? City { get; set; }
-        public int CityId { get; set; }
-        public Category? Category { get; set; }
-        public int CategoryId { get; set; }
+
+        public virtual Realtor Realtor { get; set; } = null!;
+        public virtual City City { get; set; } = null!;
+        public virtual Category Category { get; set; } = null!;
     }
 }

@@ -35,7 +35,7 @@ namespace BropertyBrosApi2._0.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Categories");
+                    b.ToTable("Categories", (string)null);
 
                     b.HasData(
                         new
@@ -98,7 +98,7 @@ namespace BropertyBrosApi2._0.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Cities");
+                    b.ToTable("Cities", (string)null);
 
                     b.HasData(
                         new
@@ -195,7 +195,7 @@ namespace BropertyBrosApi2._0.Migrations
 
                     b.HasIndex("RealtorId");
 
-                    b.ToTable("Properties");
+                    b.ToTable("Properties", (string)null);
 
                     b.HasData(
                         new
@@ -306,7 +306,7 @@ namespace BropertyBrosApi2._0.Migrations
 
                     b.HasIndex("RealtorFirmId");
 
-                    b.ToTable("Realtors");
+                    b.ToTable("Realtors", (string)null);
 
                     b.HasData(
                         new
@@ -383,7 +383,7 @@ namespace BropertyBrosApi2._0.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("RealtorFirms");
+                    b.ToTable("RealtorFirms", (string)null);
 
                     b.HasData(
                         new

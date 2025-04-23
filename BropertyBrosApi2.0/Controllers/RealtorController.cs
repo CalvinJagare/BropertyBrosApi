@@ -46,7 +46,7 @@ namespace BropertyBrosApi2._0.Controllers
 
         // GET: api/Realtor/5
         [HttpGet("{id}")]
-        public async Task<ActionResult<RealtorReadDto>> GetRealtor(int id)
+        public async Task<ActionResult<RealtorReadDto>> GetRealtor(string id)
         {
             try
             {
@@ -70,7 +70,7 @@ namespace BropertyBrosApi2._0.Controllers
         // PUT: api/Realtor/5
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPut("{id}")]
-        public async Task<ActionResult> PutRealtor(int id, RealtorCreateDto realtorCreateDto)
+        public async Task<ActionResult> PutRealtor(string id, RealtorCreateDto realtorCreateDto)
         {
             try
             {
@@ -118,7 +118,7 @@ namespace BropertyBrosApi2._0.Controllers
 
         // DELETE: api/Realtor/5
         [HttpDelete("{id}")]
-        public async Task<IActionResult> DeleteRealtor(int id)
+        public async Task<IActionResult> DeleteRealtor(string id)
         {
             try
             {
