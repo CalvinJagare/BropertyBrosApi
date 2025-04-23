@@ -4,6 +4,7 @@ using BropertyBrosApi.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace BropertyBrosApi2._0.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20250423124012_ignorewarninghasher")]
+    partial class ignorewarninghasher
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -487,7 +490,7 @@ namespace BropertyBrosApi2._0.Migrations
                         {
                             Id = "037b162f-ce2c-4297-8e99-6bf381d6cebe",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "4ea67d1d-b452-4e7b-92b4-d53c483c46f6",
+                            ConcurrencyStamp = "b2c4e086-2d02-42e1-8c56-8b09d17328fd",
                             Email = "admin@brosapi.com",
                             EmailConfirmed = true,
                             FirstName = "System",
@@ -495,9 +498,9 @@ namespace BropertyBrosApi2._0.Migrations
                             LockoutEnabled = false,
                             NormalizedEmail = "ADMIN@BROSAPI.COM",
                             NormalizedUserName = "ADMIN@BROSAPI.COM",
-                            PasswordHash = "AQAAAAIAAYagAAAAEELG1BBPcWKdrKxGtCb1q5oM/YO5OjSOA52TiRV0I5k3LckvGTF311v7zKrjY98FPg==",
+                            PasswordHash = "AQAAAAIAAYagAAAAEBMvjY9ZY5q75lNVCmXJcQchth5mgXOATNq1SRnRQBDlCddlenzbPfPWz67Jww018g==",
                             PhoneNumberConfirmed = false,
-                            SecurityStamp = "1f678042-0f5c-4dc2-8fad-9bca39414616",
+                            SecurityStamp = "d902e26e-992c-4ffe-98ef-9a2782325561",
                             TwoFactorEnabled = false,
                             UserName = "admin@brosapi.com"
                         },
@@ -505,7 +508,7 @@ namespace BropertyBrosApi2._0.Migrations
                         {
                             Id = "db90f6a9-26e7-4b5d-9f1b-620ce7998fd1",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "78f9bc1c-b523-4daf-acb1-626a9e888112",
+                            ConcurrencyStamp = "24b53655-4b5c-4709-8f0c-e3284dadc096",
                             Email = "user@brosapi.com",
                             EmailConfirmed = true,
                             FirstName = "System",
@@ -513,9 +516,9 @@ namespace BropertyBrosApi2._0.Migrations
                             LockoutEnabled = false,
                             NormalizedEmail = "USER@BROSAPI.COM",
                             NormalizedUserName = "USER@BROSAPI.COM",
-                            PasswordHash = "AQAAAAIAAYagAAAAEF9pGLt+MQ6siKy87TCXW4gpBbOllcDBgqJK29dTi5B/D7MpDI3CzFUxEGK31munnA==",
+                            PasswordHash = "AQAAAAIAAYagAAAAEBlfkspe1nB3bDHgMsG8/TojKwBM2SxIj/jI+mE9rSegCcuTPQraaHbxzAEzj46SeQ==",
                             PhoneNumberConfirmed = false,
-                            SecurityStamp = "5bc70d68-5f0c-4796-ba07-ebf3a73bfdcf",
+                            SecurityStamp = "3d824a1c-e36c-47c9-9d1e-aa144f59b525",
                             TwoFactorEnabled = false,
                             UserName = "user@brosapi.com"
                         });

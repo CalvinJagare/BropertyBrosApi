@@ -1,10 +1,15 @@
 ﻿using BropertyBrosApi.Models;
+using BropertyBrosApi2._0.Constants;
+using BropertyBrosApi2._0.Data;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Diagnostics;
 
 namespace BropertyBrosApi.Data
 {
     //Author: Calvin, Daniel, Emil
-    public class ApplicationDbContext : DbContext
+    public class ApplicationDbContext : IdentityDbContext<ApiUser>
     {
         public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options) : base(options)
         {
@@ -16,10 +21,75 @@ namespace BropertyBrosApi.Data
         public DbSet<RealtorFirm> RealtorFirms { get; set; }
         public DbSet<Realtor> Realtors { get; set; }
 
+        //protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+        //{
+        //    optionsBuilder.ConfigureWarnings(warnings =>
+        //        warnings.Ignore(RelationalEventId.PendingModelChangesWarning));
+        //}
         //Author: Calvin
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);
+
+            modelBuilder.Entity<IdentityRole>().HasData(
+                new IdentityRole
+                {                   
+                    Name = ApiRoles.User,
+                    NormalizedName = ApiRoles.User,
+                    Id = "033e9cc7-adfa-4778-8dbd-c1f35d3007d5"
+                },
+                new IdentityRole
+                {                    
+                    Name = ApiRoles.Admin,
+                    NormalizedName = ApiRoles.Admin,
+                    Id = "b4567686-11f2-4baf-b915-305273cf5c19"
+                }
+            );
+
+            //var hasher = new PasswordHasher<ApiUser>();
+            modelBuilder.Entity<ApiUser>().HasData(
+                new ApiUser
+                {
+                    Id = "037b162f-ce2c-4297-8e99-6bf381d6cebe",
+                    Email = "admin@brosapi.com",
+                    NormalizedEmail = "ADMIN@BROSAPI.COM",
+                    UserName = "admin@brosapi.com",
+                    NormalizedUserName = "ADMIN@BROSAPI.COM",
+                    FirstName = "System",
+                    LastName = "Admin",
+                    PasswordHash = "AQAAAAIAAYagAAAAEELG1BBPcWKdrKxGtCb1q5oM/YO5OjSOA52TiRV0I5k3LckvGTF311v7zKrjY98FPg==",
+                    SecurityStamp = "1f678042-0f5c-4dc2-8fad-9bca39414616",
+                    ConcurrencyStamp = "4ea67d1d-b452-4e7b-92b4-d53c483c46f6",
+                    EmailConfirmed = true
+                },
+                new ApiUser
+                {
+                    Id = "db90f6a9-26e7-4b5d-9f1b-620ce7998fd1",
+                    Email = "user@brosapi.com",
+                    NormalizedEmail = "USER@BROSAPI.COM",
+                    UserName = "user@brosapi.com",
+                    NormalizedUserName = "USER@BROSAPI.COM",
+                    FirstName = "System",
+                    LastName = "User",
+                    PasswordHash = "AQAAAAIAAYagAAAAEF9pGLt+MQ6siKy87TCXW4gpBbOllcDBgqJK29dTi5B/D7MpDI3CzFUxEGK31munnA==",
+                    SecurityStamp = "5bc70d68-5f0c-4796-ba07-ebf3a73bfdcf",
+                    ConcurrencyStamp = "78f9bc1c-b523-4daf-acb1-626a9e888112",
+                    EmailConfirmed = true
+                }
+            );
+
+            modelBuilder.Entity<IdentityUserRole<string>>().HasData(
+                new IdentityUserRole<string>
+                {
+                    RoleId = "b4567686-11f2-4baf-b915-305273cf5c19",
+                    UserId = "037b162f-ce2c-4297-8e99-6bf381d6cebe"
+                },
+                new IdentityUserRole<string>
+                {
+                    RoleId = "033e9cc7-adfa-4778-8dbd-c1f35d3007d5",
+                    UserId = "db90f6a9-26e7-4b5d-9f1b-620ce7998fd1"
+                }
+            );
 
             // Categories 
             modelBuilder.Entity<Category>().HasData(

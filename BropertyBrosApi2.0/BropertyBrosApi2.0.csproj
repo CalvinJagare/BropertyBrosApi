@@ -5,6 +5,7 @@
     <Nullable>enable</Nullable>
     <ImplicitUsings>enable</ImplicitUsings>
     <RootNamespace>BropertyBrosApi2._0</RootNamespace>
+    <UserSecretsId>77ef7384-ba80-43b7-83f2-32b2667bf54d</UserSecretsId>
   </PropertyGroup>
 
   <ItemGroup>
