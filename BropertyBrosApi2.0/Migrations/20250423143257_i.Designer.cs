@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace BropertyBrosApi2._0.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20250422091832_realtorfixed")]
-    partial class realtorfixed
+    [Migration("20250423143257_i")]
+    partial class i
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -255,7 +255,7 @@ namespace BropertyBrosApi2._0.Migrations
                             MonthlyFee = 2000,
                             NumberOfRooms = 2,
                             Price = 2800000,
-                            RealtorId = 3,
+                            RealtorId = 2,
                             YearlyFee = 24000
                         },
                         new
@@ -274,7 +274,7 @@ namespace BropertyBrosApi2._0.Migrations
                             MonthlyFee = 0,
                             NumberOfRooms = 2,
                             Price = 1600000,
-                            RealtorId = 4,
+                            RealtorId = 3,
                             YearlyFee = 10000
                         });
                 });
@@ -287,16 +287,14 @@ namespace BropertyBrosApi2._0.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
-                    b.Property<string>("Email")
-                        .HasColumnType("nvarchar(max)");
+                    b.Property<string>("AppUserId")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(450)");
 
                     b.Property<string>("FirstName")
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("LastName")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("PhoneNumber")
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("ProfileUrl")
@@ -307,6 +305,9 @@ namespace BropertyBrosApi2._0.Migrations
 
                     b.HasKey("Id");
 
+                    b.HasIndex("AppUserId")
+                        .IsUnique();
+
                     b.HasIndex("RealtorFirmId");
 
                     b.ToTable("Realtors");
@@ -315,51 +316,28 @@ namespace BropertyBrosApi2._0.Migrations
                         new
                         {
                             Id = 1,
-                            Email = "markus@bropertybros.se",
+                            AppUserId = "064297ce-17ff-4e1b-a078-05e4d4e08944",
                             FirstName = "Marcus",
                             LastName = "Friberg",
-                            PhoneNumber = "0705712647",
                             ProfileUrl = "https://media.licdn.com/dms/image/v2/D4D03AQEYZfjOaaV_QA/profile-displayphoto-shrink_800_800/profile-displayphoto-shrink_800_800/0/1719018397094?e=1750896000&v=beta&t=7Tc6mYQarQ62J6tfvYWlA5wLSLsxO-x5_eIlfPkYWIw",
                             RealtorFirmId = 1
                         },
                         new
                         {
                             Id = 2,
-                            Email = "sanna@bropertybros.se",
+                            AppUserId = "9d7fc5c7-e1ca-4b25-9859-dec2cc85e573",
                             FirstName = "Sanna",
                             LastName = "Mäklarsson",
-                            PhoneNumber = "0731234567",
                             ProfileUrl = "https://images.ctfassets.net/h6goo9gw1hh6/2sNZtFAWOdP1lmQ33VwRN3/24e953b920a9cd0ff2e1d587742a2472/1-intro-photo-final.jpg?w=1200&h=992&fl=progressive&q=70&fm=jpg",
                             RealtorFirmId = 1
                         },
                         new
                         {
                             Id = 3,
-                            Email = "erik@maklarkompaniet.se",
+                            AppUserId = "96ce045a-44a7-4ec7-8816-1f4ffc127400",
                             FirstName = "Erik",
                             LastName = "Fast",
-                            PhoneNumber = "0704455667",
                             ProfileUrl = "https://newprofilepic.photo-cdn.net//assets/images/article/profile.jpg?90af0c8",
-                            RealtorFirmId = 2
-                        },
-                        new
-                        {
-                            Id = 4,
-                            Email = "anna@fastighetsmastarna.se",
-                            FirstName = "Anna",
-                            LastName = "Sund",
-                            PhoneNumber = "0761122334",
-                            ProfileUrl = "https://media.istockphoto.com/id/1682296067/photo/happy-studio-portrait-or-professional-man-real-estate-agent-or-asian-businessman-smile-for.jpg?s=612x612&w=0&k=20&c=9zbG2-9fl741fbTWw5fNgcEEe4ll-JegrGlQQ6m54rg=",
-                            RealtorFirmId = 3
-                        },
-                        new
-                        {
-                            Id = 5,
-                            Email = "johan@maklarkompaniet.se",
-                            FirstName = "Johan",
-                            LastName = "Bostad",
-                            PhoneNumber = "0723344556",
-                            ProfileUrl = "https://example.com/profiles/johan.png",
                             RealtorFirmId = 2
                         });
                 });
@@ -415,6 +393,316 @@ namespace BropertyBrosApi2._0.Migrations
                         });
                 });
 
+            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRole", b =>
+                {
+                    b.Property<string>("Id")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<string>("ConcurrencyStamp")
+                        .IsConcurrencyToken()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Name")
+                        .HasMaxLength(256)
+                        .HasColumnType("nvarchar(256)");
+
+                    b.Property<string>("NormalizedName")
+                        .HasMaxLength(256)
+                        .HasColumnType("nvarchar(256)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("NormalizedName")
+                        .IsUnique()
+                        .HasDatabaseName("RoleNameIndex")
+                        .HasFilter("[NormalizedName] IS NOT NULL");
+
+                    b.ToTable("AspNetRoles", (string)null);
+
+                    b.HasData(
+                        new
+                        {
+                            Id = "2d940884-5d22-4f47-83ff-c9f5f8e6bb9b",
+                            Name = "Realtor"
+                        },
+                        new
+                        {
+                            Id = "87ae444e-4797-4b07-8471-9e444e7ceaeb",
+                            Name = "Admin"
+                        });
+                });
+
+            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<string>("ClaimType")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("ClaimValue")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("RoleId")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(450)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("RoleId");
+
+                    b.ToTable("AspNetRoleClaims", (string)null);
+                });
+
+            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUser", b =>
+                {
+                    b.Property<string>("Id")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<int>("AccessFailedCount")
+                        .HasColumnType("int");
+
+                    b.Property<string>("ConcurrencyStamp")
+                        .IsConcurrencyToken()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Discriminator")
+                        .IsRequired()
+                        .HasMaxLength(13)
+                        .HasColumnType("nvarchar(13)");
+
+                    b.Property<string>("Email")
+                        .HasMaxLength(256)
+                        .HasColumnType("nvarchar(256)");
+
+                    b.Property<bool>("EmailConfirmed")
+                        .HasColumnType("bit");
+
+                    b.Property<bool>("LockoutEnabled")
+                        .HasColumnType("bit");
+
+                    b.Property<DateTimeOffset?>("LockoutEnd")
+                        .HasColumnType("datetimeoffset");
+
+                    b.Property<string>("NormalizedEmail")
+                        .HasMaxLength(256)
+                        .HasColumnType("nvarchar(256)");
+
+                    b.Property<string>("NormalizedUserName")
+                        .HasMaxLength(256)
+                        .HasColumnType("nvarchar(256)");
+
+                    b.Property<string>("PasswordHash")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("PhoneNumber")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<bool>("PhoneNumberConfirmed")
+                        .HasColumnType("bit");
+
+                    b.Property<string>("SecurityStamp")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<bool>("TwoFactorEnabled")
+                        .HasColumnType("bit");
+
+                    b.Property<string>("UserName")
+                        .HasMaxLength(256)
+                        .HasColumnType("nvarchar(256)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("NormalizedEmail")
+                        .HasDatabaseName("EmailIndex");
+
+                    b.HasIndex("NormalizedUserName")
+                        .IsUnique()
+                        .HasDatabaseName("UserNameIndex")
+                        .HasFilter("[NormalizedUserName] IS NOT NULL");
+
+                    b.ToTable("AspNetUsers", (string)null);
+
+                    b.HasDiscriminator().HasValue("IdentityUser");
+
+                    b.UseTphMappingStrategy();
+                });
+
+            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserClaim<string>", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<string>("ClaimType")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("ClaimValue")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("UserId")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(450)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("UserId");
+
+                    b.ToTable("AspNetUserClaims", (string)null);
+                });
+
+            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserLogin<string>", b =>
+                {
+                    b.Property<string>("LoginProvider")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<string>("ProviderKey")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<string>("ProviderDisplayName")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("UserId")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(450)");
+
+                    b.HasKey("LoginProvider", "ProviderKey");
+
+                    b.HasIndex("UserId");
+
+                    b.ToTable("AspNetUserLogins", (string)null);
+                });
+
+            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserRole<string>", b =>
+                {
+                    b.Property<string>("UserId")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<string>("RoleId")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.HasKey("UserId", "RoleId");
+
+                    b.HasIndex("RoleId");
+
+                    b.ToTable("AspNetUserRoles", (string)null);
+
+                    b.HasData(
+                        new
+                        {
+                            UserId = "064297ce-17ff-4e1b-a078-05e4d4e08944",
+                            RoleId = "2d940884-5d22-4f47-83ff-c9f5f8e6bb9b"
+                        },
+                        new
+                        {
+                            UserId = "96ce045a-44a7-4ec7-8816-1f4ffc127400",
+                            RoleId = "2d940884-5d22-4f47-83ff-c9f5f8e6bb9b"
+                        },
+                        new
+                        {
+                            UserId = "9d7fc5c7-e1ca-4b25-9859-dec2cc85e573",
+                            RoleId = "2d940884-5d22-4f47-83ff-c9f5f8e6bb9b"
+                        },
+                        new
+                        {
+                            UserId = "91033ec6-e770-4b9c-ad6f-83ee80a01b26",
+                            RoleId = "87ae444e-4797-4b07-8471-9e444e7ceaeb"
+                        });
+                });
+
+            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserToken<string>", b =>
+                {
+                    b.Property<string>("UserId")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<string>("LoginProvider")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<string>("Name")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<string>("Value")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("UserId", "LoginProvider", "Name");
+
+                    b.ToTable("AspNetUserTokens", (string)null);
+                });
+
+            modelBuilder.Entity("BropertyBrosApi.Models.AppUser", b =>
+                {
+                    b.HasBaseType("Microsoft.AspNetCore.Identity.IdentityUser");
+
+                    b.HasDiscriminator().HasValue("AppUser");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = "064297ce-17ff-4e1b-a078-05e4d4e08944",
+                            AccessFailedCount = 0,
+                            ConcurrencyStamp = "21dd539d-4565-4ddd-8c10-e7fb21022b0f",
+                            Email = "markus@bropertybros.se",
+                            EmailConfirmed = false,
+                            LockoutEnabled = false,
+                            PasswordHash = "AQAAAAIAAYagAAAAEFESZGDeOYgFb1CIZbVL7jfdyPZa3/xeqo9Sh0ctAHbZm8yISvKUDb65IOZ4IcKW3g==",
+                            PhoneNumber = "0705712647",
+                            PhoneNumberConfirmed = false,
+                            SecurityStamp = "02c42ac2-c5c5-4da5-8771-6d487c8f947e",
+                            TwoFactorEnabled = false,
+                            UserName = "markus@bropertybros.se"
+                        },
+                        new
+                        {
+                            Id = "9d7fc5c7-e1ca-4b25-9859-dec2cc85e573",
+                            AccessFailedCount = 0,
+                            ConcurrencyStamp = "21dd539d-4565-4ddd-8c10-e7fb21022b0f",
+                            Email = "sanna@bropertybros.se",
+                            EmailConfirmed = false,
+                            LockoutEnabled = false,
+                            PasswordHash = "AQAAAAIAAYagAAAAEFESZGDeOYgFb1CIZbVL7jfdyPZa3/xeqo9Sh0ctAHbZm8yISvKUDb65IOZ4IcKW3g==",
+                            PhoneNumber = "0731234567",
+                            PhoneNumberConfirmed = false,
+                            SecurityStamp = "02c42ac2-c5c5-4da5-8771-6d487c8f947e",
+                            TwoFactorEnabled = false,
+                            UserName = "sanna@bropertybros.se"
+                        },
+                        new
+                        {
+                            Id = "96ce045a-44a7-4ec7-8816-1f4ffc127400",
+                            AccessFailedCount = 0,
+                            ConcurrencyStamp = "21dd539d-4565-4ddd-8c10-e7fb21022b0f",
+                            Email = "erik@maklarkompaniet.se",
+                            EmailConfirmed = false,
+                            LockoutEnabled = false,
+                            PasswordHash = "AQAAAAIAAYagAAAAEFESZGDeOYgFb1CIZbVL7jfdyPZa3/xeqo9Sh0ctAHbZm8yISvKUDb65IOZ4IcKW3g==",
+                            PhoneNumber = "0704455667",
+                            PhoneNumberConfirmed = false,
+                            SecurityStamp = "02c42ac2-c5c5-4da5-8771-6d487c8f947e",
+                            TwoFactorEnabled = false,
+                            UserName = "erik@maklarkompaniet.se"
+                        },
+                        new
+                        {
+                            Id = "91033ec6-e770-4b9c-ad6f-83ee80a01b26",
+                            AccessFailedCount = 0,
+                            ConcurrencyStamp = "21dd539d-4565-4ddd-8c10-e7fb21022b0f",
+                            Email = "admin@admin.com",
+                            EmailConfirmed = false,
+                            LockoutEnabled = false,
+                            PasswordHash = "AQAAAAIAAYagAAAAEFESZGDeOYgFb1CIZbVL7jfdyPZa3/xeqo9Sh0ctAHbZm8yISvKUDb65IOZ4IcKW3g==",
+                            PhoneNumber = "0123456789",
+                            PhoneNumberConfirmed = false,
+                            SecurityStamp = "02c42ac2-c5c5-4da5-8771-6d487c8f947e",
+                            TwoFactorEnabled = false,
+                            UserName = "admin@admin.com"
+                        });
+                });
+
             modelBuilder.Entity("BropertyBrosApi.Models.Property", b =>
                 {
                     b.HasOne("BropertyBrosApi.Models.Category", "Category")
@@ -444,13 +732,72 @@ namespace BropertyBrosApi2._0.Migrations
 
             modelBuilder.Entity("BropertyBrosApi.Models.Realtor", b =>
                 {
+                    b.HasOne("BropertyBrosApi.Models.AppUser", "AppUser")
+                        .WithOne("Realtor")
+                        .HasForeignKey("BropertyBrosApi.Models.Realtor", "AppUserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
                     b.HasOne("BropertyBrosApi.Models.RealtorFirm", "RealtorFirm")
                         .WithMany("Realtors")
                         .HasForeignKey("RealtorFirmId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
+                    b.Navigation("AppUser");
+
                     b.Navigation("RealtorFirm");
+                });
+
+            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
+                {
+                    b.HasOne("Microsoft.AspNetCore.Identity.IdentityRole", null)
+                        .WithMany()
+                        .HasForeignKey("RoleId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserClaim<string>", b =>
+                {
+                    b.HasOne("Microsoft.AspNetCore.Identity.IdentityUser", null)
+                        .WithMany()
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserLogin<string>", b =>
+                {
+                    b.HasOne("Microsoft.AspNetCore.Identity.IdentityUser", null)
+                        .WithMany()
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserRole<string>", b =>
+                {
+                    b.HasOne("Microsoft.AspNetCore.Identity.IdentityRole", null)
+                        .WithMany()
+                        .HasForeignKey("RoleId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("Microsoft.AspNetCore.Identity.IdentityUser", null)
+                        .WithMany()
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserToken<string>", b =>
+                {
+                    b.HasOne("Microsoft.AspNetCore.Identity.IdentityUser", null)
+                        .WithMany()
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
                 });
 
             modelBuilder.Entity("BropertyBrosApi.Models.Realtor", b =>
@@ -461,6 +808,11 @@ namespace BropertyBrosApi2._0.Migrations
             modelBuilder.Entity("BropertyBrosApi.Models.RealtorFirm", b =>
                 {
                     b.Navigation("Realtors");
+                });
+
+            modelBuilder.Entity("BropertyBrosApi.Models.AppUser", b =>
+                {
+                    b.Navigation("Realtor");
                 });
 #pragma warning restore 612, 618
         }

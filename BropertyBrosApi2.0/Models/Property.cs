@@ -4,7 +4,7 @@
     public class Property
     {
         public int Id { get; set; }
-        public string RealtorId { get; set; } = null!;
+        public int RealtorId { get; set; }
         public int CityId { get; set; }
         public int CategoryId { get; set; }
 
@@ -19,7 +19,7 @@
         public int NumberOfRooms { get; set; }
         public int BuildYear { get; set; }
         public List<string> ImageUrls { get; set; } = null!;
-        public DateTime CreatedAt { get; set; } = DateTime.UtcNow;
+        public DateTime CreatedAt { get; set; }
 
         public virtual Realtor Realtor { get; set; } = null!;
         public virtual City City { get; set; } = null!;

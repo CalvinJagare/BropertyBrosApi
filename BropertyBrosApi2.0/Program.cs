@@ -1,5 +1,6 @@
 
 using BropertyBrosApi.Data;
+using BropertyBrosApi.Models;
 using BropertyBrosApi2._0.Repositories;
 using BropertyBrosApi2._0.Repositories.RepInterfaces;
 using Microsoft.AspNetCore.Identity;
@@ -15,7 +16,7 @@ namespace BropertyBrosApi2._0
             var builder = WebApplication.CreateBuilder(args);
 
             // Add services to the container.
-            builder.Services.AddIdentityCore<IdentityUser>()
+            builder.Services.AddIdentityCore<AppUser>()
                 .AddRoles<IdentityRole>()
                 .AddEntityFrameworkStores<ApplicationDbContext>();
 
@@ -24,7 +25,9 @@ namespace BropertyBrosApi2._0
             builder.Services.AddEndpointsApiExplorer();
             builder.Services.AddSwaggerGen();
             builder.Services.AddDbContext<ApplicationDbContext>(options =>
-                options.UseSqlServer(builder.Configuration.GetConnectionString("BropertyDb")));
+            {
+                options.UseSqlServer(builder.Configuration.GetConnectionString("BropertyDb"));
+            });
             builder.Services.AddAutoMapper(typeof(Program));
             builder.Services.AddScoped<ICategoryRepository, CategoryRepository>();
             builder.Services.AddScoped<IRealtorRepository, RealtorRepository>();

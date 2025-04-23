@@ -5,7 +5,7 @@ namespace BropertyBrosApi2._0.Repositories.RepInterfaces
     //Author: Daniel
     public interface IRealtorRepository
     {
-        Task<Realtor> GetByIdAsync(string id);
+        Task<Realtor> GetByIdAsync(int id);
         Task<IEnumerable<Realtor>> GetAllAsync();
         Task Add(Realtor realtor);
         Task Update(Realtor realtor);
