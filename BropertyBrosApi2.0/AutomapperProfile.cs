@@ -1,5 +1,7 @@
 ﻿using AutoMapper;
 using BropertyBrosApi.Models;
+using BropertyBrosApi2._0.Data;
+using BropertyBrosApi2._0.DTOs;
 using BropertyBrosApi2._0.DTOs.Category;
 using BropertyBrosApi2._0.DTOs.City;
 using BropertyBrosApi2._0.DTOs.Properties;
@@ -35,6 +37,8 @@ namespace BropertyBrosApi2._0
             CreateMap<RealtorFirmCreateDto, RealtorFirm>();
             CreateMap<RealtorFirm, RealtorFirmReadDto>()
                 .ForMember(dest => dest.Realtors, opt => opt.MapFrom(src => src.Realtors));
+            CreateMap<ApiUser, UserDto>().ReverseMap();
+
         }
     }   
 }
