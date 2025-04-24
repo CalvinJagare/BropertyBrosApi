@@ -1,5 +1,6 @@
 
 using BropertyBrosApi.Data;
+using BropertyBrosApi2._0.Models;
 using BropertyBrosApi2._0.Repositories;
 using BropertyBrosApi2._0.Repositories.RepInterfaces;
 using Microsoft.AspNetCore.Identity;
@@ -15,7 +16,7 @@ namespace BropertyBrosApi2._0
             var builder = WebApplication.CreateBuilder(args);
 
             // Add services to the container.
-            builder.Services.AddIdentityCore<IdentityUser>()
+            builder.Services.AddIdentityCore<ApiUser>()
                 .AddRoles<IdentityRole>()
                 .AddEntityFrameworkStores<ApplicationDbContext>();
 

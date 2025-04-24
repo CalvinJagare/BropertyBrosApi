@@ -1,6 +1,9 @@
 ﻿using BropertyBrosApi.Models;
+using BropertyBrosApi2._0.Models;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.OpenApi.Services;
 
 namespace BropertyBrosApi.Data
 {
@@ -18,9 +21,31 @@ namespace BropertyBrosApi.Data
         public DbSet<Realtor> Realtors { get; set; }
 
         //Author: Calvin
+        
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);
+
+            //IdentityRoles
+            //Author: Nayab
+            modelBuilder.Entity<IdentityRole>().HasData(
+                new IdentityRole
+                {
+                    Name = "User",
+                    NormalizedName = "USER",
+                    Id = "83cf5828-997c-4ca8-8384-7fb562d17900"
+                },
+                new IdentityRole
+                {
+                    Name = "Admin",
+                    NormalizedName = "ADMIN",
+                    Id = "83cf5828-997c-4ca8-8384-7fb562d17900"
+                }
+            );
+
+            //Users
+            //Author: Nayab
+            modelBuilder.Entity<ApiUser>
 
             // Categories 
             modelBuilder.Entity<Category>().HasData(
@@ -142,7 +167,7 @@ namespace BropertyBrosApi.Data
                     Description = "Fin bostadsrätt i centrala Stockholm.",
                     NumberOfRooms = 3,
                     BuildYear = 2010,
-                    ImageUrls = new List<string>() {"https://coralhomes.com.au/wp-content/uploads/Grange-258Q-Harmony-Lodge-Facade-2-1190x680.jpg"},
+                    ImageUrls = new List<string>() { "https://coralhomes.com.au/wp-content/uploads/Grange-258Q-Harmony-Lodge-Facade-2-1190x680.jpg" },
                     CreatedAt = new DateTime(2024, 01, 01, 12, 00, 00, DateTimeKind.Utc),
                     RealtorId = 1,
                     CityId = 1,
@@ -207,5 +232,5 @@ namespace BropertyBrosApi.Data
                 }
             );
         }
-    }        
+    }
 }
