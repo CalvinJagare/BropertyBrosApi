@@ -58,7 +58,7 @@ namespace BropertyBrosApi2._0.Controllers
                     return NotFound();
                 }
 
-                var realtorFirmReadDto = _mapper.Map<RealtorFirm>(realtorFirm);
+                var realtorFirmReadDto = _mapper.Map<RealtorFirmReadDto>(realtorFirm);
 
                 return Ok(realtorFirmReadDto);
             }

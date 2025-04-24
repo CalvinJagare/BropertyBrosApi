@@ -21,12 +21,6 @@ namespace BropertyBrosApi.Data
         public DbSet<RealtorFirm> RealtorFirms { get; set; }
         public DbSet<Realtor> Realtors { get; set; }
 
-        //protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
-        //{
-        //    optionsBuilder.ConfigureWarnings(warnings =>
-        //        warnings.Ignore(RelationalEventId.PendingModelChangesWarning));
-        //}
-        //Author: Calvin
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);
