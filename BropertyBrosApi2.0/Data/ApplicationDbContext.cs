@@ -39,13 +39,51 @@ namespace BropertyBrosApi.Data
                 {
                     Name = "Admin",
                     NormalizedName = "ADMIN",
-                    Id = "83cf5828-997c-4ca8-8384-7fb562d17900"
+                    Id = "066c0b50-0dc1-4ed8-8cb2-e3b22e8f5782"
                 }
             );
 
             //Users
             //Author: Nayab
-            modelBuilder.Entity<ApiUser>
+            var hasher = new PasswordHasher<ApiUser>();
+            modelBuilder.Entity<ApiUser>().HasData(
+                new ApiUser
+                {
+                    Id = "0f654a33-93f1-494d-a833-b1e90c93d02e",
+                    Email = "admin@admin.com",
+                    NormalizedEmail = "ADMIN@ADMIN.COM",
+                    UserName = "admin@admin.com",
+                    NormalizedUserName = "ADMIN@ADMIN.COM",
+                    FirstName = "System",
+                    LastName = "Admin",
+                    PasswordHash = "AQAAAAIAAYagAAAAEJUyKPjPFku0ZUDURlueib/er2CHsj2LI893okbF1x1OS/2vUeb4ShyeA4kxzQuKag==",
+                    EmailConfirmed = true
+                },
+                new ApiUser
+                {
+                    Id = "03e55603-8b93-4653-be93-c5ad8fafde7c",
+                    Email = "user@user.com",
+                    NormalizedEmail = "USER@USER.COM",
+                    UserName = "user@user.com",
+                    NormalizedUserName = "USER@USER.COM",
+                    FirstName = "Frontend",
+                    LastName = "User",
+                    PasswordHash = "AQAAAAIAAYagAAAAEDEVswFEYDaxzDvXcovL6L7i1ypBzHkb6/hIaMXSCqMJmKEtKaJ96kHlJ5cO1vApcw==",
+                    EmailConfirmed = true
+                }
+             );
+            modelBuilder.Entity<IdentityUserRole<string>>().HasData(
+                new IdentityUserRole<string>
+                {
+                    RoleId = "83cf5828-997c-4ca8-8384-7fb562d17900",
+                    UserId = "03e55603-8b93-4653-be93-c5ad8fafde7c"
+                },
+                new IdentityUserRole<string>
+                {
+                    RoleId = "066c0b50-0dc1-4ed8-8cb2-e3b22e8f5782",
+                    UserId = "0f654a33-93f1-494d-a833-b1e90c93d02e"
+                }
+             );
 
             // Categories 
             modelBuilder.Entity<Category>().HasData(
