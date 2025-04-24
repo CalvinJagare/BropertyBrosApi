@@ -3,8 +3,11 @@ using BropertyBrosApi.Data;
 using BropertyBrosApi.Models;
 using BropertyBrosApi2._0.Repositories;
 using BropertyBrosApi2._0.Repositories.RepInterfaces;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.IdentityModel.Tokens;
+using System.Text;
 
 namespace BropertyBrosApi2._0
 {
@@ -34,6 +37,7 @@ namespace BropertyBrosApi2._0
             builder.Services.AddScoped<IPropertyRepository, PropertyRepository>();
             builder.Services.AddScoped<ICityRepository, CityRepository>();
             builder.Services.AddScoped<IRealtorFirmRepository, RealtorFirmRepository>();
+            builder.Services.AddScoped<TokenService>();
 
             builder.Services.AddCors(options =>
             {
@@ -44,7 +48,27 @@ namespace BropertyBrosApi2._0
                                .AllowAnyMethod()
                                .AllowAnyHeader();
                     });
-            });           
+            });
+
+            builder.Services.AddAuthentication(o =>
+            {
+                o.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+                o.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+            })
+            .AddJwtBearer(o =>
+            {
+                o.TokenValidationParameters = new TokenValidationParameters
+                {
+                    ValidateIssuerSigningKey = true,
+                    ValidateIssuer = true,
+                    ValidateAudience = true,
+                    ValidateLifetime = true,
+                    ClockSkew = TimeSpan.Zero,
+                    ValidIssuer = builder.Configuration["JwtSettings:Issuer"],
+                    ValidAudience = builder.Configuration["JwtSettings:Audience"],
+                    IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(builder.Configuration["JwtSettings:Key"]))
+                };
+            });
 
             var app = builder.Build();
 
@@ -59,8 +83,8 @@ namespace BropertyBrosApi2._0
 
             app.UseHttpsRedirection();
 
+            app.UseAuthentication();
             app.UseAuthorization();
-
 
             app.MapControllers();
 
