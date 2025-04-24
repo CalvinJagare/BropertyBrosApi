@@ -10,7 +10,6 @@
         public string? Email { get; set; }
         public string? ProfileUrl { get; set; }
         public virtual List<Property> Properties { get; set; } = new List<Property>();
-
         public virtual RealtorFirm? RealtorFirm { get; set; }
         public int RealtorFirmId { get; set; } 
     }

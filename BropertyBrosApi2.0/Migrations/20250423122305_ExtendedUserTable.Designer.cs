@@ -4,6 +4,7 @@ using BropertyBrosApi.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace BropertyBrosApi2._0.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20250423122305_ExtendedUserTable")]
+    partial class ExtendedUserTable
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -483,44 +486,6 @@ namespace BropertyBrosApi2._0.Migrations
                         .HasFilter("[NormalizedUserName] IS NOT NULL");
 
                     b.ToTable("AspNetUsers", (string)null);
-
-                    b.HasData(
-                        new
-                        {
-                            Id = "610effcf-b80c-4ef7-bf8e-e188c80e68c3",
-                            AccessFailedCount = 0,
-                            ConcurrencyStamp = "d40f43ee-f99a-4e95-b2dd-28a3b01a3cfc",
-                            Email = "admin@demoapi.com",
-                            EmailConfirmed = true,
-                            FirstName = "System",
-                            LastName = "Admin",
-                            LockoutEnabled = false,
-                            NormalizedEmail = "ADMIN@DEMOAPI.COM",
-                            NormalizedUserName = "ADMIN@DEMOAPI.COM",
-                            PasswordHash = "AQAAAAIAAYagAAAAECjq5JBLqsB4nqMRn2k0LKZ4bwXZorJ4Mx9NNyRAQswVUiPXQFrZ5LJ8WkgQ6ziG1g==",
-                            PhoneNumberConfirmed = false,
-                            SecurityStamp = "acaf61b8-56ac-4ccf-80aa-65bf2e82fefe",
-                            TwoFactorEnabled = false,
-                            UserName = "admin@demoapi.com"
-                        },
-                        new
-                        {
-                            Id = "0ef2201d-5544-4b52-9dff-eaf2edf5fb8d",
-                            AccessFailedCount = 0,
-                            ConcurrencyStamp = "640d592d-8e7c-4e01-96c9-0b83ddf44105",
-                            Email = "user@demoapi.com",
-                            EmailConfirmed = true,
-                            FirstName = "System",
-                            LastName = "User",
-                            LockoutEnabled = false,
-                            NormalizedEmail = "USER@DEMOAPI.COM",
-                            NormalizedUserName = "USER@DEMOAPI.COM",
-                            PasswordHash = "AQAAAAIAAYagAAAAECjq5JBLqsB4nqMRn2k0LKZ4bwXZorJ4Mx9NNyRAQswVUiPXQFrZ5LJ8WkgQ6ziG1g==",
-                            PhoneNumberConfirmed = false,
-                            SecurityStamp = "49e2bf44-8c4b-47d5-b492-7c8292a14493",
-                            TwoFactorEnabled = false,
-                            UserName = "user@demoapi.com"
-                        });
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRole", b =>
@@ -548,20 +513,6 @@ namespace BropertyBrosApi2._0.Migrations
                         .HasFilter("[NormalizedName] IS NOT NULL");
 
                     b.ToTable("AspNetRoles", (string)null);
-
-                    b.HasData(
-                        new
-                        {
-                            Id = "0815e599-bd3f-40c2-86bc-823bcf0a70c8",
-                            Name = "User",
-                            NormalizedName = "User"
-                        },
-                        new
-                        {
-                            Id = "90ad6ea8-a4e8-4323-af6f-2d1872e038f0",
-                            Name = "Admin",
-                            NormalizedName = "Admin"
-                        });
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
@@ -649,18 +600,6 @@ namespace BropertyBrosApi2._0.Migrations
                     b.HasIndex("RoleId");
 
                     b.ToTable("AspNetUserRoles", (string)null);
-
-                    b.HasData(
-                        new
-                        {
-                            UserId = "610effcf-b80c-4ef7-bf8e-e188c80e68c3",
-                            RoleId = "90ad6ea8-a4e8-4323-af6f-2d1872e038f0"
-                        },
-                        new
-                        {
-                            UserId = "0ef2201d-5544-4b52-9dff-eaf2edf5fb8d",
-                            RoleId = "0815e599-bd3f-40c2-86bc-823bcf0a70c8"
-                        });
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserToken<string>", b =>

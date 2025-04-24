@@ -1,10 +1,15 @@
 ﻿using BropertyBrosApi.Models;
+using BropertyBrosApi2._0.Constants;
+using BropertyBrosApi2._0.Data;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
+
 
 namespace BropertyBrosApi.Data
 {
     //Author: Calvin, Daniel, Emil
-    public class ApplicationDbContext : DbContext
+    public class ApplicationDbContext : IdentityDbContext<ApiUser>
     {
         public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options) : base(options)
         {
@@ -141,7 +146,7 @@ namespace BropertyBrosApi.Data
                     Description = "Fin bostadsrätt i centrala Stockholm.",
                     NumberOfRooms = 3,
                     BuildYear = 2010,
-                    ImageUrls = new List<string>() {"https://coralhomes.com.au/wp-content/uploads/Grange-258Q-Harmony-Lodge-Facade-2-1190x680.jpg"},
+                    ImageUrls = new List<string>() { "https://coralhomes.com.au/wp-content/uploads/Grange-258Q-Harmony-Lodge-Facade-2-1190x680.jpg" },
                     CreatedAt = new DateTime(2024, 01, 01, 12, 00, 00, DateTimeKind.Utc),
                     RealtorId = 1,
                     CityId = 1,
@@ -205,6 +210,78 @@ namespace BropertyBrosApi.Data
                     CategoryId = 7
                 }
             );
+
+
+            modelBuilder.Entity<IdentityRole>().HasData(
+                new IdentityRole
+                {
+                    Name = ApiRoles.User,
+                    NormalizedName = ApiRoles.User,
+                    Id = "0815e599-bd3f-40c2-86bc-823bcf0a70c8"
+
+                },
+                new IdentityRole
+                {
+                    Name = ApiRoles.Admin,
+                    NormalizedName = ApiRoles.Admin,
+                    Id = "90ad6ea8-a4e8-4323-af6f-2d1872e038f0"
+                }
+
+
+                );
+
+            var hasher = new PasswordHasher<ApiUser>();
+            modelBuilder.Entity<ApiUser>().HasData(
+           new ApiUser
+           {
+
+               Id = "610effcf-b80c-4ef7-bf8e-e188c80e68c3",
+               Email = "admin@demoapi.com",
+               NormalizedEmail = "ADMIN@DEMOAPI.COM",
+               UserName = "admin@demoapi.com",
+               NormalizedUserName = "ADMIN@DEMOAPI.COM",
+               FirstName = "System",
+               LastName = "Admin",
+               PasswordHash = "AQAAAAIAAYagAAAAECjq5JBLqsB4nqMRn2k0LKZ4bwXZorJ4Mx9NNyRAQswVUiPXQFrZ5LJ8WkgQ6ziG1g==",
+               SecurityStamp = "acaf61b8-56ac-4ccf-80aa-65bf2e82fefe",
+               ConcurrencyStamp = "d40f43ee-f99a-4e95-b2dd-28a3b01a3cfc",
+               EmailConfirmed = true
+
+           },
+           new ApiUser
+           {
+
+               Id = "0ef2201d-5544-4b52-9dff-eaf2edf5fb8d",
+               Email = "user@demoapi.com",
+               NormalizedEmail = "USER@DEMOAPI.COM",
+               UserName = "user@demoapi.com",
+               NormalizedUserName = "USER@DEMOAPI.COM",
+               FirstName = "System",
+               LastName = "User",
+               PasswordHash = "AQAAAAIAAYagAAAAECjq5JBLqsB4nqMRn2k0LKZ4bwXZorJ4Mx9NNyRAQswVUiPXQFrZ5LJ8WkgQ6ziG1g==",
+               SecurityStamp = "49e2bf44-8c4b-47d5-b492-7c8292a14493",
+               ConcurrencyStamp = "640d592d-8e7c-4e01-96c9-0b83ddf44105",
+               EmailConfirmed = true
+           }
+
+
+           );
+
+            modelBuilder.Entity<IdentityUserRole<string>>().HasData(
+                new IdentityUserRole<string>
+                {
+                    RoleId = "90ad6ea8-a4e8-4323-af6f-2d1872e038f0",
+                    UserId = "610effcf-b80c-4ef7-bf8e-e188c80e68c3"
+                },
+                new IdentityUserRole<string>
+                {
+                    RoleId = "0815e599-bd3f-40c2-86bc-823bcf0a70c8",
+                    UserId = "0ef2201d-5544-4b52-9dff-eaf2edf5fb8d"
+                }
+            );
+
+
+
         }
-    }        
+    }
 }

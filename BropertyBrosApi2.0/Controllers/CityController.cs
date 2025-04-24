@@ -11,6 +11,8 @@ using AutoMapper;
 using BropertyBrosApi2._0.DTOs.City;
 using BropertyBrosApi2._0.Repositories.RepInterfaces;
 using BropertyBrosApi2._0.Repositories;
+using Microsoft.AspNetCore.Authorization;
+using BropertyBrosApi2._0.Constants;
 
 namespace BropertyBrosApi2._0.Controllers
 {
@@ -18,6 +20,7 @@ namespace BropertyBrosApi2._0.Controllers
     //Co-Author: Emil, Arlind, Nayab
     [Route("api/[controller]")]
     [ApiController]
+    [Authorize]
     public class CityController : ControllerBase
     {
         private readonly ICityRepository cityRepository;
@@ -71,6 +74,7 @@ namespace BropertyBrosApi2._0.Controllers
         // PUT: api/Citiy/5
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPut("{id}")]
+        [Authorize(Roles = ApiRoles.Admin)]
         public async Task<IActionResult> PutCity(int id, CityCreateDto cityCreateDto)
         {
             try

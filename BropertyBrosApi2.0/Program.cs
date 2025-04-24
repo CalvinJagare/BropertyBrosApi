@@ -1,8 +1,14 @@
 
 using BropertyBrosApi.Data;
+using BropertyBrosApi2._0.Data;
 using BropertyBrosApi2._0.Repositories;
 using BropertyBrosApi2._0.Repositories.RepInterfaces;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.IdentityModel.Tokens;
+using System.Text;
+
 
 namespace BropertyBrosApi2._0
 {
@@ -11,9 +17,19 @@ namespace BropertyBrosApi2._0
     {
         public static void Main(string[] args)
         {
+
             var builder = WebApplication.CreateBuilder(args);
 
+            var hasher = new PasswordHasher<ApiUser>();
+            var hash = hasher.HashPassword(null, "Test123!");
+            Console.WriteLine("Hash: " + hash);
+
             // Add services to the container.
+
+            builder.Services.AddIdentityCore<ApiUser>()
+                .AddRoles<IdentityRole>()
+                .AddEntityFrameworkStores<ApplicationDbContext>();
+
 
             builder.Services.AddControllers();
             // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
@@ -37,7 +53,26 @@ namespace BropertyBrosApi2._0
                                .AllowAnyMethod()
                                .AllowAnyHeader();
                     });
-            });           
+            });
+
+            builder.Services.AddAuthentication(options =>
+            {
+                options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+                options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+            }).AddJwtBearer(options =>
+            {
+                options.TokenValidationParameters = new TokenValidationParameters
+                {
+                    ValidateIssuer = true,
+                    ValidateAudience = true,
+                    ValidateLifetime = true,
+                    ValidateIssuerSigningKey = true,
+                    ClockSkew = TimeSpan.Zero,
+                    ValidIssuer = builder.Configuration["JwtSettings:Issuer"],
+                    ValidAudience = builder.Configuration["JwtSettings:Audience"],
+                    IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(builder.Configuration["JwtSettings:Key"]))
+                };
+            }); 
 
             var app = builder.Build();
 
@@ -52,6 +87,7 @@ namespace BropertyBrosApi2._0
 
             app.UseHttpsRedirection();
 
+            app.UseAuthentication();
             app.UseAuthorization();
 
 
