@@ -11,6 +11,8 @@ using AutoMapper;
 using BropertyBrosApi2._0.DTOs.Properties;
 using BropertyBrosApi2._0.Repositories.RepInterfaces;
 using BropertyBrosApi2._0.Repositories;
+using Microsoft.AspNetCore.Authorization;
+using BropertyBrosApi2._0.Constants;
 
 namespace BropertyBrosApi2._0.Controllers
 {
@@ -152,7 +154,7 @@ namespace BropertyBrosApi2._0.Controllers
                 _mapper.Map(properties, propertyReadDtos);
                 return Ok(propertyReadDtos);
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 return BadRequest(ex.Message);
             }
@@ -160,7 +162,7 @@ namespace BropertyBrosApi2._0.Controllers
 
         [HttpPost]
         [Route("GetPropertiesBySearch/")]
-        public async Task<ActionResult<IEnumerable<PropertyReadDto>>> GetPropertiesBySearch([FromBody]PropertySearchDto propertySearchDto)
+        public async Task<ActionResult<IEnumerable<PropertyReadDto>>> GetPropertiesBySearch([FromBody] PropertySearchDto propertySearchDto)
         {
             var properties = await propertyRepository.GetBySearchAsync(propertySearchDto);
 

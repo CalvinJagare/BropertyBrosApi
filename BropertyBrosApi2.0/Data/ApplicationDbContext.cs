@@ -1,10 +1,15 @@
 ﻿using BropertyBrosApi.Models;
+using BropertyBrosApi2._0.Constants;
+using BropertyBrosApi2._0.Data;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
+using System.Diagnostics;
 
 namespace BropertyBrosApi.Data
 {
     //Author: Calvin, Daniel, Emil
-    public class ApplicationDbContext : DbContext
+    public class ApplicationDbContext : IdentityDbContext<ApiUser>
     {
         public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options) : base(options)
         {
@@ -20,6 +25,68 @@ namespace BropertyBrosApi.Data
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);
+
+            //Roles
+            modelBuilder.Entity<IdentityRole>().HasData(
+                new IdentityRole
+                {
+                    Id = "5fb43755-efa6-428e-8f70-024d3294c7b6",
+                    Name = IdentityRoles.Admin,
+                    NormalizedName = IdentityRoles.Admin.ToUpper()
+                },
+                new IdentityRole
+                {
+                    Id = "bc472e9f-773c-4e71-a524-f37911680d76",
+                    Name = IdentityRoles.User,
+                    NormalizedName = IdentityRoles.User.ToUpper()
+                }
+            );
+
+            //Users
+            modelBuilder.Entity<ApiUser>().HasData(
+                new ApiUser
+                {
+                    Id = "da73186d-928a-4e7b-af8e-d69ebe4ea2c9",
+                    Email = "admin@broperty.com",
+                    NormalizedEmail = "ADMIN@BROPERTY.COM",
+                    UserName = "admin@broperty.com",
+                    NormalizedUserName = "ADMIN@BROPERTY.COM",
+                    FirstName = "Chad",
+                    LastName = "Broperty",
+                    PasswordHash = "AQAAAAIAAYagAAAAELeUE3g9g6OTSqBTc9ton2GMurerIw4dCslq57D14LC8knhko3oWy/20+BxhAdO/UA==",
+                    SecurityStamp = "abe6397f-14eb-4a7a-979e-18f7cbffb787",
+                    ConcurrencyStamp = "d3c5ba60-0a1a-4c99-8646-41e8d3c350a9",
+                    EmailConfirmed = true,
+                },
+                new ApiUser
+                {
+                    Id = "e537ba2e-a85f-4c2e-bd43-2940963f7856",
+                    Email = "user@broperty.com",
+                    NormalizedEmail = "USER@BROPERTY.COM",
+                    UserName = "user@broperty.com",
+                    NormalizedUserName = "USER@BROPERTY.COM",
+                    FirstName = "Emil",
+                    LastName = "Svensson",
+                    PasswordHash = "AQAAAAIAAYagAAAAEBX1pIrj+1YNKaog05C+oOx9U5r/rvnyN4SvLNfSqUr1zL54+iXnda0ujBN9v6wdeQ==",
+                    SecurityStamp = "02c42ac2-c5c5-4da5-8771-6d487c8f947e",
+                    ConcurrencyStamp = "21dd539d-4565-4ddd-8c10-e7fb21022b0f",
+                    EmailConfirmed = true,
+                }
+            );
+
+            // User roles
+            modelBuilder.Entity<IdentityUserRole<string>>().HasData(
+                new IdentityUserRole<string>
+                {
+                    UserId = "da73186d-928a-4e7b-af8e-d69ebe4ea2c9",
+                    RoleId = "5fb43755-efa6-428e-8f70-024d3294c7b6"
+                },
+                new IdentityUserRole<string>
+                {
+                    UserId = "e537ba2e-a85f-4c2e-bd43-2940963f7856",
+                    RoleId = "bc472e9f-773c-4e71-a524-f37911680d76"
+                }
+            );
 
             // Categories 
             modelBuilder.Entity<Category>().HasData(
@@ -141,7 +208,7 @@ namespace BropertyBrosApi.Data
                     Description = "Fin bostadsrätt i centrala Stockholm.",
                     NumberOfRooms = 3,
                     BuildYear = 2010,
-                    ImageUrls = new List<string>() {"https://coralhomes.com.au/wp-content/uploads/Grange-258Q-Harmony-Lodge-Facade-2-1190x680.jpg"},
+                    ImageUrls = new List<string>() { "https://coralhomes.com.au/wp-content/uploads/Grange-258Q-Harmony-Lodge-Facade-2-1190x680.jpg" },
                     CreatedAt = new DateTime(2024, 01, 01, 12, 00, 00, DateTimeKind.Utc),
                     RealtorId = 1,
                     CityId = 1,
@@ -206,5 +273,5 @@ namespace BropertyBrosApi.Data
                 }
             );
         }
-    }        
+    }
 }
