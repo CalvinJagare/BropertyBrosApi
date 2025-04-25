@@ -1,8 +1,13 @@
 
 using BropertyBrosApi.Data;
+using BropertyBrosApi2._0.Data;
 using BropertyBrosApi2._0.Repositories;
 using BropertyBrosApi2._0.Repositories.RepInterfaces;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.IdentityModel.Tokens;
+using System.Diagnostics;
 
 namespace BropertyBrosApi2._0
 {
@@ -15,12 +20,17 @@ namespace BropertyBrosApi2._0
 
             // Add services to the container.
 
+            builder.Services.AddDbContext<ApplicationDbContext>(options =>
+                options.UseSqlServer(builder.Configuration.GetConnectionString("BropertyDb")));
+
+            builder.Services.AddIdentityCore<ApiUser>()
+                .AddRoles<IdentityRole>()
+                .AddEntityFrameworkStores<ApplicationDbContext>();
+
             builder.Services.AddControllers();
             // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
             builder.Services.AddEndpointsApiExplorer();
             builder.Services.AddSwaggerGen();
-            builder.Services.AddDbContext<ApplicationDbContext>(options =>
-                options.UseSqlServer(builder.Configuration.GetConnectionString("BropertyDb")));
             builder.Services.AddAutoMapper(typeof(Program));
             builder.Services.AddScoped<ICategoryRepository, CategoryRepository>();
             builder.Services.AddScoped<IRealtorRepository, RealtorRepository>();
@@ -37,7 +47,26 @@ namespace BropertyBrosApi2._0
                                .AllowAnyMethod()
                                .AllowAnyHeader();
                     });
-            });           
+            });
+
+            builder.Services.AddAuthentication(options =>
+            {
+                options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+                options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+            }).AddJwtBearer(options =>
+            {
+                options.TokenValidationParameters = new TokenValidationParameters
+                {
+                    ValidateIssuerSigningKey = true,
+                    ValidateIssuer = true,
+                    ValidateAudience = true,
+                    ValidateLifetime = true,
+                    ClockSkew = TimeSpan.Zero,
+                    ValidIssuer = builder.Configuration["JwtSettings:Issuer"],
+                    ValidAudience = builder.Configuration["JwtSettings:Audience"],
+                    IssuerSigningKey = new SymmetricSecurityKey(System.Text.Encoding.UTF8.GetBytes(builder.Configuration["JwtSettings:Key"]))
+                };
+            });
 
             var app = builder.Build();
 
@@ -53,7 +82,6 @@ namespace BropertyBrosApi2._0
             app.UseHttpsRedirection();
 
             app.UseAuthorization();
-
 
             app.MapControllers();
 

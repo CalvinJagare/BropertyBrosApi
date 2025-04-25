@@ -1,10 +1,12 @@
 ﻿using AutoMapper;
 using BropertyBrosApi.Models;
+using BropertyBrosApi2._0.Data;
 using BropertyBrosApi2._0.DTOs.Category;
 using BropertyBrosApi2._0.DTOs.City;
 using BropertyBrosApi2._0.DTOs.Properties;
 using BropertyBrosApi2._0.DTOs.Realtor;
 using BropertyBrosApi2._0.DTOs.RealtorFirm;
+using BropertyBrosApi2._0.DTOs.User;
 
 namespace BropertyBrosApi2._0
 {
@@ -14,8 +16,12 @@ namespace BropertyBrosApi2._0
     {
         public AutomapperProfile()
         {
+            CreateMap<ApiUser, UserDto>();
+            CreateMap<UserDto, ApiUser>()
+                .ForMember(dest => dest.UserName, opt => opt.MapFrom(src => src.Email));
+
             CreateMap<CategoryCreateDto, Category>();
-            CreateMap<Category, CategoryReadDto>();       
+            CreateMap<Category, CategoryReadDto>();
 
             CreateMap<CityCreateDto, City>();
             CreateMap<City, CityReadDto>();
@@ -36,5 +42,5 @@ namespace BropertyBrosApi2._0
             CreateMap<RealtorFirm, RealtorFirmReadDto>()
                 .ForMember(dest => dest.Realtors, opt => opt.MapFrom(src => src.Realtors));
         }
-    }   
+    }
 }
