@@ -25,11 +25,21 @@ namespace BropertyBrosApi2._0.Controllers
         }
         [HttpPost]
         [Route("register")]
-        public async Task<IActionResult> Register(UserDto userDto)
+        public async Task<IActionResult> Register([FromBody] UserDto userDto)
         {
-
             try
             {
+                Console.WriteLine($"Incoming registration: {userDto.FirstName}, {userDto.LastName}, {userDto.Email}, {userDto.Password}");
+
+                if (!ModelState.IsValid)
+                {
+                    foreach (var error in ModelState.Values.SelectMany(v => v.Errors))
+                    {
+                        Console.WriteLine($"Validation Error: {error.ErrorMessage}");
+                    }
+                    return BadRequest(ModelState);
+                }
+
                 ApiUser user = new ApiUser()
                 {
                     UserName = userDto.Email,
@@ -39,24 +49,24 @@ namespace BropertyBrosApi2._0.Controllers
                 };
                 var result = await userManager.CreateAsync(user, userDto.Password);
 
-                if (result.Succeeded == false)
+                if (!result.Succeeded)
                 {
                     foreach (var error in result.Errors)
                     {
                         ModelState.AddModelError(error.Code, error.Description);
+                        Console.WriteLine($"Identity Error: {error.Description}");
                     }
                     return BadRequest(ModelState);
                 }
-
 
                 await userManager.AddToRoleAsync(user, ApiRoles.User);
                 return Accepted();
             }
             catch (Exception ex)
             {
+                Console.WriteLine($"Exception: {ex.Message}");
                 return Problem(ex.Message);
             }
-            
         }
         [HttpPost]
         [Route("login")]
@@ -64,12 +74,20 @@ namespace BropertyBrosApi2._0.Controllers
         {
             try
             {
-                var user = await userManager.FindByEmailAsync(userDto.Email);
-                var passwordValid = await userManager.CheckPasswordAsync(user, userDto.Password);
-
-                if (user == null || passwordValid == false)
+                if (!ModelState.IsValid)
                 {
-                    return Unauthorized(userDto);
+                    foreach (var error in ModelState.Values.SelectMany(v => v.Errors))
+                    {
+                        Console.WriteLine($"Validation Error: {error.ErrorMessage}");
+                    }
+                    return BadRequest(ModelState);
+                }
+
+                var user = await userManager.FindByEmailAsync(userDto.Email);
+                if (user == null || !await userManager.CheckPasswordAsync(user, userDto.Password))
+                {
+                    Console.WriteLine("Invalid email or password.");
+                    return Unauthorized("Invalid email or password.");
                 }
 
                 string tokenString = await GenerateToken(user);
@@ -85,9 +103,11 @@ namespace BropertyBrosApi2._0.Controllers
             }
             catch (Exception ex)
             {
+                Console.WriteLine($"Exception: {ex.Message}");
                 return Problem(ex.Message);
             }
         }
+
 
         private async Task<string> GenerateToken(ApiUser user)
         {
