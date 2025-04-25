@@ -45,7 +45,7 @@ namespace BropertyBrosApi.Data
 
             //Users
             //Author: Nayab
-            var hasher = new PasswordHasher<ApiUser>();
+            //var hasher = new PasswordHasher<ApiUser>();
             modelBuilder.Entity<ApiUser>().HasData(
                 new ApiUser
                 {
@@ -57,6 +57,8 @@ namespace BropertyBrosApi.Data
                     FirstName = "System",
                     LastName = "Admin",
                     PasswordHash = "AQAAAAIAAYagAAAAEJUyKPjPFku0ZUDURlueib/er2CHsj2LI893okbF1x1OS/2vUeb4ShyeA4kxzQuKag==",
+                    SecurityStamp = "f07fcdb1-c8c9-44a0-8b50-665451986a0c",
+                    ConcurrencyStamp = "30b08ca9-02a0-47db-8bb8-3a3258a64a00",
                     EmailConfirmed = true
                 },
                 new ApiUser
@@ -69,6 +71,8 @@ namespace BropertyBrosApi.Data
                     FirstName = "Frontend",
                     LastName = "User",
                     PasswordHash = "AQAAAAIAAYagAAAAEDEVswFEYDaxzDvXcovL6L7i1ypBzHkb6/hIaMXSCqMJmKEtKaJ96kHlJ5cO1vApcw==",
+                    SecurityStamp = "5b62fd9d-46a9-418a-8f92-3bdb1f24f783",
+                    ConcurrencyStamp = "fa890856-18f1-48d7-94cd-5f092ee79a4a",
                     EmailConfirmed = true
                 }
              );
