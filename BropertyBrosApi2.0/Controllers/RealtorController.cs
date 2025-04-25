@@ -11,6 +11,8 @@ using AutoMapper;
 using BropertyBrosApi2._0.DTOs.Realtor;
 using BropertyBrosApi2._0.Repositories.RepInterfaces;
 using BropertyBrosApi2._0.Repositories;
+using Microsoft.AspNetCore.Authorization;
+using System.Security.Claims;
 
 namespace BropertyBrosApi2._0.Controllers
 {
@@ -18,6 +20,7 @@ namespace BropertyBrosApi2._0.Controllers
     //Co-Author: Emil, Arlind, Nayab
     [Route("api/[controller]")]
     [ApiController]
+    [Authorize]
     public class RealtorController : ControllerBase
     {
         private readonly IRealtorRepository realtorRepository;
@@ -99,6 +102,13 @@ namespace BropertyBrosApi2._0.Controllers
         {
             try
             {
+                string userRole = User.FindFirstValue(ClaimTypes.Role)!;
+
+                if (userRole != "Admin")
+                {
+                    return Unauthorized("Admins only");
+                }
+
                 var realtor = _mapper.Map<Realtor>(realtorCreateDto);
                 if (realtor == null)
                 {

@@ -11,6 +11,7 @@ using AutoMapper;
 using BropertyBrosApi2._0.DTOs.City;
 using BropertyBrosApi2._0.Repositories.RepInterfaces;
 using BropertyBrosApi2._0.Repositories;
+using Microsoft.AspNetCore.Authorization;
 
 namespace BropertyBrosApi2._0.Controllers
 {
@@ -18,6 +19,7 @@ namespace BropertyBrosApi2._0.Controllers
     //Co-Author: Emil, Arlind, Nayab
     [Route("api/[controller]")]
     [ApiController]
+    [Authorize]
     public class CityController : ControllerBase
     {
         private readonly ICityRepository cityRepository;

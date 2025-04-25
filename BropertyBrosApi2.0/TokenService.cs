@@ -34,7 +34,7 @@ namespace BropertyBrosApi2._0
                 new Claim("uid", user.Id)
             };
 
-            claims.Union(roleClaims);
+            claims.AddRange(roleClaims);
 
             JwtSecurityToken token = new(
                 issuer: config["JwtSettings:Issuer"],

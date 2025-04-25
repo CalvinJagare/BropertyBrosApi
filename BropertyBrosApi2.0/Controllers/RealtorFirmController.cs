@@ -10,6 +10,7 @@ using BropertyBrosApi.Models;
 using AutoMapper;
 using BropertyBrosApi2._0.DTOs.RealtorFirm;
 using BropertyBrosApi2._0.Repositories.RepInterfaces;
+using Microsoft.AspNetCore.Authorization;
 
 namespace BropertyBrosApi2._0.Controllers
 {
@@ -17,6 +18,7 @@ namespace BropertyBrosApi2._0.Controllers
     //Co-Author: Emil, Arlind, Nayab
     [Route("api/[controller]")]
     [ApiController]
+    [Authorize]
     public class RealtorFirmController : ControllerBase
     {
         private readonly IRealtorFirmRepository realtorFirmRepository;
