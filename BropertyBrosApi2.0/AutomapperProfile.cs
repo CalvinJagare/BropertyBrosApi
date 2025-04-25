@@ -37,7 +37,6 @@ namespace BropertyBrosApi2._0
             CreateMap<RealtorFirmCreateDto, RealtorFirm>();
             CreateMap<RealtorFirm, RealtorFirmReadDto>()
                 .ForMember(dest => dest.Realtors, opt => opt.MapFrom(src => src.Realtors));
-            CreateMap<ApiUser, UserDto>().ReverseMap();
 
         }
     }   
