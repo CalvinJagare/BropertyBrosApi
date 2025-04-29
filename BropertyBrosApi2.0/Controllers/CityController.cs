@@ -11,6 +11,8 @@ using AutoMapper;
 using BropertyBrosApi2._0.DTOs.City;
 using BropertyBrosApi2._0.Repositories.RepInterfaces;
 using BropertyBrosApi2._0.Repositories;
+using Microsoft.AspNetCore.Authorization;
+using BropertyBrosApi2._0.Constants;
 
 namespace BropertyBrosApi2._0.Controllers
 {
@@ -18,6 +20,7 @@ namespace BropertyBrosApi2._0.Controllers
     //Co-Author: Emil, Arlind, Nayab
     [Route("api/[controller]")]
     [ApiController]
+    [Authorize(Roles = IdentityRoles.Admin)]
     public class CityController : ControllerBase
     {
         private readonly ICityRepository cityRepository;
@@ -31,7 +34,7 @@ namespace BropertyBrosApi2._0.Controllers
 
         // GET: api/Citiy
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<City>>> GetCities()
+        public async Task<ActionResult<IEnumerable<CityReadDto>>> GetCities()
         {
             try
             {

@@ -33,7 +33,7 @@ namespace BropertyBrosApi2._0.Controllers
 
         // GET: api/Property
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<Property>>> GetProperties()
+        public async Task<ActionResult<IEnumerable<PropertyReadDto>>> GetProperties()
         {
             try
             {

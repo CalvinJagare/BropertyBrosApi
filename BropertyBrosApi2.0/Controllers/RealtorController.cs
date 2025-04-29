@@ -31,7 +31,7 @@ namespace BropertyBrosApi2._0.Controllers
 
         // GET: api/Realtor
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<Realtor>>> GetRealtors()
+        public async Task<ActionResult<IEnumerable<RealtorReadDto>>> GetRealtors()
         {
             try
             {
