@@ -10,12 +10,15 @@ using BropertyBrosApi.Models;
 using BropertyBrosApi2._0.DTOs.Category;
 using AutoMapper;
 using BropertyBrosApi2._0.Repositories.RepInterfaces;
+using BropertyBrosApi2._0.Constants;
+using Microsoft.AspNetCore.Authorization;
 
 namespace BropertyBrosApi2._0.Controllers
 {
     //Author: Alla
     [Route("api/[controller]")]
     [ApiController]
+    [Authorize(Roles = IdentityRoles.Admin)]
     public class CategoryController : ControllerBase
     {
 
