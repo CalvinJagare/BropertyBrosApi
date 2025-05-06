@@ -88,7 +88,7 @@ namespace BropertyBrosApi2._0.Controllers
 
                 await cityRepository.Update(city);
 
-                return NoContent();
+                return Ok();
             }
             catch
             {
@@ -134,7 +134,7 @@ namespace BropertyBrosApi2._0.Controllers
 
                 await cityRepository.Delete(city);
 
-                return NoContent();
+                return Ok();
             }
             catch
             {
