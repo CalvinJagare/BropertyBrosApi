@@ -1,4 +1,5 @@
 ﻿using BropertyBrosApi.Models;
+using BropertyBrosApi2._0.DTOs.Realtor;
 
 namespace BropertyBrosApi2._0.Repositories.RepInterfaces
 {
@@ -10,5 +11,6 @@ namespace BropertyBrosApi2._0.Repositories.RepInterfaces
         Task Add(Realtor realtor);
         Task Update(Realtor realtor);
         Task Delete(Realtor realtor);
+        Task<IEnumerable<Realtor>> GetBySearchAsync(RealtorSearchDto realtorSearchDto);
     }
 }
