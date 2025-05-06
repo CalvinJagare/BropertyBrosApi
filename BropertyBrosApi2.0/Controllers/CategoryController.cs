@@ -89,7 +89,7 @@ namespace BropertyBrosApi2._0.Controllers
 
                 await categoryRepository.Update(category);
 
-                return NoContent();
+                return Ok(categoryCreateDto);
             }
             catch
             {
