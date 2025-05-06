@@ -3,6 +3,7 @@
 namespace BropertyBrosApi2._0.Repositories.RepInterfaces
 {
     //Author: Daniel
+    //Co-Author: Arlind
     public interface ICityRepository
     {
         Task<City> GetByIdAsync(int id);
