@@ -86,7 +86,7 @@ namespace BropertyBrosApi2._0.Controllers
 
                 await propertyRepository.Update(property);
 
-                return NoContent();
+                return Ok(propertyCreateDto);
             }
             catch
             {
