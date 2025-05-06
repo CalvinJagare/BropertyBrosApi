@@ -137,5 +137,30 @@ namespace BropertyBrosApi2._0.Controllers
             }
 
         }
+
+        // Author: Emil
+        [HttpGet]
+        [Route("GetRealtorsBySearch")]
+        public async Task<ActionResult<IEnumerable<RealtorReadDto>>> GetRealtorsBySearchAsync(RealtorSearchDto realtorSearchDto)
+        {
+            try
+            {
+                var realtors = await realtorRepository.GetBySearchAsync(realtorSearchDto);
+
+                if (realtors == null)
+                {
+                    return NotFound();
+                }
+
+                List<RealtorReadDto> realtorReadDtos = new();
+                _mapper.Map(realtors, realtorReadDtos);
+
+                return Ok(realtorReadDtos);
+            }
+            catch(Exception ex)
+            {
+                return StatusCode(500, "An error occured while processing your search");
+            }
+        }
     }
 }
