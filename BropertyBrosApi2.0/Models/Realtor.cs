@@ -1,4 +1,5 @@
 ﻿using BropertyBrosApi2._0.Data;
+﻿using System.ComponentModel.DataAnnotations;
 
 namespace BropertyBrosApi.Models
 {
@@ -6,10 +7,16 @@ namespace BropertyBrosApi.Models
     public class Realtor
     {
         public int Id { get; set; }
+        [Required]
         public string? FirstName { get; set; }
+        [Required]
         public string? LastName { get; set; }
+        [Required]
         public string? PhoneNumber { get; set; }
+        [Required]
+        [EmailAddress]
         public string? Email { get; set; }
+        [Required]
         public string? ProfileUrl { get; set; }
         public virtual List<Property> Properties { get; set; } = new List<Property>();
 
