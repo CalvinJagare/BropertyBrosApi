@@ -1,6 +1,7 @@
 ﻿namespace BropertyBrosApi.Models
 {
     //Author: Calvin, Daniel, Emil
+    //Co-Author: Arlind
     public class Realtor
     {
         public int Id { get; set; }
