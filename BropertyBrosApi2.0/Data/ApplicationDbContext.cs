@@ -26,6 +26,12 @@ namespace BropertyBrosApi.Data
         {
             base.OnModelCreating(modelBuilder);
 
+            modelBuilder.Entity<Realtor>()
+                .HasOne(r => r.User)
+                .WithOne(u => u.Realtor)
+                .HasForeignKey<Realtor>(r => r.UserId)
+                .IsRequired();
+
             //Roles
             modelBuilder.Entity<IdentityRole>().HasData(
                 new IdentityRole
@@ -149,48 +155,49 @@ namespace BropertyBrosApi.Data
                     PhoneNumber = "0705712647",
                     Email = "markus@bropertybros.se",
                     ProfileUrl = "https://media.licdn.com/dms/image/v2/D4D03AQEYZfjOaaV_QA/profile-displayphoto-shrink_800_800/profile-displayphoto-shrink_800_800/0/1719018397094?e=1750896000&v=beta&t=7Tc6mYQarQ62J6tfvYWlA5wLSLsxO-x5_eIlfPkYWIw",
-                    RealtorFirmId = 1
-                },
-                new Realtor
-                {
-                    Id = 2,
-                    FirstName = "Sanna",
-                    LastName = "Mäklarsson",
-                    PhoneNumber = "0731234567",
-                    Email = "sanna@bropertybros.se",
-                    ProfileUrl = "https://images.ctfassets.net/h6goo9gw1hh6/2sNZtFAWOdP1lmQ33VwRN3/24e953b920a9cd0ff2e1d587742a2472/1-intro-photo-final.jpg?w=1200&h=992&fl=progressive&q=70&fm=jpg",
-                    RealtorFirmId = 1
-                },
-                new Realtor
-                {
-                    Id = 3,
-                    FirstName = "Erik",
-                    LastName = "Fast",
-                    PhoneNumber = "0704455667",
-                    Email = "erik@maklarkompaniet.se",
-                    ProfileUrl = "https://newprofilepic.photo-cdn.net//assets/images/article/profile.jpg?90af0c8",
-                    RealtorFirmId = 2
-                },
-                new Realtor
-                {
-                    Id = 4,
-                    FirstName = "Anna",
-                    LastName = "Sund",
-                    PhoneNumber = "0761122334",
-                    Email = "anna@fastighetsmastarna.se",
-                    ProfileUrl = "https://media.istockphoto.com/id/1682296067/photo/happy-studio-portrait-or-professional-man-real-estate-agent-or-asian-businessman-smile-for.jpg?s=612x612&w=0&k=20&c=9zbG2-9fl741fbTWw5fNgcEEe4ll-JegrGlQQ6m54rg=",
-                    RealtorFirmId = 3
-                },
-                new Realtor
-                {
-                    Id = 5,
-                    FirstName = "Johan",
-                    LastName = "Bostad",
-                    PhoneNumber = "0723344556",
-                    Email = "johan@maklarkompaniet.se",
-                    ProfileUrl = "https://example.com/profiles/johan.png",
-                    RealtorFirmId = 2
+                    RealtorFirmId = 1,
+                    UserId = "e537ba2e-a85f-4c2e-bd43-2940963f7856"
                 }
+                //new Realtor
+                //{
+                //    Id = 2,
+                //    FirstName = "Sanna",
+                //    LastName = "Mäklarsson",
+                //    PhoneNumber = "0731234567",
+                //    Email = "sanna@bropertybros.se",
+                //    ProfileUrl = "https://images.ctfassets.net/h6goo9gw1hh6/2sNZtFAWOdP1lmQ33VwRN3/24e953b920a9cd0ff2e1d587742a2472/1-intro-photo-final.jpg?w=1200&h=992&fl=progressive&q=70&fm=jpg",
+                //    RealtorFirmId = 1
+                //},
+                //new Realtor
+                //{
+                //    Id = 3,
+                //    FirstName = "Erik",
+                //    LastName = "Fast",
+                //    PhoneNumber = "0704455667",
+                //    Email = "erik@maklarkompaniet.se",
+                //    ProfileUrl = "https://newprofilepic.photo-cdn.net//assets/images/article/profile.jpg?90af0c8",
+                //    RealtorFirmId = 2
+                //},
+                //new Realtor
+                //{
+                //    Id = 4,
+                //    FirstName = "Anna",
+                //    LastName = "Sund",
+                //    PhoneNumber = "0761122334",
+                //    Email = "anna@fastighetsmastarna.se",
+                //    ProfileUrl = "https://media.istockphoto.com/id/1682296067/photo/happy-studio-portrait-or-professional-man-real-estate-agent-or-asian-businessman-smile-for.jpg?s=612x612&w=0&k=20&c=9zbG2-9fl741fbTWw5fNgcEEe4ll-JegrGlQQ6m54rg=",
+                //    RealtorFirmId = 3
+                //},
+                //new Realtor
+                //{
+                //    Id = 5,
+                //    FirstName = "Johan",
+                //    LastName = "Bostad",
+                //    PhoneNumber = "0723344556",
+                //    Email = "johan@maklarkompaniet.se",
+                //    ProfileUrl = "https://example.com/profiles/johan.png",
+                //    RealtorFirmId = 2
+                //}
             );
 
             // Properties

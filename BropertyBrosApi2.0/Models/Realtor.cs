@@ -1,4 +1,6 @@
-﻿namespace BropertyBrosApi.Models
+﻿using BropertyBrosApi2._0.Data;
+
+namespace BropertyBrosApi.Models
 {
     //Author: Calvin, Daniel, Emil
     public class Realtor
@@ -12,6 +14,8 @@
         public virtual List<Property> Properties { get; set; } = new List<Property>();
 
         public virtual RealtorFirm? RealtorFirm { get; set; }
-        public int RealtorFirmId { get; set; } 
+        public int RealtorFirmId { get; set; }
+        public virtual ApiUser User { get; set; } = null!;
+        public string UserId { get; set; } = null!;
     }
 }

@@ -39,6 +39,9 @@ namespace BropertyBrosApi2._0.Controllers
                     FirstName = userDto.FirstName,
                     LastName = userDto.LastName
                 };
+
+
+
                 var result = await userManager.CreateAsync(user, userDto.Password);
 
                 if (result.Succeeded == false)

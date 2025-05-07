@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Identity;
+﻿using BropertyBrosApi.Models;
+using Microsoft.AspNetCore.Identity;
 
 namespace BropertyBrosApi2._0.Data
 {
@@ -6,5 +7,6 @@ namespace BropertyBrosApi2._0.Data
     {
         public string FirstName { get; set; } = string.Empty;
         public string LastName { get; set; } = string.Empty;
+        public Realtor? Realtor { get; set; }
     }
 }

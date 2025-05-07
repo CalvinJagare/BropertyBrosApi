@@ -4,6 +4,7 @@ using BropertyBrosApi.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace BropertyBrosApi2._0.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20250507114531_realtorlogin")]
+    partial class realtorlogin
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -430,6 +433,9 @@ namespace BropertyBrosApi2._0.Migrations
                     b.Property<bool>("PhoneNumberConfirmed")
                         .HasColumnType("bit");
 
+                    b.Property<int>("RealtorId")
+                        .HasColumnType("int");
+
                     b.Property<string>("SecurityStamp")
                         .HasColumnType("nvarchar(max)");
 
@@ -467,6 +473,7 @@ namespace BropertyBrosApi2._0.Migrations
                             NormalizedUserName = "ADMIN@BROPERTY.COM",
                             PasswordHash = "AQAAAAIAAYagAAAAELeUE3g9g6OTSqBTc9ton2GMurerIw4dCslq57D14LC8knhko3oWy/20+BxhAdO/UA==",
                             PhoneNumberConfirmed = false,
+                            RealtorId = 0,
                             SecurityStamp = "abe6397f-14eb-4a7a-979e-18f7cbffb787",
                             TwoFactorEnabled = false,
                             UserName = "admin@broperty.com"
@@ -485,6 +492,7 @@ namespace BropertyBrosApi2._0.Migrations
                             NormalizedUserName = "USER@BROPERTY.COM",
                             PasswordHash = "AQAAAAIAAYagAAAAEBX1pIrj+1YNKaog05C+oOx9U5r/rvnyN4SvLNfSqUr1zL54+iXnda0ujBN9v6wdeQ==",
                             PhoneNumberConfirmed = false,
+                            RealtorId = 0,
                             SecurityStamp = "02c42ac2-c5c5-4da5-8771-6d487c8f947e",
                             TwoFactorEnabled = false,
                             UserName = "user@broperty.com"
