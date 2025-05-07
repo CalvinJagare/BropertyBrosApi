@@ -72,5 +72,11 @@ namespace BropertyBrosApi2._0.Repositories
                 .Include(r => r.Properties)
                 .ToListAsync();
         }
+
+        public async Task<Realtor?> GetByUserIdAsync(string userId)
+        {
+            return await applicationDbContext.Realtors
+                .FirstOrDefaultAsync(x => x.UserId == userId);
+        }
     }
 }

@@ -1,7 +1,10 @@
 ﻿using BropertyBrosApi.Data;
+using BropertyBrosApi.Models;
 using BropertyBrosApi2._0.Constants;
 using BropertyBrosApi2._0.Data;
 using BropertyBrosApi2._0.DTOs.User;
+using BropertyBrosApi2._0.Repositories.RepInterfaces;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.Identity;
@@ -19,27 +22,31 @@ namespace BropertyBrosApi2._0.Controllers
     {
         private readonly UserManager<ApiUser> userManager;
         private readonly IConfiguration configuration;
+        private readonly IRealtorRepository realtorRepository;
 
-        public AuthController(UserManager<ApiUser> userManager, IConfiguration configuration)
+        public AuthController(UserManager<ApiUser> userManager, IConfiguration configuration, IRealtorRepository realtorRepository)
         {
             this.userManager = userManager;
             this.configuration = configuration;
+            this.realtorRepository = realtorRepository;
         }
 
         [HttpPost]
-        [Route("register")]
-        public async Task<IActionResult> Register(UserDto userDto)
+        [Route("registerRealtor")]
+        [Authorize(Roles = "Admin")]
+        public async Task<IActionResult> RegisterRealtor(RegisterRealtorDto dto)
         {
             try
             {
                 ApiUser user = new ApiUser()
                 {
-                    UserName = userDto.Email,
-                    Email = userDto.Email,
-                    FirstName = userDto.FirstName,
-                    LastName = userDto.LastName
+                    UserName = dto.Email,
+                    Email = dto.Email,
+                    FirstName = dto.FirstName,
+                    LastName = dto.LastName
                 };
-                var result = await userManager.CreateAsync(user, userDto.Password);
+
+                var result = await userManager.CreateAsync(user, dto.Password);
 
                 if (result.Succeeded == false)
                 {
@@ -49,12 +56,26 @@ namespace BropertyBrosApi2._0.Controllers
                     }
                     return BadRequest(ModelState);
                 }
+
+                var realtor = new Realtor()
+                {
+                    FirstName = dto.FirstName,
+                    LastName = dto.LastName,
+                    Email = dto.Email,
+                    PhoneNumber = dto.PhoneNumber,
+                    ProfileUrl = dto.ProfileUrl,
+                    RealtorFirmId = dto.RealtorFirmId,
+                    User = user
+                };
+
+                await realtorRepository.Add(realtor);
+
                 await userManager.AddToRoleAsync(user, "User");
                 return Accepted();
             }
             catch
             {
-                return Problem($"Something Went Wrong in {nameof(Register)}", statusCode: 500);
+                return Problem($"Something Went Wrong in {nameof(RegisterRealtor)}", statusCode: 500);
             }
         }
 
@@ -65,11 +86,14 @@ namespace BropertyBrosApi2._0.Controllers
             try
             {
                 var user = await userManager.FindByEmailAsync(loginUserDto.Email);
+
                 if (user == null)
                 {
                     return NotFound("User not found");
                 }
+
                 var resultValid = await userManager.CheckPasswordAsync(user, loginUserDto.Password);
+
                 if (resultValid == false)
                 {
                     return Unauthorized($"Invalid password{loginUserDto}");

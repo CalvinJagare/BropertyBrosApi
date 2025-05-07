@@ -1,3 +1,4 @@
+﻿using BropertyBrosApi2._0.Data;
 ﻿using System.ComponentModel.DataAnnotations;
 
 namespace BropertyBrosApi.Models
@@ -21,5 +22,7 @@ namespace BropertyBrosApi.Models
 
         public virtual RealtorFirm? RealtorFirm { get; set; }
         public int RealtorFirmId { get; set; }
+        public virtual ApiUser User { get; set; } = null!;
+        public string UserId { get; set; } = null!;
     }
 }
