@@ -16,8 +16,8 @@ namespace BropertyBrosApi2._0
     {
         public AutomapperProfile()
         {
-            CreateMap<ApiUser, UserDto>();
-            CreateMap<UserDto, ApiUser>()
+            CreateMap<ApiUser, RegisterRealtorDto>();
+            CreateMap<RegisterRealtorDto, ApiUser>()
                 .ForMember(dest => dest.UserName, opt => opt.MapFrom(src => src.Email));
 
             CreateMap<CategoryCreateDto, Category>();
