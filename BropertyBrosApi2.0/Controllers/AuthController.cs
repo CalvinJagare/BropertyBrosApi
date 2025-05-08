@@ -4,6 +4,11 @@ using BropertyBrosApi2._0.Models;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.IdentityModel.Tokens;
+using System.Configuration;
+using System.IdentityModel.Tokens.Jwt;
+using System.Security.Claims;
+using System.Text;
 
 namespace BropertyBrosApi2._0.Controllers
 {
@@ -12,10 +17,12 @@ namespace BropertyBrosApi2._0.Controllers
     public class AuthController : ControllerBase
     {
         private readonly UserManager<ApiUser> userManager;
+        private readonly IConfiguration configuration;
 
-        public AuthController(UserManager<ApiUser> userManager)
+        public AuthController(UserManager<ApiUser> userManager, IConfiguration configuration)
         {
             this.userManager = userManager;
+            this.configuration = configuration;
         }
         [HttpPost]
         [Route("register")]
@@ -51,7 +58,7 @@ namespace BropertyBrosApi2._0.Controllers
         }
         [HttpPost]
         [Route("login")]
-        public async Task<IActionResult> Login(LoginUserDto userDto)
+        public async Task<ActionResult<AuthResponse>> Login(LoginUserDto userDto)
         {
             try
             {
@@ -59,16 +66,58 @@ namespace BropertyBrosApi2._0.Controllers
                 var passwordValid = await userManager.CheckPasswordAsync(user, userDto.Password);
                 if (user == null || passwordValid == false) 
                 {
-                    return NotFound();
+                    return Unauthorized(userDto);
                 }
+
                 //Add what ever is needed to create a JWT
-                return Accepted();
+                string tokenString = await GenerateToken(user);
+
+                var response = new AuthResponse
+                {
+                    Email = userDto.Email,
+                    Token = tokenString,
+                    UserId = user.Id
+                };
+
+                return Accepted(response);
             }
             catch (Exception)
             {
 
                 return Problem($"Something went wrong in {nameof(Login)}", statusCode: 500);
             }
+
+
+        }
+
+        private async Task<string> GenerateToken(ApiUser user)
+        {
+            var securityKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(configuration["JwtSettings:Key"]));
+            var credentials = new SigningCredentials(securityKey, SecurityAlgorithms.HmacSha256);
+
+            var roles = await userManager.GetRolesAsync(user);
+            var roleClaims = roles.Select(q => new Claim(ClaimTypes.Role, q)).ToList();
+
+            var userClaims = await userManager.GetClaimsAsync(user);
+
+            var claims = new List<Claim>
+            {
+                new Claim(JwtRegisteredClaimNames.Sub, user.UserName),
+                new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString()),
+                new Claim(JwtRegisteredClaimNames.Email, user.Email),
+                new Claim(CustomClaimTypes.Uid , user.Id)
+            }
+            .Union(roleClaims)
+            .Union(userClaims);
+
+            var token = new JwtSecurityToken(
+                issuer: configuration["JwtSettings:Issuer"],
+                audience: configuration["JwtSettings:Audience"],
+                expires: DateTime.UtcNow.AddMinutes(Convert.ToInt32(configuration["JwtSettings:DurationInMinutes"])),
+                signingCredentials: credentials
+                );
+            return new JwtSecurityTokenHandler().WriteToken(token);
+
         }
     }
 }
