@@ -11,6 +11,8 @@ using AutoMapper;
 using BropertyBrosApi2._0.DTOs.Realtor;
 using BropertyBrosApi2._0.Repositories.RepInterfaces;
 using BropertyBrosApi2._0.Repositories;
+using Microsoft.AspNetCore.Authorization;
+using BropertyBrosApi2._0.Constants;
 
 namespace BropertyBrosApi2._0.Controllers
 {
@@ -31,7 +33,7 @@ namespace BropertyBrosApi2._0.Controllers
 
         // GET: api/Realtor
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<Realtor>>> GetRealtors()
+        public async Task<ActionResult<IEnumerable<RealtorReadDto>>> GetRealtors()
         {
             try
             {
@@ -70,6 +72,7 @@ namespace BropertyBrosApi2._0.Controllers
         // PUT: api/Realtor/5
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPut("{id}")]
+        [Authorize(Roles = IdentityRoles.AdminAndUser)]
         public async Task<ActionResult> PutRealtor(int id, RealtorCreateDto realtorCreateDto)
         {
             try
@@ -95,6 +98,7 @@ namespace BropertyBrosApi2._0.Controllers
         // POST: api/Realtor
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPost]
+        [Authorize(Roles = IdentityRoles.Admin)]
         public async Task<ActionResult<RealtorReadDto>> PostRealtor(RealtorCreateDto realtorCreateDto)
         {
             try
@@ -118,6 +122,7 @@ namespace BropertyBrosApi2._0.Controllers
 
         // DELETE: api/Realtor/5
         [HttpDelete("{id}")]
+        [Authorize(Roles = IdentityRoles.Admin)]
         public async Task<IActionResult> DeleteRealtor(int id)
         {
             try
@@ -137,5 +142,48 @@ namespace BropertyBrosApi2._0.Controllers
             }
 
         }
+
+        // Author: Emil
+        [HttpGet]
+        [Route("GetRealtorsBySearch")]
+        public async Task<ActionResult<IEnumerable<RealtorReadDto>>> GetRealtorsBySearchAsync(RealtorSearchDto realtorSearchDto)
+        {
+            try
+            {
+                var realtors = await realtorRepository.GetBySearchAsync(realtorSearchDto);
+
+                if (realtors == null)
+                {
+                    return NotFound();
+                }
+
+                List<RealtorReadDto> realtorReadDtos = new();
+                _mapper.Map(realtors, realtorReadDtos);
+
+                return Ok(realtorReadDtos);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, "An error occured while processing your search");
+            }
+        }
+        
+        [HttpGet("GetRealtorByUserId/{userId}")]
+        public async Task<ActionResult<RealtorReadDto>> GetRealtorIdByUserId(string userId)
+        {
+            var realtor = await realtorRepository.GetByUserIdAsync(userId);
+
+            if (realtor == null)
+            {
+                return NotFound();
+            }
+
+            RealtorReadDto dto = new();
+
+            _mapper.Map(realtor, dto);
+            return Ok(dto);
+        }
+
+
     }
 }

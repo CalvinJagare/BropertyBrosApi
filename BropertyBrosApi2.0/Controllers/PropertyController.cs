@@ -11,6 +11,8 @@ using AutoMapper;
 using BropertyBrosApi2._0.DTOs.Properties;
 using BropertyBrosApi2._0.Repositories.RepInterfaces;
 using BropertyBrosApi2._0.Repositories;
+using Microsoft.AspNetCore.Authorization;
+using BropertyBrosApi2._0.Constants;
 
 namespace BropertyBrosApi2._0.Controllers
 {
@@ -31,7 +33,7 @@ namespace BropertyBrosApi2._0.Controllers
 
         // GET: api/Property
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<Property>>> GetProperties()
+        public async Task<ActionResult<IEnumerable<PropertyReadDto>>> GetProperties()
         {
             try
             {
@@ -70,6 +72,7 @@ namespace BropertyBrosApi2._0.Controllers
         // PUT: api/Property/5
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPut("{id}")]
+        [Authorize(Roles = IdentityRoles.AdminAndUser)]
         public async Task<IActionResult> PutProperty(int id, PropertyCreateDto propertyCreateDto)
         {
             try
@@ -84,7 +87,7 @@ namespace BropertyBrosApi2._0.Controllers
 
                 await propertyRepository.Update(property);
 
-                return NoContent();
+                return Ok(propertyCreateDto);
             }
             catch
             {
@@ -95,6 +98,7 @@ namespace BropertyBrosApi2._0.Controllers
         // POST: api/Property
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPost]
+        [Authorize(Roles = IdentityRoles.AdminAndUser)]
         public async Task<ActionResult<PropertyReadDto>> PostProperty(PropertyCreateDto propertyCreateDto)
         {
             try
@@ -119,6 +123,7 @@ namespace BropertyBrosApi2._0.Controllers
 
         // DELETE: api/Property/5
         [HttpDelete("{id}")]
+        [Authorize(Roles = IdentityRoles.AdminAndUser)]
         public async Task<IActionResult> DeleteProperty(int id)
         {
             try
@@ -152,7 +157,7 @@ namespace BropertyBrosApi2._0.Controllers
                 _mapper.Map(properties, propertyReadDtos);
                 return Ok(propertyReadDtos);
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 return BadRequest(ex.Message);
             }
@@ -160,7 +165,7 @@ namespace BropertyBrosApi2._0.Controllers
 
         [HttpPost]
         [Route("GetPropertiesBySearch/")]
-        public async Task<ActionResult<IEnumerable<PropertyReadDto>>> GetPropertiesBySearch([FromBody]PropertySearchDto propertySearchDto)
+        public async Task<ActionResult<IEnumerable<PropertyReadDto>>> GetPropertiesBySearch([FromBody] PropertySearchDto propertySearchDto)
         {
             var properties = await propertyRepository.GetBySearchAsync(propertySearchDto);
 

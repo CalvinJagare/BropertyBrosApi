@@ -4,6 +4,7 @@ using BropertyBrosApi.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace BropertyBrosApi2._0.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20250423115634_SeededRolesAndDefaultUsers")]
+    partial class SeededRolesAndDefaultUsers
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -31,7 +34,6 @@ namespace BropertyBrosApi2._0.Migrations
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
                     b.Property<string>("CategoryName")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
@@ -95,7 +97,6 @@ namespace BropertyBrosApi2._0.Migrations
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
                     b.Property<string>("CityName")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
@@ -144,7 +145,6 @@ namespace BropertyBrosApi2._0.Migrations
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
                     b.Property<string>("Address")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<int>("AncillaryAreaKvm")
@@ -163,7 +163,6 @@ namespace BropertyBrosApi2._0.Migrations
                         .HasColumnType("datetime2");
 
                     b.Property<string>("Description")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.PrimitiveCollection<string>("ImageUrls")
@@ -289,38 +288,26 @@ namespace BropertyBrosApi2._0.Migrations
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
                     b.Property<string>("Email")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("FirstName")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("LastName")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("PhoneNumber")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("ProfileUrl")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<int>("RealtorFirmId")
                         .HasColumnType("int");
 
-                    b.Property<string>("UserId")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(450)");
-
                     b.HasKey("Id");
 
                     b.HasIndex("RealtorFirmId");
-
-                    b.HasIndex("UserId")
-                        .IsUnique();
 
                     b.ToTable("Realtors");
 
@@ -333,8 +320,7 @@ namespace BropertyBrosApi2._0.Migrations
                             LastName = "Friberg",
                             PhoneNumber = "0705712647",
                             ProfileUrl = "https://media.licdn.com/dms/image/v2/D4D03AQEYZfjOaaV_QA/profile-displayphoto-shrink_800_800/profile-displayphoto-shrink_800_800/0/1719018397094?e=1750896000&v=beta&t=7Tc6mYQarQ62J6tfvYWlA5wLSLsxO-x5_eIlfPkYWIw",
-                            RealtorFirmId = 1,
-                            UserId = "e537ba2e-a85f-4c2e-bd43-2940963f7856"
+                            RealtorFirmId = 1
                         },
                         new
                         {
@@ -344,8 +330,7 @@ namespace BropertyBrosApi2._0.Migrations
                             LastName = "Mäklarsson",
                             PhoneNumber = "0731234567",
                             ProfileUrl = "https://images.ctfassets.net/h6goo9gw1hh6/2sNZtFAWOdP1lmQ33VwRN3/24e953b920a9cd0ff2e1d587742a2472/1-intro-photo-final.jpg?w=1200&h=992&fl=progressive&q=70&fm=jpg",
-                            RealtorFirmId = 1,
-                            UserId = "f52522f4-0329-4037-a3c5-219abe6b80d5"
+                            RealtorFirmId = 1
                         },
                         new
                         {
@@ -355,8 +340,7 @@ namespace BropertyBrosApi2._0.Migrations
                             LastName = "Fast",
                             PhoneNumber = "0704455667",
                             ProfileUrl = "https://newprofilepic.photo-cdn.net//assets/images/article/profile.jpg?90af0c8",
-                            RealtorFirmId = 2,
-                            UserId = "f8b4f95c-02fe-40cc-b73d-36c0f7ac786f"
+                            RealtorFirmId = 2
                         },
                         new
                         {
@@ -366,8 +350,17 @@ namespace BropertyBrosApi2._0.Migrations
                             LastName = "Sund",
                             PhoneNumber = "0761122334",
                             ProfileUrl = "https://media.istockphoto.com/id/1682296067/photo/happy-studio-portrait-or-professional-man-real-estate-agent-or-asian-businessman-smile-for.jpg?s=612x612&w=0&k=20&c=9zbG2-9fl741fbTWw5fNgcEEe4ll-JegrGlQQ6m54rg=",
-                            RealtorFirmId = 3,
-                            UserId = "9c9da7da-4b24-459f-9e27-182c1e7b1d39"
+                            RealtorFirmId = 3
+                        },
+                        new
+                        {
+                            Id = 5,
+                            Email = "johan@maklarkompaniet.se",
+                            FirstName = "Johan",
+                            LastName = "Bostad",
+                            PhoneNumber = "0723344556",
+                            ProfileUrl = "https://example.com/profiles/johan.png",
+                            RealtorFirmId = 2
                         });
                 });
 
@@ -380,19 +373,15 @@ namespace BropertyBrosApi2._0.Migrations
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
                     b.Property<string>("CompanyName")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Description")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("LogoUrl")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("WebsiteUrl")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
@@ -503,7 +492,7 @@ namespace BropertyBrosApi2._0.Migrations
                         {
                             Id = "da73186d-928a-4e7b-af8e-d69ebe4ea2c9",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "d3c5ba60-0a1a-4c99-8646-41e8d3c350a9",
+                            ConcurrencyStamp = "7fa5c752-55de-4da1-8121-cc6d494d0f42",
                             Email = "admin@broperty.com",
                             EmailConfirmed = true,
                             FirstName = "Chad",
@@ -511,9 +500,9 @@ namespace BropertyBrosApi2._0.Migrations
                             LockoutEnabled = false,
                             NormalizedEmail = "ADMIN@BROPERTY.COM",
                             NormalizedUserName = "ADMIN@BROPERTY.COM",
-                            PasswordHash = "AQAAAAIAAYagAAAAELeUE3g9g6OTSqBTc9ton2GMurerIw4dCslq57D14LC8knhko3oWy/20+BxhAdO/UA==",
+                            PasswordHash = "AQAAAAIAAYagAAAAEMD44C/ECfB4InaTr8tbuVS8nhQ48+4uLre1jAjq18+uhphFsgHND+Vjw4tTq/WvRA==",
                             PhoneNumberConfirmed = false,
-                            SecurityStamp = "abe6397f-14eb-4a7a-979e-18f7cbffb787",
+                            SecurityStamp = "c60084ed-6b05-4368-969f-8093c75cb237",
                             TwoFactorEnabled = false,
                             UserName = "admin@broperty.com"
                         },
@@ -521,73 +510,19 @@ namespace BropertyBrosApi2._0.Migrations
                         {
                             Id = "e537ba2e-a85f-4c2e-bd43-2940963f7856",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "21dd539d-4565-4ddd-8c10-e7fb21022b0f",
-                            Email = "user1@broperty.com",
+                            ConcurrencyStamp = "d41f3f2e-4d62-4aae-8cfa-23b785d6b980",
+                            Email = "user@broperty.com",
                             EmailConfirmed = true,
                             FirstName = "Emil",
                             LastName = "Svensson",
                             LockoutEnabled = false,
-                            NormalizedEmail = "USER1@BROPERTY.COM",
-                            NormalizedUserName = "USER1@BROPERTY.COM",
-                            PasswordHash = "AQAAAAIAAYagAAAAEBX1pIrj+1YNKaog05C+oOx9U5r/rvnyN4SvLNfSqUr1zL54+iXnda0ujBN9v6wdeQ==",
+                            NormalizedEmail = "USER@BROPERTY.COM",
+                            NormalizedUserName = "USER@BROPERTY.COM",
+                            PasswordHash = "AQAAAAIAAYagAAAAEDYIFGqSdYXteV0eIG/KtXigZdmhqK9huHckimwtk3l0wY0LZ5YuqnUT2DY8nrG5Jw==",
                             PhoneNumberConfirmed = false,
-                            SecurityStamp = "02c42ac2-c5c5-4da5-8771-6d487c8f947e",
+                            SecurityStamp = "caa715cb-0a88-4bdd-bff5-11258102fb24",
                             TwoFactorEnabled = false,
-                            UserName = "user1@broperty.com"
-                        },
-                        new
-                        {
-                            Id = "f52522f4-0329-4037-a3c5-219abe6b80d5",
-                            AccessFailedCount = 0,
-                            ConcurrencyStamp = "9cb56f6a-a523-4735-9e30-5ef24036dcf4",
-                            Email = "user2@broperty.com",
-                            EmailConfirmed = true,
-                            FirstName = "Adam",
-                            LastName = "Abrahamsson",
-                            LockoutEnabled = false,
-                            NormalizedEmail = "USER2@BROPERTY.COM",
-                            NormalizedUserName = "USER2@BROPERTY.COM",
-                            PasswordHash = "AQAAAAIAAYagAAAAEBX1pIrj+1YNKaog05C+oOx9U5r/rvnyN4SvLNfSqUr1zL54+iXnda0ujBN9v6wdeQ==",
-                            PhoneNumberConfirmed = false,
-                            SecurityStamp = "26041623-1de5-4636-b59d-d15736238599",
-                            TwoFactorEnabled = false,
-                            UserName = "user2@broperty.com"
-                        },
-                        new
-                        {
-                            Id = "f8b4f95c-02fe-40cc-b73d-36c0f7ac786f",
-                            AccessFailedCount = 0,
-                            ConcurrencyStamp = "8a9fb63f-80cb-4908-bb9f-a5aad2e8db93",
-                            Email = "user3@broperty.com",
-                            EmailConfirmed = true,
-                            FirstName = "Nina",
-                            LastName = "Tudorsson",
-                            LockoutEnabled = false,
-                            NormalizedEmail = "USER3@BROPERTY.COM",
-                            NormalizedUserName = "USER3@BROPERTY.COM",
-                            PasswordHash = "AQAAAAIAAYagAAAAEBX1pIrj+1YNKaog05C+oOx9U5r/rvnyN4SvLNfSqUr1zL54+iXnda0ujBN9v6wdeQ==",
-                            PhoneNumberConfirmed = false,
-                            SecurityStamp = "308019e8-6f74-4a57-8722-0b1e407004a3",
-                            TwoFactorEnabled = false,
-                            UserName = "user3@broperty.com"
-                        },
-                        new
-                        {
-                            Id = "9c9da7da-4b24-459f-9e27-182c1e7b1d39",
-                            AccessFailedCount = 0,
-                            ConcurrencyStamp = "b85fdef9-583e-44fb-8e97-2d2997af08d6",
-                            Email = "user4@broperty.com",
-                            EmailConfirmed = true,
-                            FirstName = "Leif",
-                            LastName = "Thorsson",
-                            LockoutEnabled = false,
-                            NormalizedEmail = "USER4@BROPERTY.COM",
-                            NormalizedUserName = "USER4@BROPERTY.COM",
-                            PasswordHash = "AQAAAAIAAYagAAAAEBX1pIrj+1YNKaog05C+oOx9U5r/rvnyN4SvLNfSqUr1zL54+iXnda0ujBN9v6wdeQ==",
-                            PhoneNumberConfirmed = false,
-                            SecurityStamp = "77eab9a2-f47a-4e6f-bf92-d9db56cff596",
-                            TwoFactorEnabled = false,
-                            UserName = "user4@broperty.com"
+                            UserName = "user@broperty.com"
                         });
                 });
 
@@ -728,21 +663,6 @@ namespace BropertyBrosApi2._0.Migrations
                         {
                             UserId = "e537ba2e-a85f-4c2e-bd43-2940963f7856",
                             RoleId = "bc472e9f-773c-4e71-a524-f37911680d76"
-                        },
-                        new
-                        {
-                            UserId = "f52522f4-0329-4037-a3c5-219abe6b80d5",
-                            RoleId = "bc472e9f-773c-4e71-a524-f37911680d76"
-                        },
-                        new
-                        {
-                            UserId = "f8b4f95c-02fe-40cc-b73d-36c0f7ac786f",
-                            RoleId = "bc472e9f-773c-4e71-a524-f37911680d76"
-                        },
-                        new
-                        {
-                            UserId = "9c9da7da-4b24-459f-9e27-182c1e7b1d39",
-                            RoleId = "bc472e9f-773c-4e71-a524-f37911680d76"
                         });
                 });
 
@@ -800,15 +720,7 @@ namespace BropertyBrosApi2._0.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("BropertyBrosApi2._0.Data.ApiUser", "User")
-                        .WithOne("Realtor")
-                        .HasForeignKey("BropertyBrosApi.Models.Realtor", "UserId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
                     b.Navigation("RealtorFirm");
-
-                    b.Navigation("User");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
@@ -870,11 +782,6 @@ namespace BropertyBrosApi2._0.Migrations
             modelBuilder.Entity("BropertyBrosApi.Models.RealtorFirm", b =>
                 {
                     b.Navigation("Realtors");
-                });
-
-            modelBuilder.Entity("BropertyBrosApi2._0.Data.ApiUser", b =>
-                {
-                    b.Navigation("Realtor");
                 });
 #pragma warning restore 612, 618
         }

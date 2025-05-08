@@ -63,46 +63,46 @@ namespace BropertyBrosApi2._0.Repositories
         {
             IQueryable<Property> propertiesQuery = applicationDbContext.Properties;
 
+            // Price
+            propertiesQuery = propertiesQuery.Where(x => x.Price >= propertySearchDto.MinPrice);
             if (propertySearchDto.MaxPrice.HasValue)
-            {
-                propertiesQuery = propertiesQuery
-                    .Where(x => x.Price <= propertySearchDto.MaxPrice && x.Price >= propertySearchDto.MinPrice);
-            }
+                propertiesQuery = propertiesQuery.Where(x => x.Price <= propertySearchDto.MaxPrice.Value);
+
+            // Monthly fee
+            propertiesQuery = propertiesQuery.Where(x => x.MonthlyFee >= propertySearchDto.MinMonthlyFee);
             if (propertySearchDto.MaxMonthlyFee.HasValue)
-            {
-                propertiesQuery = propertiesQuery
-                    .Where(x => x.MonthlyFee <= propertySearchDto.MaxMonthlyFee && x.MonthlyFee >= propertySearchDto.MinMonthlyFee);
-            }
+                propertiesQuery = propertiesQuery.Where(x => x.MonthlyFee <= propertySearchDto.MaxMonthlyFee.Value);
+
+            // Yearly fee
+            propertiesQuery = propertiesQuery.Where(x => x.YearlyFee >= propertySearchDto.MinYearlyFee);
             if (propertySearchDto.MaxYearlyFee.HasValue)
-            {
-                propertiesQuery = propertiesQuery
-                    .Where(x => x.YearlyFee <= propertySearchDto.MaxYearlyFee && x.YearlyFee >= propertySearchDto.MinYearlyFee);
-            }
+                propertiesQuery = propertiesQuery.Where(x => x.YearlyFee <= propertySearchDto.MaxYearlyFee.Value);
+
+            // Living area
+            propertiesQuery = propertiesQuery.Where(x => x.LivingAreaKvm >= propertySearchDto.MinLivingAreaKvm);
             if (propertySearchDto.MaxLivingAreaKvm.HasValue)
-            {
-                propertiesQuery = propertiesQuery
-                    .Where(x => x.LivingAreaKvm <= propertySearchDto.MaxLivingAreaKvm && x.LivingAreaKvm >= propertySearchDto.MinLivingAreaKvm);
-            }
+                propertiesQuery = propertiesQuery.Where(x => x.LivingAreaKvm <= propertySearchDto.MaxLivingAreaKvm.Value);
+
+            // Ancillary area
+            propertiesQuery = propertiesQuery.Where(x => x.AncillaryAreaKvm >= propertySearchDto.MinAncillaryAreaKvm);
             if (propertySearchDto.MaxAncillaryAreaKvm.HasValue)
-            {
-                propertiesQuery = propertiesQuery
-                    .Where(x => x.AncillaryAreaKvm <= propertySearchDto.MaxAncillaryAreaKvm && x.AncillaryAreaKvm >= propertySearchDto.MinAncillaryAreaKvm);
-            }
+                propertiesQuery = propertiesQuery.Where(x => x.AncillaryAreaKvm <= propertySearchDto.MaxAncillaryAreaKvm.Value);
+
+            // Land area
+            propertiesQuery = propertiesQuery.Where(x => x.LandAreaKvm >= propertySearchDto.MinLandAreaKvm);
             if (propertySearchDto.MaxLandAreaKvm.HasValue)
-            {
-                propertiesQuery = propertiesQuery
-                    .Where(x => x.LandAreaKvm <= propertySearchDto.MaxLandAreaKvm && x.LandAreaKvm >= propertySearchDto.MinLandAreaKvm);
-            }
+                propertiesQuery = propertiesQuery.Where(x => x.LandAreaKvm <= propertySearchDto.MaxLandAreaKvm.Value);
+
+            // Number of rooms
+            propertiesQuery = propertiesQuery.Where(x => x.NumberOfRooms >= propertySearchDto.MinNumberOfRooms);
             if (propertySearchDto.MaxNumberOfRooms.HasValue)
-            {
-                propertiesQuery = propertiesQuery
-                    .Where(x => x.NumberOfRooms <= propertySearchDto.MaxNumberOfRooms && x.NumberOfRooms >= propertySearchDto.MinNumberOfRooms);
-            }
+                propertiesQuery = propertiesQuery.Where(x => x.NumberOfRooms <= propertySearchDto.MaxNumberOfRooms.Value);
+
+            // Build year
+            propertiesQuery = propertiesQuery.Where(x => x.BuildYear >= propertySearchDto.MinBuildYear);
             if (propertySearchDto.MaxBuildYear.HasValue)
-            {
-                propertiesQuery = propertiesQuery
-                    .Where(x => x.BuildYear <= propertySearchDto.MaxBuildYear && x.BuildYear >= propertySearchDto.MinBuildYear);
-            }
+                propertiesQuery = propertiesQuery.Where(x => x.BuildYear <= propertySearchDto.MaxBuildYear.Value);
+
             if (propertySearchDto.CategoryId.HasValue)
             {
                 propertiesQuery = propertiesQuery

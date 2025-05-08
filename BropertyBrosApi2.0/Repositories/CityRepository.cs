@@ -6,6 +6,7 @@ using Microsoft.EntityFrameworkCore;
 namespace BropertyBrosApi2._0.Repositories
 {
     //Author: Daniel
+    //Co-Author: Arlind
     public class CityRepository : ICityRepository
     {
         private readonly ApplicationDbContext applicationDbContext;

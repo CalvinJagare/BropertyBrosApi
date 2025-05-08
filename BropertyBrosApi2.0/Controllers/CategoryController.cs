@@ -10,6 +10,8 @@ using BropertyBrosApi.Models;
 using BropertyBrosApi2._0.DTOs.Category;
 using AutoMapper;
 using BropertyBrosApi2._0.Repositories.RepInterfaces;
+using BropertyBrosApi2._0.Constants;
+using Microsoft.AspNetCore.Authorization;
 
 namespace BropertyBrosApi2._0.Controllers
 {
@@ -72,6 +74,7 @@ namespace BropertyBrosApi2._0.Controllers
         // PUT: api/Category/5
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPut("{id}")]
+        [Authorize(Roles = IdentityRoles.Admin)]
         public async Task<IActionResult> PutCategory(int id, CategoryCreateDto categoryCreateDto)
         {
             try
@@ -86,7 +89,7 @@ namespace BropertyBrosApi2._0.Controllers
 
                 await categoryRepository.Update(category);
 
-                return NoContent();
+                return Ok(categoryCreateDto);
             }
             catch
             {
@@ -97,6 +100,7 @@ namespace BropertyBrosApi2._0.Controllers
         // POST: api/Category
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPost]
+        [Authorize(Roles = IdentityRoles.Admin)]
         public async Task<ActionResult<CategoryReadDto>> PostCategory(CategoryCreateDto categoryCreateDto)
         {
             try
@@ -120,6 +124,7 @@ namespace BropertyBrosApi2._0.Controllers
 
         // DELETE: api/Category/5
         [HttpDelete("{id}")]
+        [Authorize(Roles = IdentityRoles.Admin)]
         public async Task<IActionResult> DeleteCategory(int id)
         {
             try

@@ -4,6 +4,7 @@ using BropertyBrosApi.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace BropertyBrosApi2._0.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20250507132322_ooga")]
+    partial class ooga
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -527,7 +530,7 @@ namespace BropertyBrosApi2._0.Migrations
                             FirstName = "Emil",
                             LastName = "Svensson",
                             LockoutEnabled = false,
-                            NormalizedEmail = "USER1@BROPERTY.COM",
+                            NormalizedEmail = "USER@1BROPERTY.COM",
                             NormalizedUserName = "USER1@BROPERTY.COM",
                             PasswordHash = "AQAAAAIAAYagAAAAEBX1pIrj+1YNKaog05C+oOx9U5r/rvnyN4SvLNfSqUr1zL54+iXnda0ujBN9v6wdeQ==",
                             PhoneNumberConfirmed = false,
@@ -727,21 +730,6 @@ namespace BropertyBrosApi2._0.Migrations
                         new
                         {
                             UserId = "e537ba2e-a85f-4c2e-bd43-2940963f7856",
-                            RoleId = "bc472e9f-773c-4e71-a524-f37911680d76"
-                        },
-                        new
-                        {
-                            UserId = "f52522f4-0329-4037-a3c5-219abe6b80d5",
-                            RoleId = "bc472e9f-773c-4e71-a524-f37911680d76"
-                        },
-                        new
-                        {
-                            UserId = "f8b4f95c-02fe-40cc-b73d-36c0f7ac786f",
-                            RoleId = "bc472e9f-773c-4e71-a524-f37911680d76"
-                        },
-                        new
-                        {
-                            UserId = "9c9da7da-4b24-459f-9e27-182c1e7b1d39",
                             RoleId = "bc472e9f-773c-4e71-a524-f37911680d76"
                         });
                 });
