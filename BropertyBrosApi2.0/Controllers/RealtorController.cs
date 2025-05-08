@@ -168,15 +168,20 @@ namespace BropertyBrosApi2._0.Controllers
             }
         }
         
-        [HttpGet("GetByUserId/{userId}")]
-        public async Task<ActionResult<int>> GetRealtorIdByUserId(string userId)
+        [HttpGet("GetRealtorByUserId/{userId}")]
+        public async Task<ActionResult<RealtorReadDto>> GetRealtorIdByUserId(string userId)
         {
             var realtor = await realtorRepository.GetByUserIdAsync(userId);
+
             if (realtor == null)
             {
                 return NotFound();
             }
-            return Ok(realtor.Id);
+
+            RealtorReadDto dto = new();
+
+            _mapper.Map(realtor, dto);
+            return Ok(dto);
         }
 
 
