@@ -20,7 +20,6 @@ namespace BropertyBrosApi2._0.Controllers
     //Co-Author: Emil, Arlind, Nayab
     [Route("api/[controller]")]
     [ApiController]
-    [Authorize(Roles = IdentityRoles.Admin)]
     public class CityController : ControllerBase
     {
         private readonly ICityRepository cityRepository;
@@ -74,6 +73,7 @@ namespace BropertyBrosApi2._0.Controllers
         // PUT: api/Citiy/5
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPut("{id}")]
+        [Authorize(Roles = IdentityRoles.Admin)]
         public async Task<IActionResult> PutCity(int id, CityCreateDto cityCreateDto)
         {
             try
@@ -99,6 +99,7 @@ namespace BropertyBrosApi2._0.Controllers
         // POST: api/Citiy
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPost]
+        [Authorize(Roles = IdentityRoles.Admin)]
         public async Task<ActionResult<CityReadDto>> PostCity(CityCreateDto cityCreateDto)
         {
             try
@@ -122,6 +123,7 @@ namespace BropertyBrosApi2._0.Controllers
 
         // DELETE: api/Citiy/5
         [HttpDelete("{id}")]
+        [Authorize(Roles = IdentityRoles.Admin)]
         public async Task<IActionResult> DeleteCity(int id)
         {
             try
