@@ -11,6 +11,10 @@ using AutoMapper;
 using BropertyBrosApi2._0.DTOs.Realtor;
 using BropertyBrosApi2._0.Repositories.RepInterfaces;
 using BropertyBrosApi2._0.Repositories;
+using Microsoft.AspNetCore.Identity;
+using BropertyBrosApi2._0.Data;
+using System.Security.Claims;
+using Microsoft.AspNetCore.Authorization;
 
 namespace BropertyBrosApi2._0.Controllers
 {
@@ -160,6 +164,32 @@ namespace BropertyBrosApi2._0.Controllers
             catch(Exception ex)
             {
                 return StatusCode(500, "An error occured while processing your search");
+            }
+        }
+
+        // Author: Emil
+        [HttpGet]
+        [Route("GetRealtorByUserId/{userId}")]
+        [Authorize(Roles = "Admin,User")]
+        public async Task<ActionResult<RealtorReadDto>> GetRealtorByUserId(string userId)
+        {
+            try
+            {
+                var realtor = await realtorRepository.GetByUserIdAsync(userId);
+
+                if (realtor == null)
+                {
+                    return NotFound();
+                }
+
+                RealtorReadDto dto = new();
+                _mapper.Map(realtor, dto);
+
+                return Ok(dto);
+            }
+            catch
+            {
+                return StatusCode(500, "An error occurred while retrieving the realtor.");
             }
         }
     }
