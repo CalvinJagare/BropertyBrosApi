@@ -233,16 +233,7 @@ namespace BropertyBrosApi.Data
                     RealtorFirmId = 3,
                     UserId = "9c9da7da-4b24-459f-9e27-182c1e7b1d39"
                 }
-                //new Realtor
-                //{
-                //    Id = 5,
-                //    FirstName = "Johan",
-                //    LastName = "Bostad",
-                //    PhoneNumber = "0723344556",
-                //    Email = "johan@maklarkompaniet.se",
-                //    ProfileUrl = "https://example.com/profiles/johan.png",
-                //    RealtorFirmId = 2
-                //}
+                
             );
 
             // Properties
