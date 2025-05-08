@@ -68,7 +68,7 @@ namespace BropertyBrosApi.Data
                 {
                     Id = "e537ba2e-a85f-4c2e-bd43-2940963f7856",
                     Email = "user1@broperty.com",
-                    NormalizedEmail = "USER@1BROPERTY.COM",
+                    NormalizedEmail = "USER1@BROPERTY.COM",
                     UserName = "user1@broperty.com",
                     NormalizedUserName = "USER1@BROPERTY.COM",
                     FirstName = "Emil",
@@ -132,6 +132,21 @@ namespace BropertyBrosApi.Data
                 new IdentityUserRole<string>
                 {
                     UserId = "e537ba2e-a85f-4c2e-bd43-2940963f7856",
+                    RoleId = "bc472e9f-773c-4e71-a524-f37911680d76"
+                },
+                new IdentityUserRole<string>
+                {
+                    UserId = "f52522f4-0329-4037-a3c5-219abe6b80d5",
+                    RoleId = "bc472e9f-773c-4e71-a524-f37911680d76"
+                },
+                new IdentityUserRole<string>
+                {
+                    UserId = "f8b4f95c-02fe-40cc-b73d-36c0f7ac786f",
+                    RoleId = "bc472e9f-773c-4e71-a524-f37911680d76"
+                },
+                new IdentityUserRole<string>
+                {
+                    UserId = "9c9da7da-4b24-459f-9e27-182c1e7b1d39",
                     RoleId = "bc472e9f-773c-4e71-a524-f37911680d76"
                 }
             );
