@@ -175,6 +175,7 @@ namespace BropertyBrosApi2._0.Controllers
         {
             try
             {
+                string Id;
                 var realtor = await realtorRepository.GetByUserIdAsync(userId);
 
                 if (realtor == null)
