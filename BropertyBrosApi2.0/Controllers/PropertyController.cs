@@ -72,6 +72,7 @@ namespace BropertyBrosApi2._0.Controllers
         // PUT: api/Property/5
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPut("{id}")]
+        [Authorize(Roles = IdentityRoles.AdminAndUser)]
         public async Task<IActionResult> PutProperty(int id, PropertyCreateDto propertyCreateDto)
         {
             try
@@ -97,6 +98,7 @@ namespace BropertyBrosApi2._0.Controllers
         // POST: api/Property
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPost]
+        [Authorize(Roles = IdentityRoles.AdminAndUser)]
         public async Task<ActionResult<PropertyReadDto>> PostProperty(PropertyCreateDto propertyCreateDto)
         {
             try
@@ -121,6 +123,7 @@ namespace BropertyBrosApi2._0.Controllers
 
         // DELETE: api/Property/5
         [HttpDelete("{id}")]
+        [Authorize(Roles = IdentityRoles.AdminAndUser)]
         public async Task<IActionResult> DeleteProperty(int id)
         {
             try
