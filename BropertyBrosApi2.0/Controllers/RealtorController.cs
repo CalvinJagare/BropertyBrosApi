@@ -162,5 +162,18 @@ namespace BropertyBrosApi2._0.Controllers
                 return StatusCode(500, "An error occured while processing your search");
             }
         }
+        
+        [HttpGet("GetByUserId/{userId}")]
+        public async Task<ActionResult<int>> GetRealtorIdByUserId(string userId)
+        {
+            var realtor = await realtorRepository.GetByUserIdAsync(userId);
+            if (realtor == null)
+            {
+                return NotFound();
+            }
+            return Ok(realtor.Id);
+        }
+
+
     }
 }
