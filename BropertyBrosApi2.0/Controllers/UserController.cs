@@ -7,6 +7,7 @@ using System.Text;
 using BropertyBrosApi2._0.DTOs.User;
 using BropertyBrosApi.Data;
 using BropertyBrosApi2._0.Data;
+using Microsoft.AspNetCore.Authorization;
 
 namespace BropertyBrosApi2._0.Controllers
 {
@@ -60,6 +61,24 @@ namespace BropertyBrosApi2._0.Controllers
             );
 
             return new JwtSecurityTokenHandler().WriteToken(token);
+        }
+
+        [Authorize]
+        [HttpPost("change-password")]
+        public async Task<IActionResult> ChangePassword([FromBody] ChangePasswordDto model)
+        {
+            if (!ModelState.IsValid) return BadRequest(ModelState);
+
+            var user = await _userManager.GetUserAsync(User);
+            if (user == null) return Unauthorized();
+
+            var result = await _userManager.ChangePasswordAsync(user, model.CurrentPassword, model.NewPassword);
+            if (!result.Succeeded)
+            {
+                return BadRequest(result.Errors);
+            }
+
+            return Ok(new { Message = "Password changed successfully." });
         }
     }
 }
