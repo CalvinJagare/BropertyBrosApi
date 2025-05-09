@@ -113,7 +113,7 @@ namespace BropertyBrosApi2._0.Controllers
 
                 var propertyReadDto = _mapper.Map<PropertyReadDto>(property);
 
-                return CreatedAtAction("GetProperty", new { id = property.Id }, propertyReadDto);
+                return Ok(propertyReadDto);
             }
             catch
             {
