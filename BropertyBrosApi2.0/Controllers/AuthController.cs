@@ -133,7 +133,16 @@ namespace BropertyBrosApi2._0.Controllers
                 new Claim(CustomClaimTypes.Uid, user.Id),
             }
             .Union(roleClaims)
-            .Union(userClaim);
+            .Union(userClaim)
+            .ToList();
+
+            Realtor? userRealtor = await realtorRepository.GetByUserIdAsync(user.Id);
+
+            if (userRealtor != null)
+            {
+                Claim realtorClaim = new(CustomClaimTypes.Rid, userRealtor.Id.ToString());
+                claims.Add(realtorClaim);
+            }
 
             var token = new JwtSecurityToken(
                 issuer: configuration["JwtSettings:Issuer"],
