@@ -31,6 +31,7 @@ namespace BropertyBrosApi2._0.Controllers
             this.realtorRepository = realtorRepository;
         }
 
+        // Co-Author: Emil
         [HttpPost]
         [Route("registerRealtor")]
         [Authorize(Roles = "Admin")]
@@ -136,6 +137,7 @@ namespace BropertyBrosApi2._0.Controllers
             .Union(userClaim)
             .ToList();
 
+            // Author: Emil
             Realtor? userRealtor = await realtorRepository.GetByUserIdAsync(user.Id);
 
             if (userRealtor != null)
