@@ -77,6 +77,9 @@ namespace BropertyBrosApi2._0.Controllers
         {
             try
             {
+                if (!ModelState.IsValid)
+                    return BadRequest(ModelState);
+
                 var property = await propertyRepository.GetByIdAsync(id);
                 if (property == null)
                 {
@@ -103,6 +106,9 @@ namespace BropertyBrosApi2._0.Controllers
         {
             try
             {
+                if (!ModelState.IsValid)
+                    return BadRequest(ModelState);
+
                 var property = _mapper.Map<Property>(propertyCreateDto);
                 if (property == null)
                 {
