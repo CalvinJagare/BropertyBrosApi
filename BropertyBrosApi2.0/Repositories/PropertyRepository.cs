@@ -103,15 +103,25 @@ namespace BropertyBrosApi2._0.Repositories
             if (propertySearchDto.MaxBuildYear.HasValue)
                 propertiesQuery = propertiesQuery.Where(x => x.BuildYear <= propertySearchDto.MaxBuildYear.Value);
 
+            // Category
             if (propertySearchDto.CategoryId.HasValue)
             {
                 propertiesQuery = propertiesQuery
                     .Where(x => x.CategoryId == propertySearchDto.CategoryId);
             }
+
+            // City
             if (propertySearchDto.CityId.HasValue)
             {
                 propertiesQuery = propertiesQuery
                     .Where(x => x.CityId == propertySearchDto.CityId);
+            }
+
+            // Address
+            if (!string.IsNullOrEmpty(propertySearchDto.Address))
+            {
+                propertiesQuery = propertiesQuery
+                    .Where(x => x.Address!.Contains(propertySearchDto.Address));
             }
 
             return await propertiesQuery

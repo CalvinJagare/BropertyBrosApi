@@ -2,6 +2,7 @@
 {
     public class PropertySearchDto
     {
+        public string? Address { get; set; } = null;
         public int MinPrice { get; set; }
         public int? MaxPrice { get; set; } = null;
         public int MinMonthlyFee { get; set; }
