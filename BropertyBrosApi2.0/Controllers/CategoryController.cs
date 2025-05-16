@@ -79,6 +79,9 @@ namespace BropertyBrosApi2._0.Controllers
         {
             try
             {
+                if (!ModelState.IsValid)
+                    return BadRequest(ModelState);
+
                 var category = await categoryRepository.GetByIdAsync(id);
                 if (category == null)
                 {
@@ -105,6 +108,9 @@ namespace BropertyBrosApi2._0.Controllers
         {
             try
             {
+                if (!ModelState.IsValid)
+                    return BadRequest(ModelState);
+
                 var category = _mapper.Map<Category>(categoryCreateDto);
                 if (category == null)
                 {

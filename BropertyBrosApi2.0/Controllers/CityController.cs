@@ -78,6 +78,9 @@ namespace BropertyBrosApi2._0.Controllers
         {
             try
             {
+                if (!ModelState.IsValid)
+                    return BadRequest(ModelState);
+
                 var city = await cityRepository.GetByIdAsync(id);
                 if (city == null)
                 {
@@ -104,6 +107,9 @@ namespace BropertyBrosApi2._0.Controllers
         {
             try
             {
+                if (!ModelState.IsValid)
+                    return BadRequest(ModelState);
+
                 var city = _mapper.Map<City>(cityCreateDto);
                 if (city == null)
                 {

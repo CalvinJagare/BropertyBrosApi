@@ -77,6 +77,9 @@ namespace BropertyBrosApi2._0.Controllers
         {
             try
             {
+                if (!ModelState.IsValid)
+                    return BadRequest(ModelState);
+
                 var realtor = await realtorRepository.GetByIdAsync(id);
                 if (realtor == null)
                 {
@@ -103,6 +106,9 @@ namespace BropertyBrosApi2._0.Controllers
         {
             try
             {
+                if (!ModelState.IsValid)
+                    return BadRequest(ModelState);
+
                 var realtor = _mapper.Map<Realtor>(realtorCreateDto);
                 if (realtor == null)
                 {
@@ -167,7 +173,7 @@ namespace BropertyBrosApi2._0.Controllers
                 return StatusCode(500, "An error occured while processing your search");
             }
         }
-        
+
         [HttpGet("GetRealtorByUserId/{userId}")]
         public async Task<ActionResult<RealtorReadDto>> GetRealtorIdByUserId(string userId)
         {
