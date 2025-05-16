@@ -76,6 +76,9 @@ namespace BropertyBrosApi2._0.Controllers
         {
             try
             {
+                if (!ModelState.IsValid)
+                    return BadRequest(ModelState);
+
                 var realtorFirm = await realtorFirmRepository.GetByIdAsync(id);
                 if (realtorFirm == null)
                 {
@@ -102,6 +105,9 @@ namespace BropertyBrosApi2._0.Controllers
         {
             try
             {
+                if (!ModelState.IsValid)
+                    return BadRequest(ModelState);
+
                 var realtorFirm = _mapper.Map<RealtorFirm>(realtorFirmCreateDto);
 
                 if (realtorFirm == null)
